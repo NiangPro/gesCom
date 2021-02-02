@@ -3,6 +3,7 @@ import StaticData from './components/StaticDataComponent.vue';
 import Employe from './components/EmployeComponent.vue';
 import Client from './components/ClientComponent.vue';
 import Fournisseur from './components/FournisseurComponent.vue';
+import Product from './components/ProductComponent.vue';
 import NotFound from './components/NotFoundComponent.vue';
 
 export default {
@@ -28,6 +29,10 @@ export default {
         {
             path: "/fournisseur",
             component: Fournisseur
+        },
+        {
+            path: "/product",
+            component: Product
         },
          {
             path: "*",

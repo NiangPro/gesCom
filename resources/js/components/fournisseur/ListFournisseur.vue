@@ -29,7 +29,7 @@
                                             <td>{{fr.adresse}}</td>
                                             <td>{{fr.email}}</td>
                                             <td>{{fr.tel}}</td>
-                                        <td> <button type="button" class="btn btn-info rounded" data-toggle="modal" data-target="#infoFr" @click="getFr(cli.id)"><i class="fa fa-eye" aria-hidden="true"></i></button> <button class="btn btn-warning rounded mr-2" data-toggle="modal" data-target="#editFr" @click="getFr(fr.id)"><i class="fa fa-edit" aria-hidden="true"></i></button><button class="btn btn-danger rounded" @click="deleteFr(fr.id)"><i class="fa fa-trash" aria-hidden="true"></i></button> </td>
+                                        <td> <button type="button" class="btn btn-info rounded" data-toggle="modal" data-target="#infoFr" @click="getFr(fr.id)"><i class="fa fa-eye" aria-hidden="true"></i></button> <button class="btn btn-warning rounded mr-2" data-toggle="modal" data-target="#editFr" @click="getFr(fr.id)"><i class="fa fa-edit" aria-hidden="true"></i></button><button class="btn btn-danger rounded" @click="deleteFr(fr.id)"><i class="fa fa-trash" aria-hidden="true"></i></button> </td>
                                         </tr>
                                 </tbody>
                             </table>

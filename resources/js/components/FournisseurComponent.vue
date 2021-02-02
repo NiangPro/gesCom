@@ -2,7 +2,7 @@
     <div>
         <add-fournisseur v-on:frAdded="refresh"></add-fournisseur>
         <button type="button" class="btn btn-info toastrDefaultInfo my-3" data-toggle="modal" data-target="#addFr">
-                  Ajouter
+            Ajouter
         </button>
 
         <list-fournisseur :frs="frs"></list-fournisseur>
