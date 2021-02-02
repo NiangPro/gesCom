@@ -20,6 +20,10 @@ Vue.component('add-fournisseur', require('./components/fournisseur/AddFournisseu
 Vue.component('list-fournisseur', require('./components/fournisseur/ListFournisseur').default);
 Vue.component('info-fournisseur', require('./components/fournisseur/InfoFournisseur').default);
 Vue.component('edit-fournisseur', require('./components/fournisseur/EditFournisseur').default);
+Vue.component('add-product', require('./components/product/AddProduct').default);
+Vue.component('list-product', require('./components/product/ListProduct').default);
+Vue.component('info-product', require('./components/product/InfoProduct').default);
+Vue.component('edit-product', require('./components/product/EditProduct').default);
 // Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 
 const app = new Vue({

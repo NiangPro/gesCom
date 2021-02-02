@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -13,7 +14,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        return $this->refresh();
     }
 
     /**
@@ -34,7 +35,25 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'type' => 'required',
+            'nom' => 'required',
+            'description' => 'required',
+            'taxe' => 'required|integer',
+            'tarif' => 'required|integer',
+        ]);
+
+        $p = new Product();
+
+        $p->nom = $request['nom'];
+        $p->type = $request['type'];
+        $p->description = $request['description'];
+        $p->tarif = $request['tarif'];
+        $p->taxe = $request['taxe'];
+
+        $p->save();
+
+        return $this->refresh();
     }
 
     /**
@@ -45,7 +64,9 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        //
+        $prod = Product::where('id', $id)->first();
+
+        return response()->json($prod);
     }
 
     /**
@@ -68,7 +89,25 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        request()->validate([
+            'type' => 'required',
+            'nom' => 'required',
+            'description' => 'required',
+            'taxe' => 'required|integer',
+            'tarif' => 'required|integer',
+        ]);
+
+        $prod = Product::where('id', $id)->first();
+
+        $prod->nom = request('nom');
+        $prod->type = request('type');
+        $prod->description = request('description');
+        $prod->tarif = request('tarif');
+        $prod->taxe = request('taxe');
+
+        $prod->save();
+
+        return $this->refresh();
     }
 
     /**
@@ -79,6 +118,17 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $prod = Product::where('id', $id)->first();
+
+        $prod->delete();
+
+        return $this->refresh();
+    }
+
+    private function refresh()
+    {
+        $products = Product::orderBy('id', 'DESC')->get();
+
+        return response()->json($products);
     }
 }

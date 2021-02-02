@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\EmployeController;
 use App\Http\Controllers\FournisseurController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\StaticDataController;
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +37,8 @@ Route::patch('/employe/edit-{id}', [EmployeController::class, 'update']);
 Route::delete('/employe/{id}', [EmployeController::class, 'destroy']);
 
 Route::get('/pays', [ClientController::class, 'getCountry']);
+Route::get('/taxe', [HomeController::class, 'getTaxe']);
+Route::get('/productType', [HomeController::class, 'getProductType']);
 
 Route::get('/client', [ClientController::class, 'index']);
 Route::post('/client', [ClientController::class, 'store']);
@@ -47,3 +51,9 @@ Route::post('/fournisseur', [FournisseurController::class, 'store']);
 Route::get('/fournisseur/show-{id}', [FournisseurController::class, 'show']);
 Route::patch('/fournisseur/edit-{id}', [FournisseurController::class, 'update']);
 Route::delete('/fournisseur/{id}', [FournisseurController::class, 'destroy']);
+
+Route::get('/product', [ProductController::class, 'index']);
+Route::post('/product', [ProductController::class, 'store']);
+Route::get('/product/show-{id}', [ProductController::class, 'show']);
+Route::patch('/product/edit-{id}', [ProductController::class, 'update']);
+Route::delete('/product/{id}', [ProductController::class, 'destroy']);
