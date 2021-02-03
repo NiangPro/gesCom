@@ -9,6 +9,8 @@ use App\Http\Controllers\FournisseurController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\StaticDataController;
+use App\Http\Controllers\TaskController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -39,6 +41,9 @@ Route::delete('/employe/{id}', [EmployeController::class, 'destroy']);
 Route::get('/pays', [ClientController::class, 'getCountry']);
 Route::get('/taxe', [HomeController::class, 'getTaxe']);
 Route::get('/productType', [HomeController::class, 'getProductType']);
+Route::get('/taskType', [HomeController::class, 'getTaskType']);
+Route::get('/taskStatus', [HomeController::class, 'getTaskStatus']);
+Route::get('/getEmployeds', [HomeController::class, 'getEmployeds']);
 
 Route::get('/client', [ClientController::class, 'index']);
 Route::post('/client', [ClientController::class, 'store']);
@@ -57,3 +62,9 @@ Route::post('/product', [ProductController::class, 'store']);
 Route::get('/product/show-{id}', [ProductController::class, 'show']);
 Route::patch('/product/edit-{id}', [ProductController::class, 'update']);
 Route::delete('/product/{id}', [ProductController::class, 'destroy']);
+
+Route::get('/task', [TaskController::class, 'index']);
+Route::post('/task', [TaskController::class, 'store']);
+Route::get('/task/show-{id}', [TaskController::class, 'show']);
+Route::patch('/task/edit-{id}', [TaskController::class, 'update']);
+Route::delete('/task/{id}', [TaskController::class, 'destroy']);

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Client;
+use App\Models\Employed;
 use App\Models\StaticData;
 use Illuminate\Http\Request;
 
@@ -36,8 +38,36 @@ class HomeController extends Controller
 
     public function getProductType()
     {
-        $productType = StaticData::where('type', 'type de produit')->get();
+        $productType = StaticData::where('type', 'product type')->get();
 
         return response()->json($productType);
+    }
+
+    public function getTaskType()
+    {
+        $taskType = StaticData::where('type', 'task type')->get();
+
+        return response()->json($taskType);
+    }
+
+    public function getTaskStatus()
+    {
+        $taskStatus = StaticData::where('type', 'task status')->get();
+
+        return response()->json($taskStatus);
+    }
+
+    public function getEmployeds()
+    {
+        $emp = Employed::orderBy('prenom', 'ASC')->get();
+
+        return response()->json($emp);
+    }
+
+    public function getClients()
+    {
+        $clients = Client::orderBy('nom', 'ASC')->get();
+
+        return response()->json($clients);
     }
 }

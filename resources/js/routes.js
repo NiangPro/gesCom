@@ -4,6 +4,7 @@ import Employe from './components/EmployeComponent.vue';
 import Client from './components/ClientComponent.vue';
 import Fournisseur from './components/FournisseurComponent.vue';
 import Product from './components/ProductComponent.vue';
+import Task from './components/TaskComponent.vue';
 import NotFound from './components/NotFoundComponent.vue';
 
 export default {
@@ -33,6 +34,10 @@ export default {
         {
             path: "/product",
             component: Product
+        },
+        {
+            path: "/task",
+            component: Task
         },
          {
             path: "*",

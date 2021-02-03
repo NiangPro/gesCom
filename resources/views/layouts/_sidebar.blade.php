@@ -69,6 +69,14 @@
                 <i class="nav-icon fab fa-product-hunt"></i>
                 <p>
                     Produits/Services
+                </p>
+                </router-link>
+            </li>
+            <li class="nav-item">
+                <router-link to="/task" class="nav-link">
+                <i class="nav-icon fas fa-edit"></i>
+                <p>
+                    Tâches
                     <span class="right badge badge-danger">New</span>
                 </p>
                 </router-link>
