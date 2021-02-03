@@ -77,6 +77,14 @@
                 <i class="nav-icon fas fa-edit"></i>
                 <p>
                     Tâches
+                </p>
+                </router-link>
+            </li>
+            <li class="nav-item">
+                <router-link to="/prospect" class="nav-link">
+                <i class="nav-icon fa fa-tty"></i>
+                <p>
+                    Prospect
                     <span class="right badge badge-danger">New</span>
                 </p>
                 </router-link>

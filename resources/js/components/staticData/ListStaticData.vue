@@ -1,6 +1,6 @@
 <template>
     <div>
-        <edit-staticdata v-on:sdUpdating="getList" v-bind:staticData="sdEditing"></edit-staticdata>
+        <edit-staticdata v-on:sdUpdated="getList" :staticData="sdEditing"></edit-staticdata>
 
         <div class="card" v-for="(item, index) in staticDatas" :key="index">
             <div class="card-header" v:bind:id="`heading`+rmSpace(index)" data-toggle="collapse" v-bind:data-target="`#collapse` + rmSpace(index)" aria-expanded="false" v-bind:aria-controls="`collapse`+rmSpace(index)">
@@ -81,10 +81,8 @@ export default{
                 .then(response => this.sdEditing = response.data)
                 .catch(error => alert(error));
             },
-            getList(){
-                axios.get('/api/staticdata')
-                .then(response => this.staticDatas = response.data)
-                .catch(error => alert(error));
+            getList(sd){
+               this.staticDatas = sd;
             }
         }
 

@@ -27,7 +27,7 @@
         },
 
         created(){
-            this.getList()
+            this.getList();
         },
 
         methods:{

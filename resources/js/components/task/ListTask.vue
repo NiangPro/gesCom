@@ -45,7 +45,7 @@ export default {
     props:['tasks'],
     data(){
         return {
-            taskEditing:{}
+            taskEditing:null
         }
     },
     methods:{

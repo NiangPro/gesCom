@@ -27,6 +27,9 @@ Vue.component('edit-product', require('./components/product/EditProduct').defaul
 Vue.component('add-task', require('./components/task/AddTask').default);
 Vue.component('list-task', require('./components/task/ListTask').default);
 Vue.component('edit-task', require('./components/task/EditTask').default);
+Vue.component('add-prospect', require('./components/prospect/AddProspect').default);
+Vue.component('list-prospect', require('./components/prospect/ListProspect').default);
+Vue.component('edit-prospect', require('./components/prospect/EditProspect').default);
 // Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 
 const app = new Vue({

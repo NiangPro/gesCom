@@ -107,12 +107,6 @@ class ClientController extends Controller
         }
     }
 
-    public function getCountry()
-    {
-        $pays = Country::orderBy('nom_fr', 'ASC')->get();
-
-        return response()->json($pays);
-    }
 
     private function refresh()
     {

@@ -50,7 +50,7 @@ export default {
                 type: this.staticData.type,
                 valeur: this.staticData.valeur
             })
-            .then(response => this.$emit('sdUpdating', response.data))
+            .then(response => this.$emit('sdUpdated', response.data))
             .catch(error => alert(error));
         }
     }

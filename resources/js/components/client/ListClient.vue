@@ -54,10 +54,8 @@ export default {
             .then(response => this.cliEditing = response.data)
             .catch(error => alert(error));
         },
-        refresh(){
-            axios.get('/api/client')
-            .then(response => this.clients = response.data)
-            .catch(error => alert(error));
+        refresh(clients){
+            this.clients = clients;
         },
         deleteClient(id){
             axios.delete('/api/client/'+id)

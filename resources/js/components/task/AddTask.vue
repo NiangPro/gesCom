@@ -31,7 +31,8 @@
                     <div class="form-group">
                         <label for="fonction">Type</label>
                         <select  class="form-control" v-model="form.type">
-                            <option v-for="t in taskType" :key="t.id" v-bind:value="t.valeur">{{t.valeur}}</option>
+                            <option value="Dépense">Dépense</option>
+                            <option value="Prospect">Prospect</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -67,18 +68,12 @@ export default {
                 assignation:null,
                 execution:null
             },
-            taskType:null,
             taskStatus:null,
             emps:null
         }
     },
     methods:{
-        getTaskType(){
-            axios.get('/api/taskType')
-            .then(response => this.taskType = response.data)
-            .catch(error => alert(error));
-        },
-        getTaskStatus(){
+       getTaskStatus(){
             axios.get('/api/taskStatus')
             .then(response => this.taskStatus = response.data)
             .catch(error => alert(error));
@@ -96,7 +91,6 @@ export default {
 
     },
     mounted(){
-        this.getTaskType();
         this.getTaskStatus();
         this.getEmployeds();
     }

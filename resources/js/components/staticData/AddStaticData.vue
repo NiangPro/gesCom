@@ -41,8 +41,8 @@
         data(){
             return {
                 form:{
-                    type: '',
-                    valeur:''
+                    type: null,
+                    valeur:null
                 },
                 erreurs:{}
             }

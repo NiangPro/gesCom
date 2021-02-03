@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\StaticData;
 use Illuminate\Http\Request;
-use PhpParser\Node\Stmt\Static_;
 
 class StaticDataController extends Controller
 {
@@ -59,17 +58,6 @@ class StaticDataController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -101,11 +89,9 @@ class StaticDataController extends Controller
     {
         $sd = StaticData::where('id', $id)->first();
 
-        if ($sd->delete()) {
-            return $this->refresh();
-        } else {
-            return response()->json(['error' => 'Erreur de suppression'], 425);
-        }
+        $sd->delete();
+
+        return $this->refresh();
     }
 
     public function getFonction()
