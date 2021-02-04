@@ -78,7 +78,6 @@ class ClientController extends Controller
     {
         $cli = Client::where('id', $id)->first();
 
-        $cli->prenom = request('prenom');
         $cli->nom = request('nom');
         $cli->email = request('email');
         $cli->tel = request('tel');

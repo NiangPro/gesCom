@@ -9,15 +9,9 @@
             </div>
             <form>
             <div class="modal-body">
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                        <label for="prenom">Prénom</label>
-                        <input type="text" class="form-control" placeholder="Entrer le prénom" v-model="form.prenom">
-                        </div>
-                        <div class="form-group col-md-6">
+                    <div class="form-group">
                         <label for="nom">Nom</label>
                         <input type="text" class="form-control" placeholder="Entrer le nom" v-model="form.nom">
-                        </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
@@ -59,7 +53,6 @@ export default {
     data(){
         return {
             form:{
-                prenom:null,
                 nom:null,
                 pays:null,
                 tel:null,

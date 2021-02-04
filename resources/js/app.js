@@ -33,6 +33,9 @@ Vue.component('edit-prospect', require('./components/prospect/EditProspect').def
 Vue.component('add-expense', require('./components/expense/AddExpense').default);
 Vue.component('list-expense', require('./components/expense/ListExpense').default);
 Vue.component('edit-expense', require('./components/expense/EditExpense').default);
+Vue.component('add-reunion', require('./components/reunion/AddReunion').default);
+Vue.component('list-reunion', require('./components/reunion/ListReunion').default);
+Vue.component('edit-reunion', require('./components/reunion/EditReunion').default);
 // Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 
 const app = new Vue({

@@ -9,15 +9,10 @@
             </div>
             <form>
             <div class="modal-body">
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                        <label for="prenom">Prénom</label>
-                        <input type="text" class="form-control" placeholder="Entrer le prénom" v-model="form.prenom">
-                        </div>
-                        <div class="form-group col-md-6">
+                    <div class="form-group">
+
                         <label for="nom">Nom</label>
                         <input type="text" class="form-control" placeholder="Entrer le nom" v-model="form.nom">
-                        </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
@@ -59,7 +54,6 @@ export default {
     data(){
         return {
             form:{
-                prenom:'',
                 nom:'',
                 pays:'',
                 tel:'',
@@ -76,20 +70,12 @@ export default {
             .catch(error => alert(error));
         },
         addFr(){
-            axios.post('/api/fournisseur', {
-                    prenom: this.form.prenom,
-                    nom: this.form.nom,
-                    email: this.form.email,
-                    tel: this.form.tel,
-                    adresse: this.form.adresse,
-                    pays: this.form.pays
-                })
+            axios.post('/api/fournisseur', this.form)
                 .then(response => {this.$emit('frAdded', response.data), this.initForm()})
                 .catch(error => alert(error));
         },
         initForm(){
-            this.form.prenom='';
-            this.form.nom='';
+           this.form.nom='';
             this.form.pays='';
             this.form.tel='';
             this.form.email='';

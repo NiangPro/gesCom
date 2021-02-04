@@ -9,15 +9,9 @@
             </div>
             <form>
             <div class="modal-body">
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                        <label for="prenom">Prénom</label>
-                        <input type="text" class="form-control" placeholder="Entrer le prénom" v-model="fr.prenom">
-                        </div>
-                        <div class="form-group col-md-6">
+                    <div class="form-group">
                         <label for="nom">Nom</label>
                         <input type="text" class="form-control"  placeholder="Entrer le nom" v-model="fr.nom">
-                        </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
@@ -63,14 +57,7 @@
         },
         methods:{
             editFr(){
-                axios.patch('/api/fournisseur/edit-'+this.fr.id, {
-                    prenom: this.fr.prenom,
-                    nom: this.fr.nom,
-                    email: this.fr.email,
-                    tel: this.fr.tel,
-                    adresse: this.fr.adresse,
-                    pays: this.fr.pays
-                })
+                axios.patch('/api/fournisseur/edit-'+this.fr.id, this.fr)
                 .then(response => this.$emit('frUpdated', response.data))
                 .catch(error => alert(error));
             },

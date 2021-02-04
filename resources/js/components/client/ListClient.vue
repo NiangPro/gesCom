@@ -13,8 +13,7 @@
                                 <thead>
                                     <tr>
                                         <th>Nom</th>
-                                        <th>Prénom</th>
-                                        <th>Pays</th>
+                                       <th>Pays</th>
                                         <th>Adresse</th>
                                         <th>Email</th>
                                         <th>Tel</th>
@@ -23,7 +22,6 @@
                                 </thead>
                                 <tbody>
                                     <tr v-for="cli in clients" :key="cli.id">
-                                            <td>{{cli.prenom}}</td>
                                             <td>{{cli.nom}}</td>
                                             <td>{{cli.pays}}</td>
                                             <td>{{cli.adresse}}</td>

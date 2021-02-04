@@ -12,6 +12,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProspectController;
 use App\Http\Controllers\StaticDataController;
 use App\Http\Controllers\FournisseurController;
+use App\Http\Controllers\ReunionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -85,3 +86,9 @@ Route::post('/expense', [ExpenseController::class, 'store']);
 Route::get('/expense/show-{id}', [ExpenseController::class, 'show']);
 Route::patch('/expense/edit-{id}', [ExpenseController::class, 'update']);
 Route::delete('/expense/{id}', [ExpenseController::class, 'destroy']);
+
+Route::get('/reunion', [ReunionController::class, 'index']);
+Route::post('/reunion', [ReunionController::class, 'store']);
+Route::get('/reunion/show-{id}', [ReunionController::class, 'show']);
+Route::patch('/reunion/edit-{id}', [ReunionController::class, 'update']);
+Route::delete('/reunion/{id}', [ReunionController::class, 'destroy']);

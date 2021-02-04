@@ -9,15 +9,9 @@
             </div>
             <form>
             <div class="modal-body">
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                        <label for="prenom">Prénom</label>
-                        <input type="text" class="form-control" placeholder="Entrer le prénom" v-model="cli.prenom">
-                        </div>
-                        <div class="form-group col-md-6">
+                    <div class="form-group">
                         <label for="nom">Nom</label>
                         <input type="text" class="form-control"  placeholder="Entrer le nom" v-model="cli.nom">
-                        </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
@@ -63,14 +57,7 @@
         },
         methods:{
             editClient(){
-                axios.patch('/api/client/edit-'+this.cli.id, {
-                    prenom: this.cli.prenom,
-                    nom: this.cli.nom,
-                    email: this.cli.email,
-                    tel: this.cli.tel,
-                    adresse: this.cli.adresse,
-                    pays: this.cli.pays
-                })
+                axios.patch('/api/client/edit-'+this.cli.id, this.cli)
                 .then(response => this.$emit('clientUpdated', response.data))
                 .catch(error => alert(error));
             },

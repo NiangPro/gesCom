@@ -96,7 +96,7 @@ class StaticDataController extends Controller
 
     public function getFonction()
     {
-        $sds = StaticData::where('type', "type de fonction")->get();
+        $sds = StaticData::where('type', "Type de fonction")->get();
 
         return response()->json($sds);
     }

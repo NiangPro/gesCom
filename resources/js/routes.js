@@ -7,6 +7,7 @@ import Product from './components/ProductComponent.vue';
 import Task from './components/TaskComponent.vue';
 import Prospect from './components/ProspectComponent.vue';
 import Expense from './components/ExpenseComponent.vue';
+import Reunion from './components/ReunionComponent.vue';
 import NotFound from './components/NotFoundComponent.vue';
 
 export default {
@@ -48,6 +49,10 @@ export default {
         {
             path: "/expense",
             component: Expense
+        },
+        {
+            path: "/reunion",
+            component: Reunion
         },
          {
             path: "*",
