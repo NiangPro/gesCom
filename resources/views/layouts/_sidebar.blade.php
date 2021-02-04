@@ -85,6 +85,14 @@
                 <i class="nav-icon fa fa-tty"></i>
                 <p>
                     Prospect
+                </p>
+                </router-link>
+            </li>
+             <li class="nav-item">
+                <router-link to="/expense" class="nav-link">
+                <i class="nav-icon fa fa-file"></i>
+                <p>
+                    Dépenses
                     <span class="right badge badge-danger">New</span>
                 </p>
                 </router-link>

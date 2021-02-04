@@ -59,14 +59,14 @@ export default {
     data(){
         return {
             form:{
-                prenom:'',
-                nom:'',
-                pays:'',
-                tel:'',
-                email:'',
-                adresse:''
+                prenom:null,
+                nom:null,
+                pays:null,
+                tel:null,
+                email:null,
+                adresse:null
             },
-            pays:{}
+            pays:null
         }
     },
     methods:{
@@ -76,24 +76,17 @@ export default {
             .catch(error => alert(error));
         },
         addClient(){
-            axios.post('/api/client', {
-                    prenom: this.form.prenom,
-                    nom: this.form.nom,
-                    email: this.form.email,
-                    tel: this.form.tel,
-                    adresse: this.form.adresse,
-                    pays: this.form.pays
-                })
+            axios.post('/api/client', this.form)
                 .then(response => {this.$emit('clientAdded', response.data), this.initForm()})
                 .catch(error => alert(error));
         },
         initForm(){
-            this.form.prenom='';
-            this.form.nom='';
-            this.form.pays='';
-            this.form.tel='';
-            this.form.email='';
-            this.form.adresse='';
+            this.form.prenom=null;
+            this.form.nom=null;
+            this.form.pays=null;
+            this.form.tel=null;
+            this.form.email=null;
+            this.form.adresse=null;
         }
     },
     mounted(){

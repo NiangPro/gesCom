@@ -79,4 +79,18 @@ class HomeController extends Controller
 
         return response()->json($ps);
     }
+
+    public function getExpenseType()
+    {
+        $ps = StaticData::where('type', 'Type de dépense')->get();
+
+        return response()->json($ps);
+    }
+
+    public function getPaymentsMode()
+    {
+        $ps = StaticData::where('type', 'Mode de paiement')->get();
+
+        return response()->json($ps);
+    }
 }

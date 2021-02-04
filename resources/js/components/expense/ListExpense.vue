@@ -1,0 +1,66 @@
+<template>
+    <div class="row">
+            <edit-expense v-on:expenseUpdated="refresh" :form="expenseEditing"></edit-expense>
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="card" id="tabcli">
+                    <div class="card-header">
+                        <h5 class="mb-0">Liste des dépenses </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="example3" class="table table-striped table-bordered" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Catégorie</th>
+                                        <th>Mode de paiement</th>
+                                        <th>Date</th>
+                                        <th>Montant</th>
+                                        <th>Description</th>
+                                        <th>Reférence</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="exp in expenses" :key="exp.id">
+                                            <td>{{exp.category}}</td>
+                                            <td>{{exp.payment_mode}}</td>
+                                            <td>{{exp.date}}</td>
+                                            <td>{{exp.montant}} F CFA</td>
+                                            <td>{{exp.description}}</td>
+                                            <td> {{exp.recu}} </td>
+                                        <td><button class="btn btn-warning rounded mr-2" data-toggle="modal" data-target="#editExpense" @click="getExpense(exp.id)"><i class="fa fa-edit" aria-hidden="true"></i></button><button class="btn btn-danger rounded" @click="deleteExpense(exp.id)"><i class="fa fa-trash" aria-hidden="true"></i></button> </td>
+                                        </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</template>
+
+<script>
+export default {
+    props:['expenses'],
+    data(){
+        return {
+            expenseEditing:null
+        }
+    },
+    methods:{
+        getExpense(id){
+            axios.get('/api/expense/show-'+id)
+            .then(response => this.expenseEditing = response.data)
+            .catch(error => alert(error));
+        },
+        refresh(expenses){
+            this.expenses = expenses;
+        },
+        deleteExpense(id){
+            axios.delete('/api/expense/'+id)
+            .then(response => this.expenses = response.data)
+            .catch(error => alert(error));
+        }
+    }
+}
+</script>

@@ -3,14 +3,15 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\TaskController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\EmployeController;
-use App\Http\Controllers\FournisseurController;
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProspectController;
 use App\Http\Controllers\StaticDataController;
-use App\Http\Controllers\TaskController;
+use App\Http\Controllers\FournisseurController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,6 +47,8 @@ Route::get('/taskType', [HomeController::class, 'getTaskType']);
 Route::get('/taskStatus', [HomeController::class, 'getTaskStatus']);
 Route::get('/getEmployeds', [HomeController::class, 'getEmployeds']);
 Route::get('/prospectSource', [HomeController::class, 'getProspectSource']);
+Route::get('/expenseType', [HomeController::class, 'getExpenseType']);
+Route::get('/paymentsMode', [HomeController::class, 'getPaymentsMode']);
 
 Route::get('/client', [ClientController::class, 'index']);
 Route::post('/client', [ClientController::class, 'store']);
@@ -76,3 +79,9 @@ Route::post('/prospect', [ProspectController::class, 'store']);
 Route::get('/prospect/show-{id}', [ProspectController::class, 'show']);
 Route::patch('/prospect/edit-{id}', [ProspectController::class, 'update']);
 Route::delete('/prospect/{id}', [ProspectController::class, 'destroy']);
+
+Route::get('/expense', [ExpenseController::class, 'index']);
+Route::post('/expense', [ExpenseController::class, 'store']);
+Route::get('/expense/show-{id}', [ExpenseController::class, 'show']);
+Route::patch('/expense/edit-{id}', [ExpenseController::class, 'update']);
+Route::delete('/expense/{id}', [ExpenseController::class, 'destroy']);

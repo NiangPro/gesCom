@@ -30,6 +30,9 @@ Vue.component('edit-task', require('./components/task/EditTask').default);
 Vue.component('add-prospect', require('./components/prospect/AddProspect').default);
 Vue.component('list-prospect', require('./components/prospect/ListProspect').default);
 Vue.component('edit-prospect', require('./components/prospect/EditProspect').default);
+Vue.component('add-expense', require('./components/expense/AddExpense').default);
+Vue.component('list-expense', require('./components/expense/ListExpense').default);
+Vue.component('edit-expense', require('./components/expense/EditExpense').default);
 // Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 
 const app = new Vue({
