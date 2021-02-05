@@ -101,6 +101,15 @@
                 <i class="nav-icon fa fa-handshake"></i>
                 <p>
                     Réunion
+                </p>
+                </router-link>
+            </li>
+
+             <li class="nav-item">
+                <router-link to="/vente" class="nav-link">
+                <i class="nav-icon fa fa-shopping-cart"></i>
+                <p>
+                    Ventes
                     <span class="right badge badge-danger">New</span>
                 </p>
                 </router-link>

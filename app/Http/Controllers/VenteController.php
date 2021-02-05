@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Client;
 use Illuminate\Http\Request;
 
-class ClientController extends Controller
+class VenteController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +13,7 @@ class ClientController extends Controller
      */
     public function index()
     {
-        return $this->refresh();
+        //
     }
 
     /**
@@ -35,11 +34,7 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
-        $cli = Client::create($request->all());
-
-        if ($cli) {
-            return $this->refresh();
-        }
+        //
     }
 
     /**
@@ -50,9 +45,7 @@ class ClientController extends Controller
      */
     public function show($id)
     {
-        $cli = Client::where('id', $id)->first();
-
-        return response()->json($cli);
+        //
     }
 
     /**
@@ -73,19 +66,9 @@ class ClientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update($id)
+    public function update(Request $request, $id)
     {
-        $cli = Client::where('id', $id)->first();
-
-        $cli->nom = request('nom');
-        $cli->email = request('email');
-        $cli->tel = request('tel');
-        $cli->pays = request('pays');
-        $cli->adresse = request('adresse');
-
-        $cli->save();
-
-        return $this->refresh();
+        //
     }
 
     /**
@@ -96,20 +79,6 @@ class ClientController extends Controller
      */
     public function destroy($id)
     {
-        $cli = Client::where('id', $id)->first();
-
-        if ($cli->delete()) {
-            return $this->refresh();
-        } else {
-            return response()->json(['message' => 'Erreur de suppression'], 425);
-        }
-    }
-
-
-    private function refresh()
-    {
-        $clients = Client::orderBy('id', 'DESC')->get();
-
-        return response()->json($clients);
+        //
     }
 }

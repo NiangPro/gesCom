@@ -13,7 +13,6 @@
                                 <thead>
                                     <tr>
                                         <th>Nom</th>
-                                        <th>Prénom</th>
                                         <th>Pays</th>
                                         <th>Adresse</th>
                                         <th>Email</th>
@@ -23,7 +22,6 @@
                                 </thead>
                                 <tbody>
                                     <tr v-for="fr in frs" :key="fr.id">
-                                            <td>{{fr.prenom}}</td>
                                             <td>{{fr.nom}}</td>
                                             <td>{{fr.pays}}</td>
                                             <td>{{fr.adresse}}</td>

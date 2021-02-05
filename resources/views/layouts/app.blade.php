@@ -18,10 +18,7 @@
   <link rel="stylesheet" href="plugins/jqvmap/jqvmap.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="dist/css/adminlte.min.css">
-  <link rel="stylesheet" type="text/css" href="{{ asset('plugins/datatables/css/dataTables.bootstrap4.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('plugins/datatables/css/buttons.bootstrap4.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('plugins/datatables/css/select.bootstrap4.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('plugins/datatables/css/fixedHeader.bootstrap4.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ asset('https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css') }}">
 
   <!-- overlayScrollbars -->
   <link rel="stylesheet" href="plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
@@ -96,15 +93,16 @@
 <!-- overlayScrollbars -->
 <script src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
 
- <script src="{{ asset('plugins/datatables/js/dataTables.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('plugins/datatables/js/data-table.js') }}"></script>
-    <script src="{{ asset('plugins/datatables/js/buttons.bootstrap4.min.js') }}"></script><!-- AdminLTE App -->
+ <script src="{{ asset('https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js') }}"></script>
 <script src="dist/js/adminlte.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="dist/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="dist/js/demo.js"></script>
 <script>
+    $(document).ready( function () {
+        $('#myTable').DataTable();
+    } );
     @yield('script')
 </script>
 </body>
