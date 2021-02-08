@@ -73,8 +73,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-addon1">Produits & Services</span>
                                     </div>
-                                    <select type="date" class="form-control" v-model="idprod" @change="getProduct">
-                                        <option value="">Selectionner un produit ou service </option>
+                                    <select  class="form-control" v-model="idProd" @change="getProd">
                                         <option v-for="p in products" :key="p.id" v-bind:value="p.id">{{p.nom}}</option>
                                     </select>
                                 </div>
@@ -93,14 +92,14 @@
                                     <th>Action</th>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="ligne in idRow" :key="ligne.id">
-                                        <td><input type="text" class="form-control"></td>
-                                        <td><textarea class="form-control"></textarea></td>
-                                        <td><input type="number" class="form-control" v-model="prod.nom"></td>
-                                        <td><input type="number" class="form-control"></td>
-                                        <td><input type="number" class="form-control"></td>
-                                        <td><input type="number" class="form-control"></td>
-                                        <td><button class="btn btn-danger btn-rounded" ><i class="fa fa-trash" aria-hidden="true" @click="deleteRow"></i></button></td>
+                                    <tr v-for="(prod, k) in allProducts" :key="k">
+                                        <td><input type="text" class="form-control" v-model="prod.nom"></td>
+                                        <td><textarea class="form-control"  v-model="prod.description"></textarea></td>
+                                        <td><input type="number" class="form-control" v-model="prod.prix"  @change="getMontant(prod)"></td>
+                                        <td><input type="number" class="form-control" v-model="prod.qte"  @change="getMontant(prod)"></td>
+                                        <td><input type="number" class="form-control" v-model="prod.taxe"  @change="getMontant(prod)"></td>
+                                        <td><input type="number" class="form-control" readonly v-model="prod.montant"></td>
+                                        <td><button class="btn btn-danger btn-rounded"><i class="fa fa-trash" aria-hidden="true" @click="deleteRow(k, prod)"></i></button></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -115,10 +114,10 @@
                             <div class="col-md-6 text-right">
                                 <div class="row text-bold">
                                     <div class="col-md-6">
-                                        Montant :
+                                        Sous Total :
                                     </div>
                                     <div class="col-md-6 text-left">
-                                        200 000 F CFA
+                                        {{subTotal}} F CFA
                                     </div>
                                 </div>
                             </div>
@@ -135,7 +134,7 @@
                                     </div>
                                     <div class="col-md-3 text-left">
                                         <div class="input-group">
-                                            <input type="number" placeholder="Remise" class="form-control">
+                                            <input type="number" placeholder="Remise" v-model="remise" @change="getMontantTotal" class="form-control">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text" id="basic-addon1"><i class="fa fa-percent" aria-hidden="true"></i></span>
                                             </div>
@@ -150,13 +149,11 @@
                             <div class="col-md-6">
                             </div>
                             <div class="col-md-6 text-right">
-                                <div class="row text-bold">
-                                    <div class="col-md-6">
+                                <div class="row ">
+                                    <div class="col-md-6 h4">
                                         Montant Final:
                                     </div>
-                                    <div class="col-md-6 text-left">
-                                        200 000 F CFA
-                                    </div>
+                                    <div class="col-md-6 text-left text-bold h4 text-success">{{total}} F CFA</div>
                                 </div>
                             </div>
                         </div>
@@ -176,15 +173,15 @@ export default {
     data(){
         return {
             emps:null,
-            idRow:1,
             clients:null,
             products:null,
-            nbreRows:null,
-            commandes:[],
-            prod:{
-                nom:null
-            },
-            idprod:null
+            allProducts:[],
+            subTotal:0,
+            total:0,
+            remise:0,
+            idProd:null,
+            prodSibling:null,
+            idGet:null
         }
     },
     methods:{
@@ -206,29 +203,87 @@ export default {
             .then(response => this.products = response.data)
             .catch(error => alert(error));
         },
-        getProduct(){
-            if(this.idprod){
-                axios.get('/api/product/show-'+this.idprod)
-                .then(response => this.prod = response.data)
-                .catch(error => alert(error));
+        addRow(){
+            this.allProducts.push({
+                nom:null,
+                description:null,
+                prix:null,
+                qte:null,
+                taxe:null,
+                montant:null
+            });
+            this.getMontantTotal();
+        },
+        deleteRow(index, product){
+            let idx = this.allProducts.indexOf(product);
+
+            if(idx > -1){
+                this.allProducts.splice(idx, 1);
+            }
+
+            this.getMontantTotal();
+        },
+        getMontant(product){
+            let total = parseFloat(product.prix) * parseFloat(product.qte)* parseFloat(1+product.taxe/100);
+            if(!isNaN(total)){
+                product.montant = total.toFixed(2);
+            }
+
+            this.getMontantTotal();
+        },
+        getMontantTotal(){
+            let subtotal, total;
+
+            subtotal = this.allProducts.reduce(function(sum, product){
+                let lineTotal = parseFloat(product.montant);
+                if(!isNaN(lineTotal)){
+                    return sum + lineTotal;
+                }
+            },0);
+
+            this.subTotal = subtotal.toFixed(2);
+
+            this.total = subtotal - (subtotal * (this.remise/100));
+            this.total = parseFloat(this.total);
+            if (!isNaN(this.total)) {
+                this.total = this.total.toFixed(0);
+            }else{
+                this.total = '0.00';
             }
         },
-        addRow(){
-            this.idRow++;
+        getProd(){
+            axios.get('/api/product/show-'+this.idProd)
+                .then(response => {this.prodSibling = response.data,this.addToAllProducts()})
+                .catch(error => alert(error));
+
         },
-        deleteRow(){
-            this.idRow--;
+        addToAllProducts(){
+            if(this.prodSibling){
+                if(this.allProducts.length > 0){
+                    let lastProd = this.allProducts.pop();
+                }
+
+                this.allProducts.push({
+                    nom:this.prodSibling.nom,
+                    description:this.prodSibling.description,
+                    prix:this.prodSibling.tarif,
+                    qte:1,
+                    taxe:0,
+                    montant:this.prodSibling.tarif
+                });
+
+            }
+
+
+            this.getMontantTotal();
         }
+
     },
     mounted(){
         this.getEmployes();
         this.getClients();
         this.getProducts();
-        this.idRow = 1;
-        this.initTable();
-    },
-    created(){
-
+        this.addRow();
     }
 }
 </script>

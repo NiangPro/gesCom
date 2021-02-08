@@ -6073,22 +6073,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       emps: null,
-      idRow: 1,
       clients: null,
       products: null,
-      nbreRows: null,
-      commandes: [],
-      prod: {
-        nom: null
-      },
-      idprod: null
+      allProducts: [],
+      subTotal: 0,
+      total: 0,
+      remise: 0,
+      idProd: null,
+      prodSibling: null,
+      idGet: null
     };
   },
   methods: {
@@ -6122,32 +6119,88 @@ __webpack_require__.r(__webpack_exports__);
         return alert(error);
       });
     },
-    getProduct: function getProduct() {
-      var _this4 = this;
+    addRow: function addRow() {
+      this.allProducts.push({
+        nom: null,
+        description: null,
+        prix: null,
+        qte: null,
+        taxe: null,
+        montant: null
+      });
+      this.getMontantTotal();
+    },
+    deleteRow: function deleteRow(index, product) {
+      var idx = this.allProducts.indexOf(product);
 
-      if (this.idprod) {
-        axios.get('/api/product/show-' + this.idprod).then(function (response) {
-          return _this4.prod = response.data;
-        })["catch"](function (error) {
-          return alert(error);
-        });
+      if (idx > -1) {
+        this.allProducts.splice(idx, 1);
+      }
+
+      this.getMontantTotal();
+    },
+    getMontant: function getMontant(product) {
+      var total = parseFloat(product.prix) * parseFloat(product.qte) * parseFloat(1 + product.taxe / 100);
+
+      if (!isNaN(total)) {
+        product.montant = total.toFixed(2);
+      }
+
+      this.getMontantTotal();
+    },
+    getMontantTotal: function getMontantTotal() {
+      var subtotal, total;
+      subtotal = this.allProducts.reduce(function (sum, product) {
+        var lineTotal = parseFloat(product.montant);
+
+        if (!isNaN(lineTotal)) {
+          return sum + lineTotal;
+        }
+      }, 0);
+      this.subTotal = subtotal.toFixed(2);
+      this.total = subtotal - subtotal * (this.remise / 100);
+      this.total = parseFloat(this.total);
+
+      if (!isNaN(this.total)) {
+        this.total = this.total.toFixed(0);
+      } else {
+        this.total = '0.00';
       }
     },
-    addRow: function addRow() {
-      this.idRow++;
+    getProd: function getProd() {
+      var _this4 = this;
+
+      axios.get('/api/product/show-' + this.idProd).then(function (response) {
+        _this4.prodSibling = response.data, _this4.addToAllProducts();
+      })["catch"](function (error) {
+        return alert(error);
+      });
     },
-    deleteRow: function deleteRow() {
-      this.idRow--;
+    addToAllProducts: function addToAllProducts() {
+      if (this.prodSibling) {
+        if (this.allProducts.length > 0) {
+          var lastProd = this.allProducts.pop();
+        }
+
+        this.allProducts.push({
+          nom: this.prodSibling.nom,
+          description: this.prodSibling.description,
+          prix: this.prodSibling.tarif,
+          qte: 1,
+          taxe: 0,
+          montant: this.prodSibling.tarif
+        });
+      }
+
+      this.getMontantTotal();
     }
   },
   mounted: function mounted() {
     this.getEmployes();
     this.getClients();
     this.getProducts();
-    this.idRow = 1;
-    this.initTable();
-  },
-  created: function created() {}
+    this.addRow();
+  }
 });
 
 /***/ }),
@@ -53194,12 +53247,11 @@ var render = function() {
                       {
                         name: "model",
                         rawName: "v-model",
-                        value: _vm.idprod,
-                        expression: "idprod"
+                        value: _vm.idProd,
+                        expression: "idProd"
                       }
                     ],
                     staticClass: "form-control",
-                    attrs: { type: "date" },
                     on: {
                       change: [
                         function($event) {
@@ -53211,28 +53263,22 @@ var render = function() {
                               var val = "_value" in o ? o._value : o.value
                               return val
                             })
-                          _vm.idprod = $event.target.multiple
+                          _vm.idProd = $event.target.multiple
                             ? $$selectedVal
                             : $$selectedVal[0]
                         },
-                        _vm.getProduct
+                        _vm.getProd
                       ]
                     }
                   },
-                  [
-                    _c("option", { attrs: { value: "" } }, [
-                      _vm._v("Selectionner un produit ou service ")
-                    ]),
-                    _vm._v(" "),
-                    _vm._l(_vm.products, function(p) {
-                      return _c(
-                        "option",
-                        { key: p.id, domProps: { value: p.id } },
-                        [_vm._v(_vm._s(p.nom))]
-                      )
-                    })
-                  ],
-                  2
+                  _vm._l(_vm.products, function(p) {
+                    return _c(
+                      "option",
+                      { key: p.id, domProps: { value: p.id } },
+                      [_vm._v(_vm._s(p.nom))]
+                    )
+                  }),
+                  0
                 )
               ])
             ])
@@ -53244,11 +53290,54 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "tbody",
-                _vm._l(_vm.idRow, function(ligne) {
-                  return _c("tr", { key: ligne.id }, [
-                    _vm._m(8, true),
+                _vm._l(_vm.allProducts, function(prod, k) {
+                  return _c("tr", { key: k }, [
+                    _c("td", [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: prod.nom,
+                            expression: "prod.nom"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text" },
+                        domProps: { value: prod.nom },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(prod, "nom", $event.target.value)
+                          }
+                        }
+                      })
+                    ]),
                     _vm._v(" "),
-                    _vm._m(9, true),
+                    _c("td", [
+                      _c("textarea", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: prod.description,
+                            expression: "prod.description"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        domProps: { value: prod.description },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(prod, "description", $event.target.value)
+                          }
+                        }
+                      })
+                    ]),
                     _vm._v(" "),
                     _c("td", [
                       _c("input", {
@@ -53256,29 +53345,104 @@ var render = function() {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.prod.nom,
-                            expression: "prod.nom"
+                            value: prod.prix,
+                            expression: "prod.prix"
                           }
                         ],
                         staticClass: "form-control",
                         attrs: { type: "number" },
-                        domProps: { value: _vm.prod.nom },
+                        domProps: { value: prod.prix },
                         on: {
+                          change: function($event) {
+                            return _vm.getMontant(prod)
+                          },
                           input: function($event) {
                             if ($event.target.composing) {
                               return
                             }
-                            _vm.$set(_vm.prod, "nom", $event.target.value)
+                            _vm.$set(prod, "prix", $event.target.value)
                           }
                         }
                       })
                     ]),
                     _vm._v(" "),
-                    _vm._m(10, true),
+                    _c("td", [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: prod.qte,
+                            expression: "prod.qte"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "number" },
+                        domProps: { value: prod.qte },
+                        on: {
+                          change: function($event) {
+                            return _vm.getMontant(prod)
+                          },
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(prod, "qte", $event.target.value)
+                          }
+                        }
+                      })
+                    ]),
                     _vm._v(" "),
-                    _vm._m(11, true),
+                    _c("td", [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: prod.taxe,
+                            expression: "prod.taxe"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "number" },
+                        domProps: { value: prod.taxe },
+                        on: {
+                          change: function($event) {
+                            return _vm.getMontant(prod)
+                          },
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(prod, "taxe", $event.target.value)
+                          }
+                        }
+                      })
+                    ]),
                     _vm._v(" "),
-                    _vm._m(12, true),
+                    _c("td", [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: prod.montant,
+                            expression: "prod.montant"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "number", readonly: "" },
+                        domProps: { value: prod.montant },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(prod, "montant", $event.target.value)
+                          }
+                        }
+                      })
+                    ]),
                     _vm._v(" "),
                     _c("td", [
                       _c(
@@ -53288,7 +53452,11 @@ var render = function() {
                           _c("i", {
                             staticClass: "fa fa-trash",
                             attrs: { "aria-hidden": "true" },
-                            on: { click: _vm.deleteRow }
+                            on: {
+                              click: function($event) {
+                                return _vm.deleteRow(k, prod)
+                              }
+                            }
                           })
                         ]
                       )
@@ -53319,18 +53487,95 @@ var render = function() {
               )
             ]),
             _vm._v(" "),
-            _vm._m(13)
+            _c("div", { staticClass: "col-md-6 text-right" }, [
+              _c("div", { staticClass: "row text-bold" }, [
+                _c("div", { staticClass: "col-md-6" }, [
+                  _vm._v(
+                    "\n                                    Sous Total :\n                                "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-6 text-left" }, [
+                  _vm._v(
+                    "\n                                    " +
+                      _vm._s(_vm.subTotal) +
+                      " F CFA\n                                "
+                  )
+                ])
+              ])
+            ])
           ]),
           _vm._v(" "),
           _c("hr"),
           _vm._v(" "),
-          _vm._m(14),
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-md-6" }),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-6 text-right" }, [
+              _c("div", { staticClass: "row text-bold" }, [
+                _c("div", { staticClass: "col-md-6" }, [
+                  _vm._v(
+                    "\n                                    Remise :\n                                "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-3 text-left" }, [
+                  _c("div", { staticClass: "input-group" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.remise,
+                          expression: "remise"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "number", placeholder: "Remise" },
+                      domProps: { value: _vm.remise },
+                      on: {
+                        change: _vm.getMontantTotal,
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.remise = $event.target.value
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _vm._m(8)
+                  ])
+                ])
+              ])
+            ])
+          ]),
           _vm._v(" "),
           _c("hr"),
           _vm._v(" "),
-          _vm._m(15),
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-md-6" }),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-6 text-right" }, [
+              _c("div", { staticClass: "row " }, [
+                _c("div", { staticClass: "col-md-6 h4" }, [
+                  _vm._v(
+                    "\n                                    Montant Final:\n                                "
+                  )
+                ]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass: "col-md-6 text-left text-bold h4 text-success"
+                  },
+                  [_vm._v(_vm._s(_vm.total) + " F CFA")]
+                )
+              ])
+            ])
+          ]),
           _vm._v(" "),
-          _vm._m(16)
+          _vm._m(9)
         ])
       ])
     ])
@@ -53453,125 +53698,17 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("td", [
-      _c("input", { staticClass: "form-control", attrs: { type: "text" } })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [_c("textarea", { staticClass: "form-control" })])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [
-      _c("input", { staticClass: "form-control", attrs: { type: "number" } })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [
-      _c("input", { staticClass: "form-control", attrs: { type: "number" } })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [
-      _c("input", { staticClass: "form-control", attrs: { type: "number" } })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-6 text-right" }, [
-      _c("div", { staticClass: "row text-bold" }, [
-        _c("div", { staticClass: "col-md-6" }, [
-          _vm._v(
-            "\n                                    Montant :\n                                "
-          )
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-md-6 text-left" }, [
-          _vm._v(
-            "\n                                    200 000 F CFA\n                                "
-          )
-        ])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-md-6" }),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-6 text-right" }, [
-        _c("div", { staticClass: "row text-bold" }, [
-          _c("div", { staticClass: "col-md-6" }, [
-            _vm._v(
-              "\n                                    Remise :\n                                "
-            )
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-3 text-left" }, [
-            _c("div", { staticClass: "input-group" }, [
-              _c("input", {
-                staticClass: "form-control",
-                attrs: { type: "number", placeholder: "Remise" }
-              }),
-              _vm._v(" "),
-              _c("div", { staticClass: "input-group-prepend" }, [
-                _c(
-                  "span",
-                  {
-                    staticClass: "input-group-text",
-                    attrs: { id: "basic-addon1" }
-                  },
-                  [
-                    _c("i", {
-                      staticClass: "fa fa-percent",
-                      attrs: { "aria-hidden": "true" }
-                    })
-                  ]
-                )
-              ])
-            ])
-          ])
-        ])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-md-6" }),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-6 text-right" }, [
-        _c("div", { staticClass: "row text-bold" }, [
-          _c("div", { staticClass: "col-md-6" }, [
-            _vm._v(
-              "\n                                    Montant Final:\n                                "
-            )
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-6 text-left" }, [
-            _vm._v(
-              "\n                                    200 000 F CFA\n                                "
-            )
-          ])
-        ])
-      ])
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c(
+        "span",
+        { staticClass: "input-group-text", attrs: { id: "basic-addon1" } },
+        [
+          _c("i", {
+            staticClass: "fa fa-percent",
+            attrs: { "aria-hidden": "true" }
+          })
+        ]
+      )
     ])
   },
   function() {
