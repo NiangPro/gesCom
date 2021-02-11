@@ -1,10 +1,13 @@
 require('./bootstrap');
 
 window.Vue = require('vue').default;
+
+
 import VueRouter from 'vue-router';
 import routes from './routes';
 
 Vue.use(VueRouter);
+
 Vue.component('add-staticdata', require('./components/staticData/AddStaticData').default);
 Vue.component('list-staticdata', require('./components/staticData/ListStaticData').default);
 Vue.component('edit-staticdata', require('./components/staticData/EditStaticData').default);
@@ -39,6 +42,7 @@ Vue.component('edit-reunion', require('./components/reunion/EditReunion').defaul
 Vue.component('add-vente', require('./components/vente/AddVente').default);
 Vue.component('list-vente', require('./components/vente/ListVente').default);
 Vue.component('edit-vente', require('./components/vente/EditVente').default);
+Vue.component('info-vente', require('./components/vente/InfoVente').default);
 
 // Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 

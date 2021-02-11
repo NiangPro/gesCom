@@ -6,7 +6,10 @@ use App\Models\Client;
 use App\Models\Country;
 use App\Models\Employed;
 use App\Models\StaticData;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class HomeController extends Controller
 {
@@ -92,5 +95,25 @@ class HomeController extends Controller
         $ps = StaticData::where('type', 'Mode de paiement')->get();
 
         return response()->json($ps);
+    }
+
+    public function register(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:6|confirmed'
+        ]);
+
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password)
+        ]);
+    }
+
+    public function logout()
+    {
+        Auth::logout();
     }
 }

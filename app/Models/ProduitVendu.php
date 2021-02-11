@@ -5,22 +5,23 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Client extends Model
+class ProduitVendu extends Model
 {
     use HasFactory;
 
-    protected $table = "clients";
+    protected $table = "produit_vendus";
 
     protected $fillable = [
+        'amount',
+        'taxe',
+        'qte',
+        'description',
         'nom',
-        'pays',
-        'adresse',
-        'tel',
-        'email'
+        'vente_id'
     ];
 
     public function vente()
     {
-        return $this->hasOne(Vente::class);
+        return $this->belongsTo(Vente::class, 'vente_id');
     }
 }

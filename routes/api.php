@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -29,6 +30,10 @@ use App\Http\Controllers\VenteController;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::middleware('auth:api')->get('/authentificated', function () {
+    return true;
+});
+
 Route::get('/staticdata', [StaticDataController::class, 'index']);
 Route::post('/staticdata', [StaticDataController::class, 'store']);
 Route::get('/staticdata/show-{id}', [StaticDataController::class, 'show']);
@@ -51,6 +56,8 @@ Route::get('/getEmployeds', [HomeController::class, 'getEmployeds']);
 Route::get('/prospectSource', [HomeController::class, 'getProspectSource']);
 Route::get('/expenseType', [HomeController::class, 'getExpenseType']);
 Route::get('/paymentsMode', [HomeController::class, 'getPaymentsMode']);
+Route::post('/register', [HomeController::class, 'register']);
+Route::post('/login', [LoginController::class, 'login']);
 
 Route::get('/client', [ClientController::class, 'index']);
 Route::post('/client', [ClientController::class, 'store']);
@@ -99,3 +106,4 @@ Route::post('/vente', [VenteController::class, 'store']);
 Route::get('/vente/show-{id}', [VenteController::class, 'show']);
 Route::patch('/vente/edit-{id}', [VenteController::class, 'update']);
 Route::delete('/vente/{id}', [VenteController::class, 'destroy']);
+Route::get('/productSalling/{id}', [VenteController::class, 'getProducts']);

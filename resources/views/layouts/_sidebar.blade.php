@@ -105,11 +105,20 @@
                 </router-link>
             </li>
 
-             <li class="nav-item">
+            <li class="nav-item">
                 <router-link to="/vente" class="nav-link">
                 <i class="nav-icon fa fa-shopping-cart"></i>
                 <p>
                     Ventes
+                </p>
+                </router-link>
+            </li>
+
+            <li class="nav-item">
+                <router-link to="/devis" class="nav-link">
+                <i class="nav-icon fa fa-file-invoice"></i>
+                <p>
+                    Devis
                     <span class="right badge badge-danger">New</span>
                 </p>
                 </router-link>

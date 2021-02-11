@@ -72,14 +72,7 @@
         },
         methods:{
             addEmploye(){
-                axios.post('/api/employe', {
-                    prenom: this.form.prenom,
-                    nom: this.form.nom,
-                    email: this.form.email,
-                    tel: this.form.tel,
-                    adresse: this.form.adresse,
-                    fonction: this.form.fonction
-                })
+                axios.post('/api/employe', this.form)
                 .then(response => {this.$emit('employeAdded', response.data), this.initForm()})
                 .catch(error => alert(error));
             },

@@ -12,6 +12,7 @@
                 </div>
                 <div class="widget-user-image">
                     <img class="img-circle elevation-2" src="dist/img/user1-128x128.jpg" alt="User Avatar">
+                    <button class="btn round btn-outline-info editAvatar" @click="editImage"> <i class="fas fa-edit" ></i></button>
                 </div>
                 <div class="card-footer">
                     <div class="row">
@@ -74,6 +75,9 @@ export default{
                 axios.delete('/api/employe/'+id)
                 .then(response => this.emps = response.data)
                 .catch(error => alert(error));
+            },
+            editImage(){
+                alert('bien');
             }
         }
     }

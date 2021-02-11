@@ -19,4 +19,9 @@ class Employed extends Model
         'fonction',
         'adresse'
     ];
+
+    public function vente()
+    {
+        return $this->hasOne(Vente::class);
+    }
 }

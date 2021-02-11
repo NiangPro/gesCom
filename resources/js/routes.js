@@ -9,6 +9,8 @@ import Prospect from './components/ProspectComponent.vue';
 import Expense from './components/ExpenseComponent.vue';
 import Reunion from './components/ReunionComponent.vue';
 import Vente from './components/VenteComponent.vue';
+import Login from './components/LoginComponent.vue';
+import Register from './components/RegisterComponent.vue';
 import NotFound from './components/NotFoundComponent.vue';
 
 export default {
@@ -17,7 +19,13 @@ export default {
     routes: [
         {
             path: "/",
-            component: Dashboard
+            component: Dashboard,
+            name: "Dashboard",
+            beforeEnter: (to, from, next) => {
+                axios.get('/api/authentificated')
+                    .then(()=>{next()})
+                    .catch(()=>{return next({name:'Login'})});
+            }
         },
         {
             path: "/staticdata",
@@ -59,7 +67,16 @@ export default {
             path: "/vente",
             component: Vente
         },
-         {
+        {
+            path: "/login",
+            component: Login,
+            name: "Login"
+        },
+        {
+            path: "/register",
+            component: Register
+        },
+        {
             path: "*",
             component: NotFound
         }

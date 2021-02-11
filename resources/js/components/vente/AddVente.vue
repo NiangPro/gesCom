@@ -17,31 +17,31 @@
                             <div class="col-md-4">
                                 <div class="input-group">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text" id="basic-addon1">Date</span>
+                                        <span class="input-group-text" id="basic-addon1">Date <span class="text-danger">*</span></span>
                                     </div>
                                     <input type="date" class="form-control"
-                                        placeholder="Entrez l'identifiant de l'agence">
+                                        placeholder="Entrez l'identifiant de l'agence" v-model="form.date">
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="input-group">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text" id="basic-addon1">Client</span>
+                                        <span class="input-group-text" id="basic-addon1">Client <span class="text-danger">*</span></span>
                                     </div>
-                                    <select class="form-control">
+                                    <select class="form-control" v-model="form.client_id">
                                         <option>Selectionner un client</option>
-                                        <option v-for="cli in clients" :key="cli.id" v-bind:value="cli.nom">{{cli.nom}}</option>
+                                        <option v-for="cli in clients" :key="cli.id" v-bind:value="cli.id">{{cli.nom}}</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="input-group">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text" id="basic-addon1">Assigné à</span>
+                                        <span class="input-group-text" id="basic-addon1">Assigné à <span class="text-danger">*</span> </span>
                                     </div>
-                                    <select  class="form-control">
+                                    <select  class="form-control" v-model="form.employed_id">
                                         <option>Selectionner un employé</option>
-                                        <option v-for="emp in emps" :key="emp.id" v-bind:value="emp.prenom + ` `+emp.nom">{{emp.prenom}} {{emp.nom}}</option>
+                                        <option v-for="emp in emps" :key="emp.id" v-bind:value="emp.id">{{emp.prenom}} {{emp.nom}}</option>
                                     </select>
                                 </div>
                             </div>
@@ -50,7 +50,7 @@
                             <div class="col-4">
                                 <div class="form-group">
                                     <label for="">Commentaire</label>
-                                    <textarea class="form-control"></textarea></div>
+                                    <textarea class="form-control" v-model="form.description"></textarea></div>
                             </div>
                         </div>
                 </div>
@@ -83,22 +83,22 @@
                         <div class="row mt-3">
                             <table class="table">
                                 <thead>
-                                    <th>Produit&Service</th>
-                                    <th>Description</th>
-                                    <th>Tarif</th>
-                                    <th>Quantité</th>
+                                    <th>Produit&Service <span class="text-danger">*</span></th>
+                                    <th>Description <span class="text-danger">*</span></th>
+                                    <th>Tarif <span class="text-danger">*</span></th>
+                                    <th>Quantité <span class="text-danger">*</span></th>
                                     <th>TVA</th>
-                                    <th>Montant</th>
+                                    <th>Montant <span class="text-danger">*</span></th>
                                     <th>Action</th>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="(prod, k) in allProducts" :key="k">
+                                    <tr v-for="(prod, k) in form.allProducts" :key="k">
                                         <td><input type="text" class="form-control" v-model="prod.nom"></td>
                                         <td><textarea class="form-control"  v-model="prod.description"></textarea></td>
                                         <td><input type="number" class="form-control" v-model="prod.prix"  @change="getMontant(prod)"></td>
                                         <td><input type="number" class="form-control" v-model="prod.qte"  @change="getMontant(prod)"></td>
                                         <td><input type="number" class="form-control" v-model="prod.taxe"  @change="getMontant(prod)"></td>
-                                        <td><input type="number" class="form-control" readonly v-model="prod.montant"></td>
+                                        <td><input type="number" class="form-control" readonly v-model="prod.amount"></td>
                                         <td><button class="btn btn-danger btn-rounded"><i class="fa fa-trash" aria-hidden="true" @click="deleteRow(k, prod)"></i></button></td>
                                     </tr>
                                 </tbody>
@@ -134,7 +134,7 @@
                                     </div>
                                     <div class="col-md-3 text-left">
                                         <div class="input-group">
-                                            <input type="number" placeholder="Remise" v-model="remise" @change="getMontantTotal" class="form-control">
+                                            <input type="number" placeholder="Remise" v-model="form.discount" @change="getMontantTotal" class="form-control">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text" id="basic-addon1"><i class="fa fa-percent" aria-hidden="true"></i></span>
                                             </div>
@@ -151,16 +151,16 @@
                             <div class="col-md-6 text-right">
                                 <div class="row ">
                                     <div class="col-md-6 h4">
-                                        Montant Final:
+                                        Montant Final <span class="text-danger">*</span>:
                                     </div>
-                                    <div class="col-md-6 text-left text-bold h4 text-success">{{total}} F CFA</div>
+                                    <div class="col-md-6 text-left text-bold h4 text-success">{{form.total_amount}} F CFA</div>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Enregistrer la vente -->
                         <div class="row mt-3">
-                            <button class="btn btn-success btn-rounded" >Enregister</button>
+                            <button class="btn btn-success btn-rounded" @click="addVente">Enregister</button>
                         </div>
                 </div>
             </div>
@@ -175,10 +175,17 @@ export default {
             emps:null,
             clients:null,
             products:null,
-            allProducts:[],
+
             subTotal:0,
-            total:0,
-            remise:0,
+            form:{
+                allProducts:[],
+                total_amount:0,
+                discount:0,
+                client_id:null,
+                employed_id:null,
+                date:null,
+                description:null
+            },
             idProd:null,
             prodSibling:null,
             idGet:null
@@ -204,21 +211,23 @@ export default {
             .catch(error => alert(error));
         },
         addRow(){
-            this.allProducts.push({
-                nom:null,
-                description:null,
-                prix:null,
-                qte:null,
-                taxe:null,
-                montant:null
-            });
-            this.getMontantTotal();
+            if(this.fieldsNotEmpty() || this.form.allProducts.length == 0){
+                this.form.allProducts.push({
+                    nom:null,
+                    description:null,
+                    prix:null,
+                    qte:null,
+                    taxe:null,
+                    amount:null
+                });
+                this.getMontantTotal();
+            }
         },
         deleteRow(index, product){
-            let idx = this.allProducts.indexOf(product);
+            let idx = this.form.allProducts.indexOf(product);
 
             if(idx > -1){
-                this.allProducts.splice(idx, 1);
+                this.form.allProducts.splice(idx, 1);
             }
 
             this.getMontantTotal();
@@ -226,29 +235,29 @@ export default {
         getMontant(product){
             let total = parseFloat(product.prix) * parseFloat(product.qte)* parseFloat(1+product.taxe/100);
             if(!isNaN(total)){
-                product.montant = total.toFixed(2);
+                product.amount = total.toFixed(2);
             }
 
             this.getMontantTotal();
         },
         getMontantTotal(){
-            let subtotal, total;
+            let subtotal;
 
-            subtotal = this.allProducts.reduce(function(sum, product){
-                let lineTotal = parseFloat(product.montant);
+            subtotal = this.form.allProducts.reduce(function(sum, product){
+                let lineTotal = parseFloat(product.amount);
                 if(!isNaN(lineTotal)){
                     return sum + lineTotal;
                 }
             },0);
 
-            this.subTotal = subtotal.toFixed(2);
+            this.subTotal = subtotal;
 
-            this.total = subtotal - (subtotal * (this.remise/100));
-            this.total = parseFloat(this.total);
-            if (!isNaN(this.total)) {
-                this.total = this.total.toFixed(0);
+            this.form.total_amount = subtotal - (subtotal * (this.form.discount/100));
+            this.form.total_amount = parseFloat(this.form.total_amount);
+            if (!isNaN(this.form.total_amount)) {
+                this.form.total_amount = this.form.total_amount;
             }else{
-                this.total = '0.00';
+                this.form.total_amount = '0.00';
             }
         },
         getProd(){
@@ -259,23 +268,55 @@ export default {
         },
         addToAllProducts(){
             if(this.prodSibling){
-                if(this.allProducts.length > 0){
-                    let lastProd = this.allProducts.pop();
+                if(this.form.allProducts.length > 0){
+                    let lastProd = this.form.allProducts.pop();
                 }
 
-                this.allProducts.push({
+                this.form.allProducts.push({
                     nom:this.prodSibling.nom,
                     description:this.prodSibling.description,
                     prix:this.prodSibling.tarif,
                     qte:1,
                     taxe:0,
-                    montant:this.prodSibling.tarif
+                    amount:this.prodSibling.tarif
                 });
 
             }
 
 
             this.getMontantTotal();
+        },
+        fieldsNotEmpty(){
+            let response = true;
+
+            if(this.form.allProducts.length > 0){
+                this.form.allProducts.forEach((item) => {
+                    if(item.nom == null || item.description == null || item.qte == null || item.prix == null)
+                        response = false;
+                });
+            }
+
+            return response;
+        },
+        saleNotEmpty(){
+            let response = true;
+
+            if(this.form.client_id == null || this.form.employed_id == null || this.form.total_amount == 0 || this.form.date == null){
+                response = false;
+            }
+
+            return response;
+        },
+        addVente(){
+
+            if(this.saleNotEmpty() && this.fieldsNotEmpty()){
+            axios.post('/api/vente', this.form)
+                .then(response => this.$emit('saleAdded', response.data))
+                .catch(error => console.log(error));
+            }else{
+                alert('Veuillez remplir tous les champs obligatoires(*)');
+            }
+
         }
 
     },

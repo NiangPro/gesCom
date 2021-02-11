@@ -18,7 +18,6 @@
   <link rel="stylesheet" href="plugins/jqvmap/jqvmap.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="dist/css/adminlte.min.css">
-  <link rel="stylesheet" type="text/css" href="{{ asset('https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css') }}">
 
   <!-- overlayScrollbars -->
   <link rel="stylesheet" href="plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
@@ -31,7 +30,6 @@
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper" id="app">
-
   <!-- Navbar -->
  @includeFirst(['layouts._navbar'])
   <!-- /.navbar -->
@@ -47,7 +45,9 @@
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
+
         @yield('content')
+
       </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
@@ -93,16 +93,12 @@
 <!-- overlayScrollbars -->
 <script src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
 
- <script src="{{ asset('https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js') }}"></script>
 <script src="dist/js/adminlte.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="dist/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="dist/js/demo.js"></script>
 <script>
-    $(document).ready( function () {
-        $('#myTable').DataTable();
-    } );
     @yield('script')
 </script>
 </body>
