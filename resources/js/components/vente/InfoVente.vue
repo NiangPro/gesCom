@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="card" id="infoVente">
           <div class="card-header">
               Logo
           </div>
@@ -65,6 +65,7 @@
             </div>
             <div class="row mt-3">
                 <button class="btn btn-dark btn-rounded" @click="initSale">Retour</button>
+                <button class="btn btn-success btn-rounded ml-3" @click="imprimer(infoVente)">Imprimer</button>
             </div>
 
         </div>
@@ -88,6 +89,13 @@ export default {
             .then(response => this.products = response.data)
             .catch(error => alert(error));
 
+        },
+        imprimer(divName) {
+            let printContents = document.getElementById(divName).innerHTML;
+            let originalContents = document.body.innerHTML;
+            document.body.innerHTML = printContents;
+            window.print();
+            document.body.innerHTML = originalContents;
         }
     },
     mounted(){

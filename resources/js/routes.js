@@ -10,7 +10,7 @@ import Expense from './components/ExpenseComponent.vue';
 import Reunion from './components/ReunionComponent.vue';
 import Vente from './components/VenteComponent.vue';
 import Login from './components/LoginComponent.vue';
-import Register from './components/RegisterComponent.vue';
+import Setting from './components/SettingComponent.vue';
 import NotFound from './components/NotFoundComponent.vue';
 
 export default {
@@ -18,14 +18,14 @@ export default {
     linkActiveClass: 'active',
     routes: [
         {
-            path: "/",
+            path: "/home",
             component: Dashboard,
-            name: "Dashboard",
-            beforeEnter: (to, from, next) => {
-                axios.get('/api/authentificated')
-                    .then(()=>{next()})
-                    .catch(()=>{return next({name:'Login'})});
-            }
+            name: "Home",
+            // beforeEnter: (to, from, next) => {
+            //     axios.get('/api/authentificated')
+            //         .then(()=>{next()})
+            //         .catch(()=>{return next({name:'Login'})});
+            // }
         },
         {
             path: "/staticdata",
@@ -73,8 +73,8 @@ export default {
             name: "Login"
         },
         {
-            path: "/register",
-            component: Register
+            path: "/setting",
+            component: Setting
         },
         {
             path: "*",

@@ -8,6 +8,12 @@ use Illuminate\Http\Request;
 
 class VenteController extends Controller
 {
+
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
+
     /**
      * Display a listing of the resource.
      *
@@ -105,5 +111,12 @@ class VenteController extends Controller
         $ventes = Vente::with('client', 'employed')->orderBy('id', 'DESC')->get();
 
         return response()->json($ventes);
+    }
+
+    public function produitVendus()
+    {
+        $produitVendus = ProduitVendu::with('vente')->orderBy('vente_id', 'DESC')->get();
+
+        return response()->json($produitVendus);
     }
 }

@@ -53,7 +53,7 @@
 
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                                <button @click="register" class="btn btn-primary">
                                     Ajouter
                                 </button>
                             </div>
@@ -82,7 +82,7 @@ export default {
     methods:{
         register(){
             axios.post('/api/register', this.form)
-            .then(response => console.log(response.data))
+            .then(response => this.$router.push({path:"/login"}))
             .catch(error => this.errors = error.response.data.errors);
         }
     }

@@ -2,16 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Expense;
+use App\Models\Todolist;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class ExpenseController extends Controller
+class TodoController extends Controller
 {
-
-    // public function __construct()
-    // {
-    //     $this->middleware('auth');
-    // }
     /**
      * Display a listing of the resource.
      *
@@ -30,9 +26,20 @@ class ExpenseController extends Controller
      */
     public function store(Request $request)
     {
-        $expense = new Expense();
+        $request->validate([
+            'titre' => 'required',
+            'date' => 'required'
+        ]);
 
-        $this->assign($request, $expense);
+        $todo = new Todolist();
+
+        $todo->titre = $request->titre;
+        $todo->date = $request->date;
+        $todo->is_check = 0;
+        $todo->user_id = Auth::user()->id;
+
+
+        $todo->save();
 
         return $this->refresh();
     }
@@ -45,9 +52,9 @@ class ExpenseController extends Controller
      */
     public function show($id)
     {
-        $expense = Expense::where('id', $id)->first();
+        $todo = Todolist::where('id', $id)->first();
 
-        return response()->json($expense);
+        return response()->json($todo);
     }
 
     /**
@@ -59,9 +66,17 @@ class ExpenseController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $expense = Expense::where('id', $id)->first();
+        $request->validate([
+            'titre' => 'required',
+            'date' => 'required'
+        ]);
 
-        $this->assign($request, $expense);
+        $todo = Todolist::where('id', $id)->first();
+
+        $todo->titre = $request->titre;
+        $todo->date = $request->date;
+
+        $todo->save();
 
         return $this->refresh();
     }
@@ -74,38 +89,27 @@ class ExpenseController extends Controller
      */
     public function destroy($id)
     {
-        $expense = Expense::where('id', $id)->first();
+        $todo = Todolist::where('id', $id)->first();
 
-        $expense->delete();
+        $todo->delete();
 
         return $this->refresh();
     }
 
     private function refresh()
     {
-        $expenses = Expense::orderBy('id', 'DESC')->get();
+        $todos = Todolist::orderBy('date', 'DESC')->take(6)->get();
 
-        return response()->json($expenses);
+        return response()->json($todos);
     }
 
-    private function assign(Request $request, Expense $expense)
+    public function todoCheck(Request $request)
     {
-        $request->validate([
-            'category' => 'required',
-            'payment_mode' => 'required',
-            'montant' => 'required',
-            'description' => 'required',
-            'date' => 'required'
-        ]);
+        $todo = Todolist::where('id', $request->id)->first();
 
+        $todo->is_check = $request->is_check;
+        $todo->save();
 
-        $expense->category = $request->category;
-        $expense->payment_mode = $request->payment_mode;
-        $expense->montant = $request->montant;
-        $expense->description = $request->description;
-        $expense->date = $request->date;
-        $expense->recu = $request->recu;
-
-        $expense->save();
+        return $this->refresh();
     }
 }

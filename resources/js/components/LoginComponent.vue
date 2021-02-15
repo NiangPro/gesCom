@@ -33,7 +33,7 @@
 
                         <div class="form-group row mb-0">
                             <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                                <button @click="login" class="btn btn-primary">
                                     Se connecter
                                 </button>
                             </div>
@@ -60,7 +60,7 @@ export default {
     methods:{
         login(){
             axios.post('/api/login', this.form)
-            .then(response => this.$router.push({name: "Dashboard"}))
+            .then(response => this.$route.push({name: "Dashboard"}))
             .catch(error => this.errors = error.response.data.errors);
         }
     }

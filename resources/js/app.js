@@ -39,10 +39,19 @@ Vue.component('edit-expense', require('./components/expense/EditExpense').defaul
 Vue.component('add-reunion', require('./components/reunion/AddReunion').default);
 Vue.component('list-reunion', require('./components/reunion/ListReunion').default);
 Vue.component('edit-reunion', require('./components/reunion/EditReunion').default);
+
 Vue.component('add-vente', require('./components/vente/AddVente').default);
 Vue.component('list-vente', require('./components/vente/ListVente').default);
 Vue.component('edit-vente', require('./components/vente/EditVente').default);
 Vue.component('info-vente', require('./components/vente/InfoVente').default);
+
+Vue.component('add-user', require('./components/setting/RegisterComponent').default);
+Vue.component('edit-setting', require('./components/setting/EditSetting').default);
+Vue.component('edit-password', require('./components/setting/EditPassword').default);
+
+Vue.component('add-todo', require('./components/todolist/AddTodo').default);
+Vue.component('list-todo', require('./components/todolist/ListTodo').default);
+Vue.component('edit-todo', require('./components/todolist/EditTodo').default);
 
 // Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 

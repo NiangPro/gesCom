@@ -30,38 +30,44 @@
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper" id="app">
-  <!-- Navbar -->
- @includeFirst(['layouts._navbar'])
-  <!-- /.navbar -->
+    {{-- @if (Auth::user()) --}}
 
-  @includeFirst(['layouts._sidebar'])
+    <!-- Navbar -->
+    @includeFirst(['layouts._navbar'])
+    <!-- /.navbar -->
 
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-   @includeFirst(['layouts._header'])
-    <!-- /.content-header -->
+    @includeFirst(['layouts._sidebar'])
 
-    <!-- Main content -->
-    <section class="content">
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        @includeFirst(['layouts._header'])
+        <!-- /.content-header -->
+
+        <!-- Main content -->
+        <section class="content">
+    {{-- @endif --}}
       <div class="container-fluid">
 
         @yield('content')
 
       </div><!-- /.container-fluid -->
+      {{-- @if (Auth::user()) --}}
+
     </section>
     <!-- /.content -->
-  </div>
-  <!-- /.content-wrapper -->
-  @includeFirst(['layouts._footer'])
-  <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
+</div>
+<!-- /.content-wrapper -->
+@includeFirst(['layouts._footer'])
+<!-- Control Sidebar -->
+<aside class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->
-  </aside>
-  <!-- /.control-sidebar -->
+</aside>
+<!-- /.control-sidebar -->
 </div>
 <!-- ./wrapper -->
 
+{{-- @endif --}}
 
 <script src="{{ asset('js/app.js')}}"></script>
 <!-- jQuery -->
@@ -99,7 +105,7 @@
 <!-- AdminLTE for demo purposes -->
 <script src="dist/js/demo.js"></script>
 <script>
-    @yield('script')
+   @yield('script')
 </script>
 </body>
 </html>

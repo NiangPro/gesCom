@@ -6,7 +6,9 @@ use App\Models\Client;
 use App\Models\Country;
 use App\Models\Employed;
 use App\Models\StaticData;
+use App\Models\Todolist;
 use App\Models\User;
+use App\Models\Vente;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -18,10 +20,10 @@ class HomeController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
-        // $this->middleware('auth');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
 
     /**
      * Show the application dashboard.
@@ -110,6 +112,8 @@ class HomeController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password)
         ]);
+
+        return response()->json(['message' => "Ajout utilisateur avec succès"]);
     }
 
     public function logout()

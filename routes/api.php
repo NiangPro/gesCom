@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\LoginController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +14,7 @@ use App\Http\Controllers\ProspectController;
 use App\Http\Controllers\StaticDataController;
 use App\Http\Controllers\FournisseurController;
 use App\Http\Controllers\ReunionController;
+use App\Http\Controllers\TodoController;
 use App\Http\Controllers\VenteController;
 
 /*
@@ -27,10 +28,10 @@ use App\Http\Controllers\VenteController;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::middleware('auth:api')->get('/authentificated', function () {
+Route::middleware('auth:sanctum')->get('/authentificated', function () {
     return true;
 });
 
@@ -107,3 +108,11 @@ Route::get('/vente/show-{id}', [VenteController::class, 'show']);
 Route::patch('/vente/edit-{id}', [VenteController::class, 'update']);
 Route::delete('/vente/{id}', [VenteController::class, 'destroy']);
 Route::get('/productSalling/{id}', [VenteController::class, 'getProducts']);
+Route::get('/produitVendus', [VenteController::class, 'produitVendus']);
+
+Route::post('/todo', [TodoController::class, 'store']);
+Route::get('/todo', [TodoController::class, 'index']);
+Route::post('/todoEtat', [TodoController::class, 'todoCheck']);
+Route::get('/todo/{id}', [TodoController::class, 'show']);
+Route::patch('/editTodo/{id}', [TodoController::class, 'update']);
+Route::delete('/todo/{id}', [TodoController::class, 'destroy']);

@@ -14,9 +14,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/', function () {
+    return view('auth.login');
+})->name('login');
+
 Route::get('/{any}', function () {
     return view('admin.dashboard');
-})->where('any', '.*');
+})->where('any', '.*')->name('home');
 
 /*Route::get('/', function () {
     return view('admin.dashboard');
@@ -24,4 +28,4 @@ Route::get('/{any}', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

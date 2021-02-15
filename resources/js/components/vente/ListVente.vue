@@ -28,7 +28,9 @@
                                         <td>{{vente.employed.prenom}} {{vente.employed.nom}}</td>
                                         <td>{{vente.total_amount}} F CFA</td>
                                         <td>
-                                            <span v-for="product in vente.produitVendus" :key="product.id">{{product.amount}}</span>
+                                            <span v-for="product in produitVendus" :key="product.id">
+                                                <span v-if="vente.id == product.vente_id">{{product.nom}}</span><br>
+                                            </span>
                                         </td>
                                         <td>
                                             <button class="btn btn-info rounded btn-sm"><i class="fa fa-eye" aria-hidden="true" @click="getVente(vente.id)"></i></button>
@@ -51,7 +53,8 @@ export default {
     data(){
         return {
             info:false,
-            saleEditing:null
+            saleEditing:null,
+            produitVendus:null
         }
     },
     methods:{
@@ -65,9 +68,15 @@ export default {
         },
         getInfo(){
             this.info = !this.info;
+        },
+        productSallings(){
+            axios.get('/api/produitVendus')
+            .then(response => this.produitVendus = response.data)
+            .catch(error => alert(error));
         }
     },
     mounted(){
+        this.productSallings();
     }
 }
 </script>
