@@ -1,11 +1,11 @@
 <template>
     <div>
-        <add-vente v-if="sale"  @backSale="changeSale" @saleAdded="refresh"></add-vente>
-        <button  type="button" v-if="!sale"  @click="changeSale"  class="btn btn-info toastrDefaultInfo my-3">
+        <add-devis v-if="etat"  @backEtat="changeEtat" @devisAdded="refresh"></add-devis>
+        <button  type="button" v-if="!etat"  @click="changeEtat"  class="btn btn-success toastrDefaultInfo my-3">
                   Ajouter
         </button>
 
-        <list-vente v-if="!sale" :ventes="ventes"></list-vente>
+        <list-devis v-if="!etat" :devis="devis"></list-devis>
     </div>
 </template>
 
@@ -13,24 +13,24 @@
 export default {
     data(){
         return {
-            sale : false,
-            ventes:null
+            etat : false,
+            devis:null
         }
     },
     methods:{
-        changeSale(){
-            this.sale = !this.sale;
+        changeEtat(){
+            this.etat = !this.etat;
 
         },
-        getVentes(){
-            axios.get('/api/vente')
-            .then(response => this.ventes = response.data)
+        getDevis(){
+            axios.get('/api/devis')
+            .then(response => this.devis = response.data)
             .catch(error => alert(error));
         },
-        refresh(sales){
-            this.ventes = sales;
-            this.changeSale();
-            this.showAlert('La vente a été ajoutée avec succès');
+        refresh(devis){
+            this.devis = devis;
+            this.changeEtat();
+            this.showAlert('Le devis a été ajouté avec succès');
         },
         showAlert(message) {
         // Use sweetalert2
@@ -49,7 +49,7 @@ export default {
         }
     },
     created(){
-        this.getVentes();
+        this.getDevis();
     }
 }
 </script>

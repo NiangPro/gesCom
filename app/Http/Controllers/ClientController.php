@@ -3,15 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use App\Models\History;
 use Illuminate\Http\Request;
+
 
 class ClientController extends Controller
 {
+    private $histo;
 
-    // public function __construct()
-    // {
-    //     $this->middleware('auth');
-    // }
+    public function __construct()
+    {
+        // $this->middleware('auth');
+        $this->histo = new History();
+    }
 
     /**
      * Display a listing of the resource.
@@ -21,16 +25,6 @@ class ClientController extends Controller
     public function index()
     {
         return $this->refresh();
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -44,6 +38,7 @@ class ClientController extends Controller
         $cli = Client::create($request->all());
 
         if ($cli) {
+            $this->histo->addHistorique("Un client a été ajouté", "Ajout");
             return $this->refresh();
         }
     }
@@ -62,34 +57,25 @@ class ClientController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update($id)
+    public function update($id, Request $request)
     {
         $cli = Client::where('id', $id)->first();
 
-        $cli->nom = request('nom');
-        $cli->email = request('email');
-        $cli->tel = request('tel');
-        $cli->pays = request('pays');
-        $cli->adresse = request('adresse');
+        $cli->nom = $request->nom;
+        $cli->email = $request->email;
+        $cli->tel = $request->tel;
+        $cli->pays = $request->pays;
+        $cli->adresse = $request->adresse;
 
         $cli->save();
+
+        $this->histo->addHistorique("Les informations d'un client ont été mises à jour", "Modification");
 
         return $this->refresh();
     }
@@ -105,6 +91,7 @@ class ClientController extends Controller
         $cli = Client::where('id', $id)->first();
 
         if ($cli->delete()) {
+            $this->histo->addHistorique("Un client a été supprimé", "Suppression");
             return $this->refresh();
         } else {
             return response()->json(['message' => 'Erreur de suppression'], 425);

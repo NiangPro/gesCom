@@ -25,12 +25,15 @@
   <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker.css">
   <!-- summernote -->
   <link rel="stylesheet" href="plugins/summernote/summernote-bs4.css">
+
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  <link href="{{ asset('css/app.css')}}" rel="stylesheet">
+  
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper" id="app">
-    {{-- @if (Auth::user()) --}}
+    @if (Auth::user())
 
     <!-- Navbar -->
     @includeFirst(['layouts._navbar'])
@@ -46,7 +49,7 @@
 
         <!-- Main content -->
         <section class="content">
-    {{-- @endif --}}
+    @endif
       <div class="container-fluid">
 
         @yield('content')
@@ -102,10 +105,16 @@
 <script src="dist/js/adminlte.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="dist/js/pages/dashboard.js"></script>
+
+<!-- SweetAlert2 -->
+<script src="plugins/sweetalert2/sweetalert2.min.js"></script>
+<!-- Toastr -->
+<script src="plugins/toastr/toastr.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="dist/js/demo.js"></script>
+
 <script>
-   @yield('script')
+@yield('script')
 </script>
 </body>
 </html>

@@ -3,15 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\Fournisseur;
+use App\Models\History;
 use Illuminate\Http\Request;
 
 class FournisseurController extends Controller
 {
+    private $histo;
 
-    // public function __construct()
-    // {
-    //     $this->middleware('auth');
-    // }
+    public function __construct()
+    {
+        // $this->middleware('auth');
+        $this->histo = new History();
+    }
 
     /**
      * Display a listing of the resource.
@@ -24,16 +27,6 @@ class FournisseurController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -42,6 +35,9 @@ class FournisseurController extends Controller
     public function store(Request $request)
     {
         Fournisseur::create($request->all());
+
+        $this->histo->addHistorique("Un fournisseur a été ajouté", "Ajout");
+
 
         return $this->refresh();
     }
@@ -57,17 +53,6 @@ class FournisseurController extends Controller
         $fr = Fournisseur::where('id', $id)->first();
 
         return response()->json($fr);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**
@@ -90,6 +75,8 @@ class FournisseurController extends Controller
 
         $fr->save();
 
+        $this->histo->addHistorique("Les informations d'un fournisseur ont été mises à jour", "Modification");
+
         return $this->refresh();
     }
 
@@ -104,6 +91,7 @@ class FournisseurController extends Controller
         $fr = Fournisseur::where('id', $id)->first();
 
         if ($fr->delete()) {
+            $this->histo->addHistorique("Un fournisseur a été supprimé", "Suppression");
             return $this->refresh();
         } else {
             return response()->json(['message' => 'erreur de suppression'], 425);

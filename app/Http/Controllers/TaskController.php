@@ -3,15 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
+use App\Models\History;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
+    private $histo;
 
-    // public function __construct()
-    // {
-    //     $this->middleware('auth');
-    // }
+    public function __construct()
+    {
+        // $this->middleware('auth');
+        $this->histo = new History();
+    }
 
     /**
      * Display a listing of the resource.
@@ -35,6 +38,7 @@ class TaskController extends Controller
         $task = new Task();
 
         $this->assign($request, $task);
+        $this->histo->addHistorique("Une tâche a été ajouté", "Ajout");
 
         return $this->refresh();
     }
@@ -65,6 +69,8 @@ class TaskController extends Controller
 
         $this->assign($request, $task);
 
+        $this->histo->addHistorique("Les informations d'une tâche ont été mises à jour", "Modification");
+
         return $this->refresh();
     }
 
@@ -79,6 +85,8 @@ class TaskController extends Controller
         $task = Task::where('id', $id)->first();
 
         $task->delete();
+
+        $this->histo->addHistorique("Une tâche a été supprimé", "Suppression");
 
         return $this->refresh();
     }

@@ -3,15 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\Expense;
+use App\Models\History;
 use Illuminate\Http\Request;
 
 class ExpenseController extends Controller
 {
 
-    // public function __construct()
-    // {
-    //     $this->middleware('auth');
-    // }
+    private $histo;
+
+    public function __construct()
+    {
+        // $this->middleware('auth');
+        $this->histo = new History();
+    }
     /**
      * Display a listing of the resource.
      *
@@ -33,6 +37,8 @@ class ExpenseController extends Controller
         $expense = new Expense();
 
         $this->assign($request, $expense);
+        $this->histo->addHistorique("Une dépense a été ajouté", "Ajout");
+
 
         return $this->refresh();
     }
@@ -62,6 +68,7 @@ class ExpenseController extends Controller
         $expense = Expense::where('id', $id)->first();
 
         $this->assign($request, $expense);
+        $this->histo->addHistorique("Les informations d'une dépense ont été mises à jour", "Modification");
 
         return $this->refresh();
     }
@@ -77,6 +84,7 @@ class ExpenseController extends Controller
         $expense = Expense::where('id', $id)->first();
 
         $expense->delete();
+        $this->histo->addHistorique("Une dépense a été supprimée", "Suppression");
 
         return $this->refresh();
     }

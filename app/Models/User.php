@@ -45,4 +45,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Todolist::class);
     }
+
+    public function histories()
+    {
+        return $this->hasMany(History::class);
+    }
 }

@@ -5,7 +5,7 @@
                 <div class="card-body">
                     <div class="row  mb-3">
                         <div class="col">
-                            <h2>Ajout Nouvelle Vente</h2>
+                            <h2>Ajout Nouveau Devis</h2>
                         </div>
                         <div class="col text-right mb-3">
                             <button @click="backToList()" class="btn btn-info">Retour</button>
@@ -47,10 +47,20 @@
                             </div>
                         </div>
                         <div class="row mt-3">
-                            <div class="col-4">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="">Commentaire</label>
                                     <textarea class="form-control" v-model="form.description"></textarea></div>
+                            </div>
+                             <div class="col-md-4 mt-4">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">Statut <span class="text-danger">*</span></span>
+                                    </div>
+                                    <select class="form-control" v-model="form.statut">
+                                        <option v-for="ds in devisStatus" :key="ds.id" v-bind:value="ds.valeur">{{ds.valeur}}</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                 </div>
@@ -109,7 +119,7 @@
                         <hr>
                         <div class="row">
                             <div class="col-md-6">
-                                <button class="btn btn-info btn-rounded" @click="addRow"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                                <button class="btn btn-outline-success btn-rounded" @click="addRow"><i class="fa fa-plus" aria-hidden="true"></i></button>
                             </div>
                             <div class="col-md-6 text-right">
                                 <div class="row text-bold">
@@ -160,7 +170,7 @@
 
                         <!-- Enregistrer la vente -->
                         <div class="row mt-3">
-                            <button class="btn btn-success btn-rounded" @click="addVente">Enregister</button>
+                            <button class="btn btn-success btn-rounded" @click="addDevis">Enregister</button>
                         </div>
                 </div>
             </div>
@@ -184,20 +194,27 @@ export default {
                 client_id:null,
                 employed_id:null,
                 date:null,
-                description:null
+                description:null,
+                statut:null
             },
             idProd:null,
             prodSibling:null,
-            idGet:null
+            idGet:null,
+            devisStatus:null
         }
     },
     methods:{
         backToList(){
-            this.$emit('backSale');
+            this.$emit('backEtat');
         },
         getEmployes(){
             axios.get('/api/employe')
             .then(response => this.emps = response.data)
+            .catch(error => alert(error));
+        },
+        getDevisStatus(){
+            axios.get('/api/devisStatus')
+            .then(response => this.devisStatus = response.data)
             .catch(error => alert(error));
         },
         getClients(){
@@ -221,6 +238,8 @@ export default {
                     amount:null
                 });
                 this.getMontantTotal();
+            }else{
+                this.showAlert('Veuillez remplir d\'abord la ligne courante', 'error');
             }
         },
         deleteRow(index, product){
@@ -301,22 +320,37 @@ export default {
         saleNotEmpty(){
             let response = true;
 
-            if(this.form.client_id == null || this.form.employed_id == null || this.form.total_amount == 0 || this.form.date == null){
+            if(this.form.client_id == null || this.form.employed_id == null || this.form.statut == null || this.form.total_amount == 0 || this.form.date == null){
                 response = false;
             }
 
             return response;
         },
-        addVente(){
+        addDevis(){
 
             if(this.saleNotEmpty() && this.fieldsNotEmpty()){
-            axios.post('/api/vente', this.form)
-                .then(response => this.$emit('saleAdded', response.data))
+            axios.post('/api/devis', this.form)
+                .then(response => this.$emit('devisAdded', response.data))
                 .catch(error => console.log(error));
             }else{
-                Swal.fire('Veuillez remplir tous les champs obligatoires(*)');
+                this.showAlert('Veuillez remplir tous les champs obligatoires(*)', 'error');
             }
 
+        },
+        showAlert(message, type) {
+        // Use sweetalert2
+           const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-center',
+            showConfirmButton: false,
+            timer: 3500,
+            timerProgressBar: true
+            })
+
+            Toast.fire({
+            icon: type,
+            title: message
+            })
         }
 
     },
@@ -324,6 +358,7 @@ export default {
         this.getEmployes();
         this.getClients();
         this.getProducts();
+        this.getDevisStatus();
         this.addRow();
     }
 }

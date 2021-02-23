@@ -3,15 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\StaticData;
+use App\Models\History;
 use Illuminate\Http\Request;
 
 class StaticDataController extends Controller
 {
+    private $histo;
 
-    // public function __construct()
-    // {
-    //     $this->middleware('auth');
-    // }
+    public function __construct()
+    {
+        // $this->middleware('auth');
+        $this->histo = new History();
+    }
 
     /**
      * Display a listing of the resource.
@@ -46,6 +49,7 @@ class StaticDataController extends Controller
         $staticData = StaticData::create($request->all());
 
         if ($staticData) {
+            $this->histo->addHistorique("Une donnée statique a été ajouté", "Ajout");
             return $this->refresh();
         }
     }
@@ -81,6 +85,8 @@ class StaticDataController extends Controller
         $result = $sd->save();
 
         if ($result) {
+            $this->histo->addHistorique("Les informations d'une donnée statique ont été mises à jour", "Modification");
+
             return $this->refresh();
         }
     }
@@ -96,6 +102,7 @@ class StaticDataController extends Controller
         $sd = StaticData::where('id', $id)->first();
 
         $sd->delete();
+        $this->histo->addHistorique("Une donnée statique a été supprimé", "Suppression");
 
         return $this->refresh();
     }

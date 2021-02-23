@@ -62,8 +62,15 @@ export default {
             axios.post('/api/login', this.form)
             .then(response => this.$route.push({name: "Dashboard"}))
             .catch(error => this.errors = error.response.data.errors);
+        },
+        admin(){
+            axios.get('/api/admin');
         }
+    },
+    mounted(){
+        this.admin();
     }
+
 }
 </script>
 

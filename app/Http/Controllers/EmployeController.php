@@ -3,15 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\Employed;
+use App\Models\History;
 use Illuminate\Http\Request;
 
 class EmployeController extends Controller
 {
+    private $histo;
 
-    // public function __construct()
-    // {
-    //     $this->middleware('auth');
-    // }
+    public function __construct()
+    {
+        // $this->middleware('auth');
+        $this->histo = new History();
+    }
 
     /**
      * Display a listing of the resource.
@@ -23,15 +26,6 @@ class EmployeController extends Controller
         return $this->refresh();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -44,6 +38,7 @@ class EmployeController extends Controller
         $employe = Employed::create($request->all());
 
         if ($employe) {
+            $this->histo->addHistorique("Un employé a été ajouté", "Ajout");
             return $this->refresh();
         }
     }
@@ -59,17 +54,6 @@ class EmployeController extends Controller
         $em = Employed::where('id', $id)->first();
 
         return response()->json($em);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**
@@ -92,6 +76,8 @@ class EmployeController extends Controller
 
         $em->save();
 
+        $this->histo->addHistorique("Les informations d'un employé ont été mises à jour", "Modification");
+
         return $this->refresh();
     }
 
@@ -106,6 +92,7 @@ class EmployeController extends Controller
         $emp = Employed::where('id', $id)->first();
 
         if ($emp->delete()) {
+            $this->histo->addHistorique("Un employé a été supprimé", "Suppression");
             return $this->refresh();
         } else {
             return response()->json(['message' => 'Erreur de suppression'], 425);
@@ -117,5 +104,19 @@ class EmployeController extends Controller
         $employes = Employed::orderBy('id', 'DESC')->get();
 
         return response()->json($employes);
+    }
+
+    public function editProfil(Request $request)
+    {
+        $request->validate([
+            'image' => 'required|image|mimes:png,jpg,jpeg'
+        ]);
+
+        $image = $request->file('image');
+        $imageName = time() . '.jpg';
+
+        $image->move(public_path('/images/employed/'), $imageName);
+
+        return response()->json($imageName);
     }
 }

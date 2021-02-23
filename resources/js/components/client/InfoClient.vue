@@ -6,14 +6,13 @@
 
             <!--Header-->
             <div class="modal-header">
-                <img src="dist/img/user1-128x128.jpg" alt="" class="img-fluid rounded-circle user-avatar-xxl img-responsive">
+                <h5 class="mt-1 mb-2">{{cli.nom}}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span></button>
             </div>
             <!--Body-->
             <div class="modal-body text-center mb-1">
 
-                <h5 class="mt-1 mb-2">{{ cli.prenom }}  {{cli.nom}}</h5>
 
                 <table class="table table-striped table-responsive">
                     <tr>

@@ -3,11 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\Todolist;
+use App\Models\History;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class TodoController extends Controller
 {
+    private $histo;
+
+    public function __construct()
+    {
+        $this->histo = new History();
+    }
     /**
      * Display a listing of the resource.
      *
@@ -38,8 +45,9 @@ class TodoController extends Controller
         $todo->is_check = 0;
         $todo->user_id = Auth::user()->id;
 
-
         $todo->save();
+
+        $this->histo->addHistorique("Une tâche à faire a été ajouté", "Ajout");
 
         return $this->refresh();
     }
@@ -77,6 +85,7 @@ class TodoController extends Controller
         $todo->date = $request->date;
 
         $todo->save();
+        $this->histo->addHistorique("Les informations d'une tâche à faire ont été mises à jour", "Modification");
 
         return $this->refresh();
     }
@@ -92,6 +101,7 @@ class TodoController extends Controller
         $todo = Todolist::where('id', $id)->first();
 
         $todo->delete();
+        $this->histo->addHistorique("Une tâche à faire a été supprimé", "Suppression");
 
         return $this->refresh();
     }
@@ -109,6 +119,7 @@ class TodoController extends Controller
 
         $todo->is_check = $request->is_check;
         $todo->save();
+        $this->histo->addHistorique("Le statut d'une tâche à faire a été mises à jour", "Modification");
 
         return $this->refresh();
     }

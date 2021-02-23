@@ -1,42 +1,49 @@
 <template>
     <div class="modal fade" id="infoEmployed" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog cascading-modal modal-avatar modal-sm" role="document">
-            <!--Content-->
-            <div class="modal-content">
-
-            <!--Header-->
+         <div class="modal-dialog">
+          <div class="modal-content ">
             <div class="modal-header">
-                <img src="dist/img/user1-128x128.jpg" alt="" class="img-fluid rounded-circle user-avatar-xxl img-responsive">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span></button>
+                <img class="img-circle avatar-xs" src="images/user.png" alt="User Avatar">
+              <h4 class="modal-title">{{emp.prenom}} {{emp.nom}}</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span></button>
             </div>
-            <!--Body-->
-            <div class="modal-body text-center mb-1">
-
-                <h5 class="mt-1 mb-2">{{ emp.prenom }}  {{emp.nom}}</h5>
-
-                <table class="table table-striped table-responsive">
-                    <tr>
-                        <td>Email:</td>
-                        <td>{{emp.email}}</td>
-                    </tr>
-                    <tr>
-                        <td>Tel:</td>
-                        <td>{{emp.tel}}</td>
-                    </tr>
-                    <tr>
-                        <td>Fonction:</td>
-                        <td>{{emp.fonction}}</td>
-                    </tr>
-                    <tr>
-                        <td>Adresse:</td>
-                        <td>{{emp.adresse}}</td>
-                    </tr>
-                </table>
+            <div class="modal-body">
+                    <div class="row">
+                        <div class="col text-center">
+                            Fonction :
+                        </div>
+                        <div class="col h6">
+                            {{emp.fonction}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col text-center">
+                            Email :
+                        </div>
+                        <div class="col h6">
+                            {{emp.email}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col text-center">
+                            Tel :
+                        </div>
+                        <div class="col h6">
+                            {{emp.tel}}
+                        </div>
+                    </div>
+                     <div class="row">
+                        <div class="col text-center">
+                            Adresse :
+                        </div>
+                        <div class="col h6">
+                            {{emp.adresse}}
+                        </div>
+                    </div>
             </div>
-
-            </div>
-            <!--/.Content-->
+          </div>
+          <!-- /.modal-content -->
         </div>
     </div>
 
@@ -47,3 +54,9 @@
         props:['emp']
     }
 </script>
+<style>
+.avatar-xs{
+    height:150px;
+    width:150px;
+}
+</style>

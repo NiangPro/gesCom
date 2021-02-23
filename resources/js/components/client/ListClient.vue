@@ -54,11 +54,40 @@ export default {
         },
         refresh(clients){
             this.clients = clients;
+            this.showAlert('Les informations du client ont été mises à jour');
         },
         deleteClient(id){
-            axios.delete('/api/client/'+id)
-            .then(response => this.clients = response.data)
+            // this.removeClient();
+           axios.delete('/api/client/'+id)
+            .then(response => {this.clients = response.data, this.showAlert('Le client a été supprimé')})
             .catch(error => alert(error));
+        },
+        showAlert(message) {
+        // Use sweetalert2
+           const Toast = Swal.mixin({
+            toast: true,
+            position: 'top',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true
+            })
+
+            Toast.fire({
+            icon: 'success',
+            title: message
+            })
+        },
+        removeClient(){
+            Swal.fire({
+            title: 'Êtes-vous sûr?',
+            text: "Vous ne pourrez pas revenir en arrière!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Annuler',
+            confirmButtonText: 'Oui, supprimer!'
+            })
         }
     }
 }

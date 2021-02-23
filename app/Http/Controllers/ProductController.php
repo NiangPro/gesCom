@@ -3,15 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\History;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+    private $histo;
 
-    // public function __construct()
-    // {
-    //     $this->middleware('auth');
-    // }
+    public function __construct()
+    {
+        // $this->middleware('auth');
+        $this->histo = new History();
+    }
 
     /**
      * Display a listing of the resource.
@@ -21,16 +24,6 @@ class ProductController extends Controller
     public function index()
     {
         return $this->refresh();
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -58,6 +51,8 @@ class ProductController extends Controller
         $p->taxe = $request['taxe'];
 
         $p->save();
+        $this->histo->addHistorique("Un produit ou une service a été ajouté", "Ajout");
+
 
         return $this->refresh();
     }
@@ -73,17 +68,6 @@ class ProductController extends Controller
         $prod = Product::where('id', $id)->first();
 
         return response()->json($prod);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**
@@ -112,6 +96,8 @@ class ProductController extends Controller
         $prod->taxe = request('taxe');
 
         $prod->save();
+        $this->histo->addHistorique("Les informations d'un produit ou service ont été mises à jour", "Modification");
+
 
         return $this->refresh();
     }
@@ -127,6 +113,8 @@ class ProductController extends Controller
         $prod = Product::where('id', $id)->first();
 
         $prod->delete();
+
+        $this->histo->addHistorique("Un produit ou service a été supprimé", "Suppression");
 
         return $this->refresh();
     }

@@ -44,8 +44,23 @@ export default {
     methods:{
         addTodo(){
             axios.post('/api/todo', this.form)
-            .then(response => this.$emit('todoAdded', response.data))
+            .then(response => {this.$emit('todoAdded', response.data), this.showAlert('Tâche ajouté avec succès')})
             .catch(error => alert(error));
+        },
+        showAlert(message) {
+        // Use sweetalert2
+           const Toast = Swal.mixin({
+                toast: true,
+                position: 'top',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true
+            })
+
+            Toast.fire({
+            icon: 'success',
+            title: message
+            })
         }
     }
 }

@@ -8,7 +8,7 @@
                 </h3>
 
                 <div class="card-tools">
-                  <button type="button" class="btn btn-info float-right" data-toggle="modal" data-target="#addTodo"><i class="fas fa-plus"></i> Ajouter</button>
+                  <button type="button" class="btn btn-success float-right" data-toggle="modal" data-target="#addTodo"><i class="fas fa-plus"></i> Ajouter</button>
                 </div>
               </div>
               <!-- /.card-header -->
@@ -60,7 +60,7 @@ export default {
             this.check(id, is_check);
 
             axios.post('/api/todoEtat', this.form)
-            .then(response => this.todos = response.data)
+            .then(response => {this.todos = response.data, this.showAlert('Le statut de la tâche modifié')})
             .catch(error => alert(error));
         },
         check(id, is_check){
@@ -78,12 +78,28 @@ export default {
         },
         refresh(todos){
             this.todos = todos;
+            this.showAlert('La tâche a été mis à jour');
         },
         deleteTodo(id){
             confirm('Êtes-vous de vouloir supprimer');
             axios.delete('/api/todo/'+id)
-            .then(response => this.todos = response.data)
+            .then(response => {this.todos = response.data, this.showAlert('Tâche supprimé')})
             .catch(error => alert(error));
+        },
+        showAlert(message) {
+        // Use sweetalert2
+           const Toast = Swal.mixin({
+            toast: true,
+            position: 'top',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true
+            })
+
+            Toast.fire({
+            icon: 'success',
+            title: message
+            })
         }
     }
 }

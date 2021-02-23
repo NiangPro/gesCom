@@ -70,7 +70,7 @@ export default {
         },
         addClient(){
             axios.post('/api/client', this.form)
-                .then(response => {this.$emit('clientAdded', response.data), this.initForm()})
+                .then(response => {this.$emit('clientAdded', response.data), this.initForm(), this.showAlert('Client ajouté avec succès')})
                 .catch(error => alert(error));
         },
         initForm(){
@@ -80,6 +80,21 @@ export default {
             this.form.tel=null;
             this.form.email=null;
             this.form.adresse=null;
+        },
+        showAlert(message) {
+        // Use sweetalert2
+           const Toast = Swal.mixin({
+            toast: true,
+            position: 'top',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true
+            })
+
+            Toast.fire({
+            icon: 'success',
+            title: message
+            })
         }
     },
     mounted(){

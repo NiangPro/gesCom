@@ -9,8 +9,10 @@ import Prospect from './components/ProspectComponent.vue';
 import Expense from './components/ExpenseComponent.vue';
 import Reunion from './components/ReunionComponent.vue';
 import Vente from './components/VenteComponent.vue';
-import Login from './components/LoginComponent.vue';
 import Setting from './components/SettingComponent.vue';
+import History from './components/HistoryComponent.vue';
+import Devis from './components/DevisComponent.vue';
+import Rapport from './components/RapportComponent.vue';
 import NotFound from './components/NotFoundComponent.vue';
 
 export default {
@@ -24,7 +26,7 @@ export default {
             // beforeEnter: (to, from, next) => {
             //     axios.get('/api/authentificated')
             //         .then(()=>{next()})
-            //         .catch(()=>{return next({name:'Login'})});
+            //         .catch(()=>{return next({name:'login'})});
             // }
         },
         {
@@ -68,9 +70,18 @@ export default {
             component: Vente
         },
         {
-            path: "/login",
-            component: Login,
-            name: "Login"
+            path: "/devis",
+            component: Devis
+        },
+        {
+            path: "/history",
+            component: History,
+            name: "history"
+        },
+        {
+            path: "/rapport",
+            component: Rapport,
+            name: "rapport"
         },
         {
             path: "/setting",

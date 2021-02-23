@@ -3,15 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\Reunion;
+use App\Models\History;
 use Illuminate\Http\Request;
 
 class ReunionController extends Controller
 {
+    private $histo;
 
-    // public function __construct()
-    // {
-    //     $this->middleware('auth');
-    // }
+    public function __construct()
+    {
+        // $this->middleware('auth');
+        $this->histo = new History();
+    }
 
     /**
      * Display a listing of the resource.
@@ -35,6 +38,7 @@ class ReunionController extends Controller
         $reunion = new Reunion();
 
         $this->assign($request, $reunion);
+        $this->histo->addHistorique("Un réunion a été ajouté", "Ajout");
 
         return $this->refresh();
     }
@@ -64,6 +68,7 @@ class ReunionController extends Controller
         $reunion = Reunion::where('id', $id)->first();
 
         $this->assign($request, $reunion);
+        $this->histo->addHistorique("Les informations d'un réunion ont été mises à jour", "Modification");
 
         return $this->refresh();
     }
@@ -79,6 +84,7 @@ class ReunionController extends Controller
         $reunion = Reunion::where('id', $id)->first();
 
         $reunion->delete();
+        $this->histo->addHistorique("Un réunion a été supprimé", "Suppression");
 
         return $this->refresh();
     }

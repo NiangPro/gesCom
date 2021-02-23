@@ -17,14 +17,33 @@ export default {
         }
     },
     methods:{
-        refresh(){
+        getExpenses(){
             axios.get('/api/expense')
             .then(response => this.expenses = response.data)
             .catch(error => alert(error));
+        },
+            showAlert(message) {
+        // Use sweetalert2
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true
+                })
+
+                Toast.fire({
+                icon: 'success',
+                title: message
+                })
+        },
+        refresh(expenses){
+            this.expenses = expenses;
+            this.showAlert('La dépense a été ajouté');
         }
     },
     created(){
-        this.refresh();
+        this.getExpenses();
     }
 }
 </script>

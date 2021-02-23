@@ -3,15 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\Prospect;
+use App\Models\History;
 use Illuminate\Http\Request;
 
 class ProspectController extends Controller
 {
+    private $histo;
 
-    // public function __construct()
-    // {
-    //     $this->middleware('auth');
-    // }
+    public function __construct()
+    {
+        // $this->middleware('auth');
+        $this->histo = new History();
+    }
 
     /**
      * Display a listing of the resource.
@@ -34,6 +37,7 @@ class ProspectController extends Controller
         $p = new Prospect();
 
         $this->assign($request, $p);
+        $this->histo->addHistorique("Un prospect a été ajouté", "Ajout");
 
         return $this->refresh();
     }
@@ -63,6 +67,7 @@ class ProspectController extends Controller
         $p = Prospect::where('id', $id)->first();
 
         $this->assign($request, $p);
+        $this->histo->addHistorique("Les informations d'un prospect ont été mises à jour", "Modification");
 
         return $this->refresh();
     }
@@ -78,6 +83,7 @@ class ProspectController extends Controller
         $p = Prospect::where('id', $id)->first();
 
         $p->delete();
+        $this->histo->addHistorique("Un prospect a été supprimé", "Suppression");
 
         return $this->refresh();
     }

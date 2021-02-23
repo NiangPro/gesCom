@@ -106,6 +106,15 @@
                 </p>
                 </router-link>
             </li>
+            <li class="nav-item">
+                <router-link to="/history" class="nav-link">
+                <i class="nav-icon fas fa-history"></i>
+                <p>
+                    Historique
+                    <span class="right badge badge-danger">New</span>
+                </p>
+                </router-link>
+            </li>
 
             <li class="nav-item">
                 <router-link to="/devis" class="nav-link">
@@ -122,6 +131,16 @@
                 <i class="ion ion-ios-gear-outline" style="font-size: 28px !important;"></i>
                 <p>
                     Paramètres
+                    <span class="right badge badge-danger">New</span>
+                </p>
+                </router-link>
+            </li>
+
+            <li class="nav-item">
+                <router-link to="/rapport" class="nav-link">
+                <i class="nav-icon fas fa-chart-bar"></i>
+                <p>
+                    Rapport
                     <span class="right badge badge-danger">New</span>
                 </p>
                 </router-link>

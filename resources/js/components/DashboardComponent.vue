@@ -73,30 +73,22 @@
               <div class="card-header">
                 <h3 class="card-title">
                   <i class="fas fa-chart-pie mr-1"></i>
-                  Sales
+                  Statistique des Ventes et des Achats
                 </h3>
                 <div class="card-tools">
                   <ul class="nav nav-pills ml-auto">
-                    <li class="nav-item">
-                      <a class="nav-link active" href="#revenue-chart" data-toggle="tab">Area</a>
+                    <li class="nav-item active">
+                      <a class="nav-link" @click="changeEtat" data-toggle="tab">Ventes</a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link" href="#sales-chart" data-toggle="tab">Donut</a>
+                      <a class="nav-link"  @click="changeEtat" data-toggle="tab">Dépenses</a>
                     </li>
                   </ul>
                 </div>
               </div><!-- /.card-header -->
               <div class="card-body">
-                <div class="tab-content p-0">
-                  <!-- Morris chart - Sales -->
-                  <div class="chart tab-pane active" id="revenue-chart"
-                       style="position: relative; height: 300px;">
-                      <canvas id="revenue-chart-canvas" height="300" style="height: 300px;"></canvas>
-                   </div>
-                  <div class="chart tab-pane" id="sales-chart" style="position: relative; height: 300px;">
-                    <canvas id="sales-chart-canvas" height="300" style="height: 300px;"></canvas>
-                  </div>
-                </div>
+                <line-chart :chart-data="ventes" :height="165" v-if="!etat"> </line-chart>               
+                <line-chart :chart-data="expenses" :height="165" v-if="etat"> </line-chart>               
               </div><!-- /.card-body -->
             </div>
             <!-- /.card -->
@@ -124,7 +116,12 @@
           sales:[],
           clients:[],
           products:[],
-          todos:[]
+          todos:[],
+          ventes:null,
+          saleData:null,
+          etat:false,
+          expenses:null,
+          expenseData:null
         }
       },
       methods:{
@@ -147,13 +144,62 @@
               axios.get('/api/todo')
               .then(response => this.todos = response.data)
               .catch(error => alert(error));
-          }
+          },
+          fillSale(){
+            this.ventes = {
+                'labels' : [
+                    'Janvier', 'Fevrier', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Decembre'
+                    ],
+                'datasets' : [
+                    {
+                        'label' : 'Ventes',
+                        'backgroundColor' : 'green',
+                        'pointBackgroundColor': 'red',
+                        'data' :this.saleData
+                    }
+                ] 
+            }
+        },
+        fillExpense(){
+            this.expenses = {
+                'labels' : [
+                    'Janvier', 'Fevrier', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Decembre'
+                    ],
+                'datasets' : [
+                    {
+                        'label' : 'Dépenses',
+                        'backgroundColor' : 'orange',
+                        'pointBackgroundColor': 'red',
+                        'data' :this.expenseData
+                    }
+                ] 
+            }
+        },
+        getSaleByMonth(){
+            axios.get('/api/saleByMonth')
+            .then(response => {this.saleData = response.data, this.fillSale()})
+            .catch(error => alert(error));
+        },
+        getExpenseByMonth(){
+            axios.get('/api/expenseByMonth')
+            .then(response => {this.expenseData = response.data, this.fillExpense()})
+            .catch(error => alert(error));
+        },
+        changeEtat(){
+            this.etat = !this.etat;
+            if(this.etat){
+                this.getExpenseByMonth();
+            }else{
+                this.getSaleByMonth();
+            }
+        }
       },
         mounted() {
             this.nbreSales();
             this.nbreClients();
             this.nbreProducts();
             this.nbreTodos();
+            this.getSaleByMonth();
         }
     }
 </script>

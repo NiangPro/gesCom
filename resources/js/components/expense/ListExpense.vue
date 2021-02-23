@@ -55,12 +55,28 @@ export default {
         },
         refresh(expenses){
             this.expenses = expenses;
+            this.showAlert('La dépense a été mise à jour');
         },
         deleteExpense(id){
             axios.delete('/api/expense/'+id)
-            .then(response => this.expenses = response.data)
+            .then(response => {this.expenses = response.data, this.showAlert('La dépense a été supprimée')})
             .catch(error => alert(error));
-        }
+        },
+        showAlert(message) {
+        // Use sweetalert2
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true
+                })
+
+                Toast.fire({
+                icon: 'success',
+                title: message
+                })
+            }
     }
 }
 </script>

@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Vente;
+use App\Models\Devis;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -23,4 +25,11 @@ class Client extends Model
     {
         return $this->hasOne(Vente::class);
     }
+
+    public function devis()
+    {
+        return $this->hasOne(Devis::class);
+    }
+
+    
 }

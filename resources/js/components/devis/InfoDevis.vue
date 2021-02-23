@@ -7,12 +7,12 @@
               <div class="row">
               <div class="col-md-6">
                   Devis pour: <br>
-                  <span class="text-bold">{{sale.client.nom}}</span>  <br>
-                  <span>{{sale.client.adresse}}</span>
+                  <span class="text-bold">{{devis.client.nom}}</span>  <br>
+                  <span>{{devis.client.adresse}}</span>
               </div>
               <div class="col-md-6 text-right">
                   Date: 12/08/2002 <br>
-                  Bon de commande id : #{{sale.id}}
+                  Bon de commande id : #{{devis.id}}
               </div>
           </div>
           <div class="row mt-2">
@@ -47,7 +47,7 @@
                         <div class="col-md-6 h6">
                             Remise:
                         </div>
-                        <div class="col-md-6 text-left">{{sale.discount}}%</div>
+                        <div class="col-md-6 text-left">{{devis.discount}}%</div>
                     </div>
                 </div>
             </div>
@@ -59,13 +59,13 @@
                         <div class="col-md-6 h6">
                             Montant Final:
                         </div>
-                        <div class="col-md-6 text-left text-bold h6 text-success">{{sale.total_amount}} F CFA</div>
+                        <div class="col-md-6 text-left text-bold h6 text-success">{{devis.total_amount}} F CFA</div>
                     </div>
                 </div>
             </div>
             <div class="row mt-3">
-                <button class="btn btn-dark btn-rounded" @click="initSale">Retour</button>
-                <button class="btn btn-success btn-rounded ml-3">Imprimer</button>
+                <button class="btn btn-dark btn-rounded" @click="initDevis">Retour</button>
+                <button class="btn btn-success btn-rounded ml-3" >Imprimer</button>
             </div>
 
         </div>
@@ -74,25 +74,24 @@
 
 <script>
 export default {
-    props:['sale'],
+    props:['devis'],
     data(){
         return {
             products:null
         }
     },
     methods:{
-        initSale(){
-            this.$emit('listSale');
+        initDevis(){
+            this.$emit('listDevis');
         },
-        produitVendus(){
-            axios.get('/api/productSalling/'+this.sale.id)
+        devisItems(){
+            axios.get('/api/devisItems/'+this.devis.id)
             .then(response => this.products = response.data)
             .catch(error => alert(error));
-
         }
     },
     mounted(){
-        this.produitVendus();
+        this.devisItems();
     }
 
 }

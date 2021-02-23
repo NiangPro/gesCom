@@ -2,21 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ProduitVendu;
-use App\Models\Vente;
+use App\Models\Devis;
 use App\Models\History;
+use App\Models\DevisItem;
 use Illuminate\Http\Request;
 
-class VenteController extends Controller
+class DevisController extends Controller
 {
     private $histo;
-
     public function __construct()
     {
-        // $this->middleware('auth');
         $this->histo = new History();
     }
-
     /**
      * Display a listing of the resource.
      *
@@ -35,31 +32,31 @@ class VenteController extends Controller
      */
     public function store(Request $request)
     {
+        $devis = new Devis();
+        $devis->date = $request->date;
+        $devis->client_id = $request->client_id;
+        $devis->employed_id = $request->employed_id;
+        $devis->description = $request->description;
+        $devis->discount = $request->discount;
+        $devis->total_amount = $request->total_amount;
+        $devis->statut = $request->statut;
 
-        $sale = new Vente();
-        $sale->date = $request->date;
-        $sale->client_id = $request->client_id;
-        $sale->employed_id = $request->employed_id;
-        $sale->description = $request->description;
-        $sale->discount = $request->discount;
-        $sale->total_amount = $request->total_amount;
 
-
-        $sale->save();
+        $devis->save();
 
         foreach ($request->allProducts as $prod) {
 
-            ProduitVendu::create([
+            DevisItem::create([
                 'nom' => $prod['nom'],
                 'qte' => $prod['qte'],
                 'description' => $prod['description'],
                 'taxe' => $prod['taxe'],
                 'amount' => $prod['amount'],
-                'vente_id' => $sale->id
+                'devis_id' => $devis->id
             ]);
         }
 
-        $this->histo->addHistorique("Une vente a été enregistrée", "Ajout");
+        $this->histo->addHistorique("Un devis a été enregistré", "Ajout");
 
         return $this->refresh();
     }
@@ -72,18 +69,19 @@ class VenteController extends Controller
      */
     public function show($id)
     {
-        $vente = Vente::with('client', 'employed')->where('id', $id)->first();
+        $devis = Devis::with('client', 'employed')->where('id', $id)->first();
 
-        return response()->json($vente);
+        return response()->json($devis);
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Update the specified resource in storage.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -96,33 +94,31 @@ class VenteController extends Controller
      */
     public function destroy($id)
     {
-        $vente = Vente::where('id', $id)->first();
+        $devis = Devis::where('id', $id)->first();
 
-        $vente->delete();
-        $this->histo->addHistorique("Une vente a été supprimée", "Suppression");
-
+        $devis->delete();
 
         return $this->refresh();
     }
 
-    public function getProducts($id)
+    private function refresh()
     {
-        $products = ProduitVendu::where('vente_id', $id)->get();
+        $devis = Devis::with('client', 'employed')->orderBy('id', 'DESC')->get();
 
-        return response()->json($products);
+        return response()->json($devis);
     }
 
-    public function refresh()
+    public function devisItems()
     {
-        $ventes = Vente::with('client', 'employed')->orderBy('id', 'DESC')->get();
+        $devisItems = DevisItem::with('devis')->orderBy('devis_id', 'DESC')->get();
 
-        return response()->json($ventes);
+        return response()->json($devisItems);
     }
 
-    public function produitVendus()
+    public function itemsDevis($id)
     {
-        $produitVendus = ProduitVendu::with('vente')->orderBy('vente_id', 'DESC')->get();
+        $devisItems = DevisItem::where('devis_id', $id)->get();
 
-        return response()->json($produitVendus);
+        return response()->json($devisItems);
     }
 }

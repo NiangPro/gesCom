@@ -13,9 +13,11 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProspectController;
 use App\Http\Controllers\StaticDataController;
 use App\Http\Controllers\FournisseurController;
+use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\ReunionController;
 use App\Http\Controllers\TodoController;
 use App\Http\Controllers\VenteController;
+use App\Http\Controllers\DevisController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,12 +30,16 @@ use App\Http\Controllers\VenteController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::middleware('auth:sanctum')->get('/authentificated', function () {
+Route::middleware('auth:api')->get('/authentificated', function () {
     return true;
 });
+
+Route::get('/admin', function () {
+    return view('auth.login');
+})->name('login');
 
 Route::get('/staticdata', [StaticDataController::class, 'index']);
 Route::post('/staticdata', [StaticDataController::class, 'store']);
@@ -47,18 +53,24 @@ Route::post('/employe', [EmployeController::class, 'store']);
 Route::get('/employe/show-{id}', [EmployeController::class, 'show']);
 Route::patch('/employe/edit-{id}', [EmployeController::class, 'update']);
 Route::delete('/employe/{id}', [EmployeController::class, 'destroy']);
+Route::post('employedprofil', [EmployeController::class, 'editProfil']);
+
 
 Route::get('/pays', [HomeController::class, 'getCountry']);
 Route::get('/taxe', [HomeController::class, 'getTaxe']);
 Route::get('/productType', [HomeController::class, 'getProductType']);
 Route::get('/taskType', [HomeController::class, 'getTaskType']);
 Route::get('/taskStatus', [HomeController::class, 'getTaskStatus']);
+Route::get('/devisStatus', [HomeController::class, 'getDevisStatus']);
 Route::get('/getEmployeds', [HomeController::class, 'getEmployeds']);
 Route::get('/prospectSource', [HomeController::class, 'getProspectSource']);
 Route::get('/expenseType', [HomeController::class, 'getExpenseType']);
 Route::get('/paymentsMode', [HomeController::class, 'getPaymentsMode']);
 Route::post('/register', [HomeController::class, 'register']);
-Route::post('/login', [LoginController::class, 'login']);
+Route::get('/sumSale', [HomeController::class, 'sumSale']);
+Route::get('/sumExpense', [HomeController::class, 'sumExpense']);
+Route::get('/saleByMonth', [HomeController::class, 'saleByMonth']);
+Route::get('/expenseByMonth', [HomeController::class, 'expenseByMonth']);
 
 Route::get('/client', [ClientController::class, 'index']);
 Route::post('/client', [ClientController::class, 'store']);
@@ -116,3 +128,12 @@ Route::post('/todoEtat', [TodoController::class, 'todoCheck']);
 Route::get('/todo/{id}', [TodoController::class, 'show']);
 Route::patch('/editTodo/{id}', [TodoController::class, 'update']);
 Route::delete('/todo/{id}', [TodoController::class, 'destroy']);
+
+Route::get('/history', [HistoryController::class, 'index']);
+
+Route::get('/devis', [DevisController::class, 'index']);
+Route::post('/devis', [DevisController::class, 'store']);
+Route::delete('/devis/{id}', [DevisController::class, 'destroy']);
+Route::get('/devisItems', [DevisController::class, 'devisItems']);
+Route::get('/devisItems/{id}', [DevisController::class, 'itemsDevis']);
+Route::get('/devis/show-{id}', [DevisController::class, 'show']);
