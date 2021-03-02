@@ -26,6 +26,12 @@ class ReunionController extends Controller
         return $this->refresh();
     }
 
+    public function getCalendar()
+    {
+        $events = Reunion::get(['titre', 'date']);
+        return response()->json(["events" => $events]);
+    }
+
 
     /**
      * Store a newly created resource in storage.

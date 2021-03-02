@@ -3,8 +3,8 @@
          <div class="modal-dialog">
           <div class="modal-content ">
             <div class="modal-header">
-                <img class="img-circle avatar-xs" src="images/user.png" alt="User Avatar">
-              <h4 class="modal-title">{{emp.prenom}} {{emp.nom}}</h4>
+                <img class="img-circle avatar-xs" :src="`/storage/images/`+empInfo.profil" alt="User Avatar">
+              <h4 class="modal-title">{{empInfo.prenom}} {{empInfo.nom}}</h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span></button>
             </div>
@@ -14,7 +14,7 @@
                             Fonction :
                         </div>
                         <div class="col h6">
-                            {{emp.fonction}}
+                            {{empInfo.fonction}}
                         </div>
                     </div>
                     <div class="row">
@@ -22,7 +22,7 @@
                             Email :
                         </div>
                         <div class="col h6">
-                            {{emp.email}}
+                            {{empInfo.email}}
                         </div>
                     </div>
                     <div class="row">
@@ -30,7 +30,7 @@
                             Tel :
                         </div>
                         <div class="col h6">
-                            {{emp.tel}}
+                            {{empInfo.tel}}
                         </div>
                     </div>
                      <div class="row">
@@ -38,7 +38,7 @@
                             Adresse :
                         </div>
                         <div class="col h6">
-                            {{emp.adresse}}
+                            {{empInfo.adresse}}
                         </div>
                     </div>
             </div>
@@ -51,7 +51,7 @@
 
 <script>
     export default{
-        props:['emp']
+        props:['empInfo']
     }
 </script>
 <style>

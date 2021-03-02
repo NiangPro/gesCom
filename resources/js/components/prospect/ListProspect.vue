@@ -30,7 +30,7 @@
                                             <td>{{p.adresse}}</td>
                                             <td>{{p.email}}</td>
                                             <td>{{p.tel}}</td>
-                                        <td> <button class="btn btn-warning rounded mr-2" data-toggle="modal" data-target="#editProspect" @click="getProspect(p.id)"><i class="fa fa-edit" aria-hidden="true"></i></button><button class="btn btn-danger rounded" @click="deleteProspect(p.id)"><i class="fa fa-trash" aria-hidden="true"></i></button> </td>
+                                        <td> <button class="btn btn-warning rounded mr-2" data-toggle="modal" data-target="#editProspect" @click="getProspect(p.id)"><i class="fa fa-edit" aria-hidden="true"></i></button><button class="btn btn-danger rounded" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ?')" @click="deleteProspect(p.id)"><i class="fa fa-trash" aria-hidden="true"></i></button> </td>
                                         </tr>
                                 </tbody>
                             </table>

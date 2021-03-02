@@ -7,9 +7,9 @@
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span></button>
             </div>
-            <form enctype="multipart/form-data">
+            <form method="POST" enctype="multipart/form-data">
             <div class="modal-body">
-                   
+
                     <div v-if="imageprev" class="text-center">
                         <img :src="imageprev" class="figure-img img-fluid rounded" alt="" style="max-height:100px;">
                     </div>
@@ -21,7 +21,7 @@
                 </div>
             <div class="modal-footer justify-content-between">
               <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Fermer</button>
-              <button type="button" class="btn btn-outline-info" data-dismiss="modal">Ajouter</button>
+              <button type="button" class="btn btn-outline-info" data-dismiss="modal" @click="profilUpload">Ajouter</button>
             </div>
             </form>
           </div>
@@ -33,11 +33,11 @@
 
 <script>
 export default {
-    props:['emp'],
+    props:['empProfil'],
     data(){
         return {
             image:null,
-            imageprev:null
+            imageprev:`/storage/images/`+this.empProfil.profil
         }
     },
     methods:{
@@ -56,15 +56,18 @@ export default {
             if(this.image !== null){
                 let data = new FormData();
                 data.append('image', this.image);
-                data.append('empId', this.emp.id);
+                data.append('empId', this.empProfil.id);
 
                 axios.post('/api/employedprofil', data)
-                .then(response => console.log(response.data))
+                .then(response => this.$emit('profilUpload', response.data))
                 .catch(error => alert(error));
             }else{
                 this.$emit('imageError');
             }
         }
+    },
+    mounted(){
+        console.log(this.imageprev);
     }
 }
 </script>

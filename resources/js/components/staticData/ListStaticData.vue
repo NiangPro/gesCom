@@ -2,28 +2,22 @@
     <div>
         <edit-staticdata v-on:sdUpdated="getList" :staticData="sdEditing"></edit-staticdata>
 
-        <div class="card" v-for="(item, index) in staticDatas" :key="index">
-            <div class="card-header" v:bind:id="`heading`+rmSpace(index)" data-toggle="collapse" v-bind:data-target="`#collapse` + rmSpace(index)" aria-expanded="false" v-bind:aria-controls="`collapse`+rmSpace(index)">
-                <div class="row" >
-                    <div class="col-md-6">
-                            <h5 class="mb-0">
-                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" v-bind:data-target="`#collapse` + rmSpace(index)" aria-expanded="false" v-bind:aria-controls="`collapse`+rmSpace(index)">
-                            {{index}}
-                            </button>
-                        </h5>
-                    </div>
-                    <div class="col-md-6 text-right">
-                            <button type="button" class="btn btn-info toastrDefaultInfo" data-toggle="modal" data-target="#addStaticData">
+        <div class="card card-light collapsed-card" v-for="(item, index) in staticDatas" :key="index">
+              <div class="card-header" data-card-widget="collapse">
+                <h3 class="card-title" >{{index}}</h3>
+                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
+                  </button>
+                <div class="card-tools">
+
+                  <button type="button" class="btn btn-success toastrDefaultInfo" data-toggle="modal" data-target="#addStaticData" @click="addNew(index)">
                                 Ajouter
-                        </button>
-                    </div>
+                </button>
                 </div>
-
-
-            </div>
-            <div v-bind:id="`collapse`+rmSpace(index)" class="collapse" v-bind:aria-labelledby="`heading`+rmSpace(index)" data-parent="#accordionExample">
-            <div class="card-body">
-                <table id="example1" class="table table-bordered table-hover">
+                <!-- /.card-tools -->
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                 <table id="example1" class="table table-bordered table-hover">
                   <thead>
                   <tr>
                     <th>Label</th>
@@ -39,20 +33,18 @@
                     <td>{{sd.label}}</td>
                     <td>{{sd.valeur}}</td>
                     <td>
-                        <div class="switch-button switch-button-success">
-                            <input type="checkbox" v-bind:name="`switch`+sd.id" v-bind:id="`switch`+sd.id" >
-                            <span>
-                                <label v-bind:for="`switch`+sd.id"></label></span>
-                    </div></td>
+                       <input type="checkbox">
+                </td>
                     <td><button class="btn btn-warning rounded mr-3" data-toggle="modal" data-target="#editStaticData" @click="getSd(sd.id)"><i class="fa fa-edit" aria-hidden="true"></i></button>
-                    <button class="btn btn-danger rounded" @click="deleteSd(sd.id)"><i class="fa fa-trash"  aria-hidden="true"></i></button></td>
+                    <button class="btn btn-danger rounded" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ?')" @click="deleteSd(sd.id)"><i class="fa fa-trash"  aria-hidden="true"></i></button></td>
                   </tr>
                   </tbody>
                 </table>
 
+              </div>
+              <!-- /.card-body -->
             </div>
-            </div>
-        </div>
+
     </div>
 </template>
 
@@ -68,7 +60,7 @@ export default{
         methods:{
             deleteSd(id){
                 axios.delete('/api/staticdata/'+id)
-                .then(response => this.staticDatas = response.data)
+                .then(response => {this.staticDatas = response.data, this.showAlert('La donnée statique a été supprimée')})
                 .catch(error => alert(error));
             },
             rmSpace(chaine){
@@ -83,6 +75,25 @@ export default{
             },
             getList(sd){
                this.staticDatas = sd;
+               this.showAlert('La donnée statique a été bien modifiée');
+            },
+            addNew(type){
+                this.$emit('addNew', type);
+            },
+            showAlert(message) {
+            // Use sweetalert2
+            const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true
+                })
+
+                Toast.fire({
+                icon: 'success',
+                title: message
+                })
             }
         }
 

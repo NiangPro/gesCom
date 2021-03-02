@@ -24,23 +24,7 @@
               </p>
             </router-link>
           </li>
-          <li class="nav-item">
-            <router-link to="/staticdata" class="nav-link">
-              <i class="nav-icon fas fa-database"></i>
-              <p>
-                Données statiques
-              </p>
-            </router-link>
-          </li>
-           <li class="nav-item">
-            <router-link to="/employe" class="nav-link">
-              <i class="nav-icon ion ion-ios-people-outline" style="font-size:28px !important;"></i>
-
-              <p>
-                Employés
-              </p>
-            </router-link>
-          </li>
+          <li class="nav-header">COMMERCIAL</li>
           <li class="nav-item">
             <router-link to="/client" class="nav-link">
               <i class="nav-icon fas fa-users"></i>
@@ -58,6 +42,71 @@
                 </router-link>
             </li>
             <li class="nav-item">
+                <router-link to="/prospect" class="nav-link">
+                <i class="nav-icon fa fa-tty"></i>
+                <p>
+                    Prospect
+                </p>
+                </router-link>
+            </li>
+
+            <li class="nav-item">
+                <router-link to="/devis" class="nav-link">
+                <i class="nav-icon fa fa-file-invoice"></i>
+                <p>
+                    Devis
+                    <span class="right badge badge-danger">New</span>
+                </p>
+                </router-link>
+            </li>
+
+            <li class="nav-header">COMPTABLE</li>
+            <li class="nav-item">
+                <router-link to="/vente" class="nav-link">
+                    <i class="ion ion-ios-cart-outline" style="font-size: 28px!important;"></i>
+                <p>
+                    Ventes
+                </p>
+                </router-link>
+            </li>
+            <li class="nav-item">
+                <router-link to="/expense" class="nav-link">
+                <i class="nav-icon fa fa-file"></i>
+                <p>
+                    Dépenses
+                </p>
+                </router-link>
+            </li>
+
+            <li class="nav-item">
+                <router-link to="/rapport" class="nav-link">
+                <i class="nav-icon fas fa-chart-bar"></i>
+                <p>
+                    Rapport
+                    <span class="right badge badge-danger">New</span>
+                </p>
+                </router-link>
+            </li>
+
+        <li class="nav-header">PERSONNEL</li>
+          <li class="nav-item">
+            <router-link to="/staticdata" class="nav-link">
+              <i class="nav-icon fas fa-database"></i>
+              <p>
+                Données statiques
+              </p>
+            </router-link>
+          </li>
+           <li class="nav-item">
+            <router-link to="/employe" class="nav-link">
+              <i class="nav-icon ion ion-ios-people-outline" style="font-size:28px !important;"></i>
+
+              <p>
+                Employés
+              </p>
+            </router-link>
+          </li>
+            <li class="nav-item">
                 <router-link to="/product" class="nav-link">
                 <i class="nav-icon fab fa-product-hunt"></i>
                 <p>
@@ -73,22 +122,7 @@
                 </p>
                 </router-link>
             </li>
-            <li class="nav-item">
-                <router-link to="/prospect" class="nav-link">
-                <i class="nav-icon fa fa-tty"></i>
-                <p>
-                    Prospect
-                </p>
-                </router-link>
-            </li>
-            <li class="nav-item">
-                <router-link to="/expense" class="nav-link">
-                <i class="nav-icon fa fa-file"></i>
-                <p>
-                    Dépenses
-                </p>
-                </router-link>
-            </li>
+
             <li class="nav-item">
                 <router-link to="/reunion" class="nav-link">
                 <i class="nav-icon fa fa-handshake"></i>
@@ -98,29 +132,12 @@
                 </router-link>
             </li>
 
-            <li class="nav-item">
-                <router-link to="/vente" class="nav-link">
-                    <i class="ion ion-ios-cart-outline" style="font-size: 28px!important;"></i>
-                <p>
-                    Ventes
-                </p>
-                </router-link>
-            </li>
+
             <li class="nav-item">
                 <router-link to="/history" class="nav-link">
                 <i class="nav-icon fas fa-history"></i>
                 <p>
                     Historique
-                    <span class="right badge badge-danger">New</span>
-                </p>
-                </router-link>
-            </li>
-
-            <li class="nav-item">
-                <router-link to="/devis" class="nav-link">
-                <i class="nav-icon fa fa-file-invoice"></i>
-                <p>
-                    Devis
                     <span class="right badge badge-danger">New</span>
                 </p>
                 </router-link>
@@ -136,15 +153,6 @@
                 </router-link>
             </li>
 
-            <li class="nav-item">
-                <router-link to="/rapport" class="nav-link">
-                <i class="nav-icon fas fa-chart-bar"></i>
-                <p>
-                    Rapport
-                    <span class="right badge badge-danger">New</span>
-                </p>
-                </router-link>
-            </li>
 
           <li class="nav-header">Rapport</li>
 

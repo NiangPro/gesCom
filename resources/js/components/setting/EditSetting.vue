@@ -6,6 +6,7 @@
                     <label for="">Nom du site</label>
                     <input type="text" placeholder="sunucode" class="form-control" v-model="form.name">
                 </div>
+
                 <div class="form-group col">
                     <label for="">Logo</label>
                     <input type="file" class="form-control">

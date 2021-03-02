@@ -41,6 +41,13 @@
                             <option v-for="s in sd" :key="s.id" v-bind:value="s.valeur">{{s.valeur}}</option>
                         </select>
                     </div>
+                    <div class="form-group">
+                        <label for="fonction">Sexe</label>
+                        <select  class="form-control" v-model="emp.sexe">
+                            <option value="Homme">Homme</option>
+                            <option value="Femme">Femme</option>
+                        </select>
+                    </div>
                 </div>
             <div class="modal-footer justify-content-between">
               <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Fermer</button>
@@ -64,14 +71,7 @@
         },
         methods:{
             editEmploye(){
-                axios.patch('/api/employe/edit-'+this.emp.id, {
-                    prenom: this.emp.prenom,
-                    nom: this.emp.nom,
-                    email: this.emp.email,
-                    tel: this.emp.tel,
-                    adresse: this.emp.adresse,
-                    fonction: this.emp.fonction
-                })
+                axios.patch('/api/employe/edit-'+this.emp.id, this.emp)
                 .then(response => this.$emit('employeUpdated', response.data))
                 .catch(error => alert(error));
             },

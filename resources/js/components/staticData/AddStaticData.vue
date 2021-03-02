@@ -13,7 +13,8 @@
                   <div class="form-group row">
                     <label for="type" class="col-sm-2 col-form-label">Type</label>
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" id="type" v-model="form.type" placeholder="Entrer le type">
+                      <input type="text" class="form-control" id="type" v-if="form.etat" readonly v-model="form.type">
+                      <input type="text" class="form-control" id="type" v-if="!form.etat" v-model="form.type">
                     </div>
                   </div>
                   <div class="form-group row">
@@ -38,12 +39,9 @@
 
 <script>
     export default {
+        props:['form'],
         data(){
             return {
-                form:{
-                    type: null,
-                    valeur:null
-                },
                 erreurs:{}
             }
         },
@@ -55,12 +53,24 @@
                     label: this.form.type,
                     statut: 0
                 })
-                .then(response => this.$emit('staticDataAdded', response.data))
+                .then(response => {this.$emit('staticDataAdded', response.data), this.showAlert('Une donnée statique a été ajoutée')})
                 .catch(error => this.erreurs = error.data.errors);
+            },
+            showAlert(message) {
+            // Use sweetalert2
+            const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true
+                })
+
+                Toast.fire({
+                icon: 'success',
+                title: message
+                })
             }
-        },
-        mounted() {
-            console.log('Component mounted.')
         }
     }
 </script>

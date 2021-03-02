@@ -85,7 +85,7 @@ class TodoController extends Controller
         $todo->date = $request->date;
 
         $todo->save();
-        $this->histo->addHistorique("Les informations d'une tâche à faire ont été mises à jour", "Modification");
+        $this->histo->addHistorique("Les informations d'une tâche à faire ont été mises à jour","Modification");
 
         return $this->refresh();
     }

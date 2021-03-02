@@ -28,7 +28,7 @@
                                             <td>{{exp.montant}} F CFA</td>
                                             <td>{{exp.description}}</td>
                                             <td> {{exp.recu}} </td>
-                                        <td><button class="btn btn-warning rounded mr-2" data-toggle="modal" data-target="#editExpense" @click="getExpense(exp.id)"><i class="fa fa-edit" aria-hidden="true"></i></button><button class="btn btn-danger rounded" @click="deleteExpense(exp.id)"><i class="fa fa-trash" aria-hidden="true"></i></button> </td>
+                                        <td><button class="btn btn-warning rounded mr-2" data-toggle="modal" data-target="#editExpense" @click="getExpense(exp.id)"><i class="fa fa-edit" aria-hidden="true"></i></button><button class="btn btn-danger rounded" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ?')" @click="deleteExpense(exp.id)"><i class="fa fa-trash" aria-hidden="true"></i></button> </td>
                                         </tr>
                                 </tbody>
                             </table>

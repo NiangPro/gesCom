@@ -35,12 +35,25 @@ class EmployeController extends Controller
      */
     public function store(Request $request)
     {
-        $employe = Employed::create($request->all());
+        $em = new Employed();
+        $em->prenom = $request->prenom;
+        $em->nom = $request->nom;
+        $em->email = $request->email;
+        $em->tel = $request->tel;
+        $em->fonction = $request->fonction;
+        $em->adresse = $request->adresse;
+        $em->sexe = $request->sexe;
 
-        if ($employe) {
-            $this->histo->addHistorique("Un employé a été ajouté", "Ajout");
-            return $this->refresh();
+        if ($request->sexe === "Homme") {
+            $em->profil = "user-male.png";
+        } else {
+            $em->profil = "user-female.png";
         }
+
+        $em->save();
+
+        $this->histo->addHistorique("Un employé a été ajouté", "Ajout");
+        return $this->refresh();
     }
 
     /**
@@ -73,6 +86,7 @@ class EmployeController extends Controller
         $em->tel = request('tel');
         $em->fonction = request('fonction');
         $em->adresse = request('adresse');
+        $em->sexe = request('sexe');
 
         $em->save();
 
@@ -108,15 +122,19 @@ class EmployeController extends Controller
 
     public function editProfil(Request $request)
     {
-        $request->validate([
-            'image' => 'required|image|mimes:png,jpg,jpeg'
-        ]);
+        if ($request->hasFile('image')) {
+            $imageName = md5($request->empId) . '.jpg';
 
-        $image = $request->file('image');
-        $imageName = time() . '.jpg';
+            $request->image->storeAs('public/images', $imageName);
 
-        $image->move(public_path('/images/employed/'), $imageName);
+            $emp = Employed::where('id', $request->empId)->first();
 
-        return response()->json($imageName);
+            $emp->profil = $imageName;
+            $emp->save();
+
+            $this->histo->addHistorique("L'image de profil d'un employé a été mise à jour", "Modification");
+        }
+
+        return $this->refresh();
     }
 }

@@ -36,7 +36,7 @@
                                         <td>{{vente.statut}}</td>
                                         <td>
                                             <button class="btn btn-info rounded btn-sm"><i class="fa fa-eye" aria-hidden="true" @click="getDevis(vente.id)"></i></button>
-                                            <button class="btn btn-danger rounded btn-sm" ><i class="fa fa-trash" aria-hidden="true" @click="deleteDevis(vente.id)"></i></button> </td>
+                                            <button class="btn btn-danger rounded btn-sm" @click="deleteDevis(vente.id)"><i class="fa fa-trash" aria-hidden="true"></i></button> </td>
                                     </tr>
                                 </tbody>
                             </table>

@@ -21,6 +21,7 @@ class CreateEmployedsTable extends Migration
             $table->string('tel');
             $table->string('fonction');
             $table->string('adresse');
+            $table->string('sexe');
             $table->string('profil')->nullable();
             $table->timestamps();
         });

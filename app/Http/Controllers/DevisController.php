@@ -6,6 +6,7 @@ use App\Models\Devis;
 use App\Models\History;
 use App\Models\DevisItem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DevisController extends Controller
 {
@@ -75,18 +76,6 @@ class DevisController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
@@ -120,5 +109,11 @@ class DevisController extends Controller
         $devisItems = DevisItem::where('devis_id', $id)->get();
 
         return response()->json($devisItems);
+    }
+
+    public function totalDevis()
+    {
+        $total = DB::table('devis')->count();
+        return response()->json($total);
     }
 }

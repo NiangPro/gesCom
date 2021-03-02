@@ -18,6 +18,7 @@ class CreateTodolistsTable extends Migration
             $table->string('titre');
             $table->datetime('date');
             $table->bigInteger('user_id');
+            $table->integer('is_check');
             $table->timestamps();
         });
     }

@@ -18,7 +18,8 @@ class Employed extends Model
         'email',
         'tel',
         'fonction',
-        'adresse'
+        'adresse',
+        'sexe'
     ];
 
     public function vente()

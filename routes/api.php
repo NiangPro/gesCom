@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\LoginController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -37,9 +36,9 @@ Route::middleware('auth:api')->get('/authentificated', function () {
     return true;
 });
 
-Route::get('/admin', function () {
-    return view('auth.login');
-})->name('login');
+// Route::get('/admin', function () {
+//     return view('auth.login');
+// })->name('login');
 
 Route::get('/staticdata', [StaticDataController::class, 'index']);
 Route::post('/staticdata', [StaticDataController::class, 'store']);

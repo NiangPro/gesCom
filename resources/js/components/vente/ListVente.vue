@@ -1,7 +1,7 @@
 <template>
 
     <div>
-        <info-vente v-if="info" @listSale="getInfo" :sale="saleEditing"></info-vente>
+        <info-vente v-if="info" @listSale="getList" :sale="saleEditing"></info-vente>
         <div class="row" v-if="!info">
            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                 <div class="card" >
@@ -33,8 +33,10 @@
                                             </span>
                                         </td>
                                         <td>
-                                            <button class="btn btn-info rounded btn-sm"><i class="fa fa-eye" aria-hidden="true" @click="getVente(vente.id)"></i></button>
-                                            <button class="btn btn-danger rounded btn-sm" @click="deleteVente(vente.id)"><i class="fa fa-trash" aria-hidden="true"></i></button> </td>
+                                            <button class="btn btn-info rounded btn-sm" @click="getVente(vente.id)"><i class="fa fa-eye" aria-hidden="true" ></i></button>
+                                            <button class="btn btn-warning rounded btn-sm"  @click="getVente(vente.id)"><i class="fa fa-sync-alt" aria-hidden="true"></i></button>
+                                            <button class="btn btn-danger rounded btn-sm"  @click="deleteVente(vente.id)"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                            </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -62,12 +64,17 @@ export default {
             this.ventes = ventes;
             this.showAlert('La vente a été modifiée');
         },
-        getVente(id){
-            axios.get('/api/vente/show-'+id)
-            .then(response => {this.saleEditing = response.data, this.getInfo()})
+        deleteVente(id){
+            axios.delete('/api/vente/'+id)
+            .then(response => {this.ventes = response.data, this.showAlert('La vente a été supprimée')})
             .catch(error => alert(error));
         },
-        getInfo(){
+        getVente(id){
+            axios.get('/api/vente/show-'+id)
+            .then(response => {this.saleEditing = response.data, this.getList()})
+            .catch(error => alert(error));
+        },
+        getList(){
             this.info = !this.info;
         },
         productSallings(){

@@ -41,6 +41,13 @@
                             <option v-for="s in sd" :key="s.id" v-bind:value="s.valeur">{{s.valeur}}</option>
                         </select>
                     </div>
+                    <div class="form-group">
+                        <label for="fonction">Sexe</label>
+                        <select  class="form-control" v-model="form.sexe">
+                            <option value="Homme">Homme</option>
+                            <option value="Femme">Femme</option>
+                        </select>
+                    </div>
                 </div>
             <div class="modal-footer justify-content-between">
               <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Fermer</button>
@@ -60,12 +67,13 @@
         data(){
             return {
                 form:{
-                    prenom: '',
-                    nom: '',
-                    email: '',
-                    tel: '',
-                    adresse: '',
-                    fonction: ''
+                    prenom: null,
+                    nom: null,
+                    email: null,
+                    tel: null,
+                    adresse: null,
+                    fonction: null,
+                    sexe: null
                 },
                 sd:{}
             }
@@ -82,12 +90,13 @@
                 .catch(error => alert(error));
             },
             initForm(){
-                this.form.prenom= '';
-                    this.form.nom= '';
-                    this.form.email= '';
-                    this.form.tel='';
-                    this.form.adresse= '';
-                    this.form.fonction= '';
+                this.form.prenom= null;
+                    this.form.nom= null;
+                    this.form.email= null;
+                    this.form.tel=null;
+                    this.form.adresse= null;
+                    this.form.fonction= null;
+                    this.form.sexe= null;
             }
         },
         mounted() {

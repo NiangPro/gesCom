@@ -1,7 +1,7 @@
 <template>
     <div>
         <add-vente v-if="sale"  @backSale="changeSale" @saleAdded="refresh"></add-vente>
-        <button  type="button" v-if="!sale"  @click="changeSale"  class="btn btn-info toastrDefaultInfo my-3">
+        <button  type="button" v-if="!sale"  @click="changeSale"  class="btn btn-success toastrDefaultInfo my-3">
                   Ajouter
         </button>
 
