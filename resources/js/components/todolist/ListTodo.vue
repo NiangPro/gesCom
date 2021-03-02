@@ -36,7 +36,7 @@
                     <!-- todo text -->
                     <span class="text">{{todo.titre}}</span>
                     <!-- Emphasis label -->
-                    <small class="badge badge-info"><i class="far fa-clock"></i> {{todo.date}}</small>
+                    <small class="badge badge-dark"><i class="far fa-clock"></i> {{formattedDate(todo.date)}}</small>
                     <!-- General tools such as edit or delete-->
                     <div class="tools">
                       <i class="fas fa-edit" style="color:orange" @click="getTodo(todo.id)" data-toggle="modal" data-target="#editTodo"></i>
@@ -51,6 +51,9 @@
 </template>
 
 <script>
+import { formatRelative } from "date-fns";
+import { fr } from 'date-fns/locale';
+
 export default {
     props:['todos'],
     data(){
@@ -63,6 +66,9 @@ export default {
         }
     },
     methods:{
+      formattedDate(date) {
+            return formatRelative(new Date(date), new Date(), { locale: fr });
+        },
         isChecked(id, is_check){
             this.check(id, is_check);
 

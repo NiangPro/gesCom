@@ -17,6 +17,7 @@ use App\Http\Controllers\ReunionController;
 use App\Http\Controllers\TodoController;
 use App\Http\Controllers\VenteController;
 use App\Http\Controllers\DevisController;
+use App\Http\Controllers\RapportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -136,3 +137,5 @@ Route::delete('/devis/{id}', [DevisController::class, 'destroy']);
 Route::get('/devisItems', [DevisController::class, 'devisItems']);
 Route::get('/devisItems/{id}', [DevisController::class, 'itemsDevis']);
 Route::get('/devis/show-{id}', [DevisController::class, 'show']);
+
+Route::get('/rapportBetween/{date_from}-{date_to}', [RapportController::class, 'getSumBetweenTwoDate']);

@@ -24,7 +24,7 @@
                                     <tr v-for="exp in expenses" :key="exp.id">
                                             <td>{{exp.category}}</td>
                                             <td>{{exp.payment_mode}}</td>
-                                            <td>{{exp.date}}</td>
+                                            <td>{{formattedDate(exp.date)}}</td>
                                             <td>{{exp.montant}} F CFA</td>
                                             <td>{{exp.description}}</td>
                                             <td> {{exp.recu}} </td>
@@ -40,6 +40,8 @@
 </template>
 
 <script>
+import { format} from "date-fns";
+
 export default {
     props:['expenses'],
     data(){
@@ -48,6 +50,9 @@ export default {
         }
     },
     methods:{
+        formattedDate(date) {
+            return format(new Date(date), 'MM/dd/yyyy')
+        },
         getExpense(id){
             axios.get('/api/expense/show-'+id)
             .then(response => this.expenseEditing = response.data)

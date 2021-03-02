@@ -10,7 +10,7 @@ window.Vue = require('vue').default;
 // Vue.use(FullCalendar);
 
 
-Vue.component('fullcalendar-component', require('./components/FullCalendarComponent.vue').default);
+// Vue.component('fullcalendar-component', require('./components/FullCalendarComponent.vue').default);
 
 
 import VueSweetalert2 from 'vue-sweetalert2';
@@ -81,6 +81,8 @@ Vue.component('info-devis', require('./components/devis/InfoDevis').default);
 
 Vue.component('line-chart', require('./components/lineChart.js').default);
 Vue.component('rapport-vente', require('./components/rapport/RapportVente.vue').default);
+Vue.component('rapport-between', require('./components/rapport/RapportBetween.vue').default);
+Vue.component('rapport-result', require('./components/rapport/RapportResult.vue').default);
 
 
 

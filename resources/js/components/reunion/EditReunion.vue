@@ -16,7 +16,7 @@
 
                     <div class="form-group">
                         <label for="adresse">Date</label>
-                        <input type="date" class="form-control" placeholder="Entrer la date" v-model="form.date">
+                        <input type="datetime-local" class="form-control" placeholder="Entrer la date" v-model="form.date">
                     </div>
 
                     <div class="form-group">

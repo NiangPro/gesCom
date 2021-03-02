@@ -23,7 +23,7 @@
                                 </thead>
                                 <tbody>
                                     <tr v-for="vente in ventes" :key="vente.id">
-                                        <td>{{vente.date}}</td>
+                                        <td>{{formattedDate(vente.date)}}</td>
                                         <td>{{vente.client.nom}}</td>
                                         <td>{{vente.employed.prenom}} {{vente.employed.nom}}</td>
                                         <td>{{vente.total_amount}} F CFA</td>
@@ -50,6 +50,7 @@
 </template>
 
 <script>
+import { format} from "date-fns";
 export default {
     props:['ventes'],
     data(){
@@ -60,6 +61,9 @@ export default {
         }
     },
     methods:{
+        formattedDate(date) {
+            return format(new Date(date), 'MM/dd/yyyy')
+        },
         refresh(ventes){
             this.ventes = ventes;
             this.showAlert('La vente a été modifiée');
