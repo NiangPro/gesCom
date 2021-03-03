@@ -113,6 +113,7 @@ Route::post('/reunion', [ReunionController::class, 'store']);
 Route::get('/reunion/show-{id}', [ReunionController::class, 'show']);
 Route::patch('/reunion/edit-{id}', [ReunionController::class, 'update']);
 Route::delete('/reunion/{id}', [ReunionController::class, 'destroy']);
+Route::get('/reunionCalendar', [ReunionController::class, 'calendar']);
 
 Route::get('/vente', [VenteController::class, 'index']);
 Route::post('/vente', [VenteController::class, 'store']);

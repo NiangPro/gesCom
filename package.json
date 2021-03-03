@@ -26,6 +26,8 @@
     },
     "dependencies": {
         "@fortawesome/fontawesome-free": "^5.15.2",
+        "@fullcalendar/daygrid": "^5.5.0",
+        "@fullcalendar/vue": "^5.5.0",
         "bootstrap-table": "^1.18.2",
         "chart.js": "^2.9.4",
         "date-fns": "^2.18.0",

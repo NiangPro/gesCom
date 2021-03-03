@@ -95,6 +95,12 @@ class ReunionController extends Controller
         return $this->refresh();
     }
 
+    public function calendar()
+    {
+        $reunions = Reunion::get(['title', 'date']);
+        return response()->json(["calendardata" => $reunions]);
+    }
+
     private function refresh()
     {
         $reunions = Reunion::orderBy('id', 'DESC')->get();

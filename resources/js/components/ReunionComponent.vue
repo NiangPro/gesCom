@@ -24,7 +24,7 @@
               <!-- /.card-header -->
               <div class="card-body">
                 <list-reunion v-if="!getType" :reunions="reunions"></list-reunion>
-                <!-- <fullcalendar-component v-if="getType" ></fullcalendar-component> -->
+                <fullcalendar-component v-if="getType" ></fullcalendar-component>
                 <!-- <full-calendar v-if="getType" :event-sources="eventSources"></full-calendar> -->
               </div>
               <!-- /.card-body -->

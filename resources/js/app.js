@@ -10,7 +10,7 @@ window.Vue = require('vue').default;
 // Vue.use(FullCalendar);
 
 
-// Vue.component('fullcalendar-component', require('./components/FullCalendarComponent.vue').default);
+Vue.component('fullcalendar-component', require('./components/FullCalendarComponent.vue').default);
 
 
 import VueSweetalert2 from 'vue-sweetalert2';

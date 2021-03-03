@@ -22,7 +22,7 @@
                                             <td>{{r.title}}</td>
                                             <td>{{formattedDate(r.date)}}</td>
                                             <td>{{r.description}}</td>
-                                        <td><button class="btn btn-warning rounded mr-2" data-toggle="modal" data-target="#editReunion" @click="getReunion(r.id)"><i class="fa fa-edit" aria-hidden="true"></i></button><button class="btn btn-danger rounded" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ?')" @click="deleteReunion(r.id)"><i class="fa fa-trash" aria-hidden="true"></i></button> </td>
+                                        <td><button class="btn btn-outline-primary btn-sm rounded mr-2" data-toggle="modal" title="Editer" data-target="#editReunion" @click="getReunion(r.id)"><i class="fa fa-edit" aria-hidden="true"></i></button><button class="btn btn-outline-danger btn-sm rounded" title="Supprimer" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ?')" @click="deleteReunion(r.id)"><i class="fa fa-trash" aria-hidden="true"></i></button> </td>
                                         </tr>
                                 </tbody>
                             </table>

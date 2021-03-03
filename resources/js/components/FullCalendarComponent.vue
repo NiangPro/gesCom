@@ -1,24 +1,41 @@
 <template>
-<div class="container">
-       <full-calendar :event-sources="eventSources"></full-calendar>
-       </div>
+    <div>
+        <FullCalendar :options="calendarOptions" :eventsources="eventSources"/>
+    </div>
 </template>
+
 <script>
-    export default{
+    //Fullcalendar and axios modules
+    import FullCalendar from '@fullcalendar/vue'
+    import dayGridPlugin from '@fullcalendar/daygrid'
+
+    export default {
+  components: {
+    FullCalendar // make the <FullCalendar> tag available
+  },
   data() {
     return {
-      eventSources: [
-        {
-          events(start, end, timezone, callback) {
-            axios.get('/api/getCalendar').then(response => {
-              callback(response.data.events)
-            })
-          },
-          color: 'yellow',
-          textColor: 'black',
-        }
-      ]
+      calendarOptions: {
+        plugins: [ dayGridPlugin ],
+        initialView: 'dayGridMonth',
+        taskView : true , 
+
+        //Dynamic Event Source
+         eventSources: [
+            {
+              events(start, callback) {
+                axios.get('/api/reunionCalendar').then(response => {
+                  callback(response.data.calendardata)
+                })
+              },
+                color: 'yellow',
+                textColor: 'black',
+                background:'blue'
+            }
+          ]
+
+      }
     }
   }
-    }
+}
 </script>
