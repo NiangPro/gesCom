@@ -9,7 +9,7 @@
                   </button>
                 <div class="card-tools">
 
-                  <button type="button" class="btn btn-success toastrDefaultInfo" data-toggle="modal" data-target="#addStaticData" @click="addNew(index)">
+                  <button type="button" class="btn btn-outline-success toastrDefaultInfo" data-toggle="modal" data-target="#addStaticData" @click="addNew(index)">
                                 Ajouter
                 </button>
                 </div>

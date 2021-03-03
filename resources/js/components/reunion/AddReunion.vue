@@ -12,7 +12,7 @@
 
                     <div class="form-group">
                         <label >Titre</label>
-                        <input type="text" class="form-control" placeholder="Entrer le titre" v-model="form.titre">
+                        <input type="text" class="form-control" placeholder="Entrer le titre" v-model="form.title">
                     </div>
 
 
@@ -45,7 +45,7 @@ export default {
     data(){
         return {
             form:{
-                titre:null,
+                title:null,
                 description:null,
                 date:null
             }
@@ -58,7 +58,7 @@ export default {
                 .catch(error => alert(error));
         },
         initForm(){
-            this.form.titre = null;
+            this.form.title = null;
                 this.form.description = null;
                 this.form.date = null;
                 }

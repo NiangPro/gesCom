@@ -11,7 +11,7 @@
             <div class="modal-body">
                    <div class="form-group col-md-6">
                         <label >Titre</label>
-                        <input type="text" class="form-control" placeholder="Entrer le titre" v-model="form.titre">
+                        <input type="text" class="form-control" placeholder="Entrer le titre" v-model="form.title">
                     </div>
 
                     <div class="form-group">

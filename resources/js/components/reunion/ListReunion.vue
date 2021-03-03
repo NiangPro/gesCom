@@ -19,7 +19,7 @@
                                 </thead>
                                 <tbody>
                                     <tr v-for="r in reunions" :key="r.id">
-                                            <td>{{r.titre}}</td>
+                                            <td>{{r.title}}</td>
                                             <td>{{formattedDate(r.date)}}</td>
                                             <td>{{r.description}}</td>
                                         <td><button class="btn btn-warning rounded mr-2" data-toggle="modal" data-target="#editReunion" @click="getReunion(r.id)"><i class="fa fa-edit" aria-hidden="true"></i></button><button class="btn btn-danger rounded" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ?')" @click="deleteReunion(r.id)"><i class="fa fa-trash" aria-hidden="true"></i></button> </td>
@@ -54,12 +54,28 @@ export default {
         },
         refresh(reunions){
             this.reunions = reunions;
+            this.showAlert('Les informations de la réunion ont été modifiées');
         },
         deleteReunion(id){
             axios.delete('/api/reunion/'+id)
-            .then(response => this.reunions = response.data)
+            .then(response => {this.reunions = response.data, this.showAlert('La réunion a été supprimée')})
             .catch(error => alert(error));
-        }
+        },
+        showAlert(message) {
+        // Use sweetalert2
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true
+                })
+
+                Toast.fire({
+                icon: 'success',
+                title: message
+                })
+            }
     }
 }
 </script>

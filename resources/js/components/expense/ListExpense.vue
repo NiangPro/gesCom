@@ -51,7 +51,7 @@ export default {
     },
     methods:{
         formattedDate(date) {
-            return format(new Date(date), 'MM/dd/yyyy')
+            return format(new Date(date), 'dd/MM/yyyy')
         },
         getExpense(id){
             axios.get('/api/expense/show-'+id)

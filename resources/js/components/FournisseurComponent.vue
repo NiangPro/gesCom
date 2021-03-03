@@ -1,7 +1,7 @@
 <template>
     <div>
         <add-fournisseur v-on:frAdded="refresh"></add-fournisseur>
-        <button type="button" class="btn btn-info toastrDefaultInfo my-3" data-toggle="modal" data-target="#addFr">
+        <button type="button" class="btn btn-outline-success toastrDefaultInfo my-3" data-toggle="modal" data-target="#addFr">
             Ajouter
         </button>
 
@@ -17,14 +17,34 @@ export default {
         }
     },
     methods:{
-        refresh(){
+        getFr(){
             axios.get('/api/fournisseur')
             .then(response => this.frs = response.data)
             .catch(error => alert(error));
+        },
+        refresh(frs){
+            this.frs = frs;
+            this.showAlert('Le fournisseur a été ajouté');
         }
+        ,
+        showAlert(message) {
+        // Use sweetalert2
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true
+                })
+
+                Toast.fire({
+                icon: 'success',
+                title: message
+                })
+            }
     },
     created(){
-        this.refresh();
+        this.getFr();
     }
 }
 </script>

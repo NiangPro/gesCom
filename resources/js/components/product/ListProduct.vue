@@ -26,7 +26,7 @@
                                             <td>{{p.type}}</td>
                                             <td>{{p.tarif}} F CFA</td>
                                             <td>{{p.taxe}}%</td>
-                                        <td> <button type="button" class="btn btn-info rounded" data-toggle="modal" data-target="#infoProduct" @click="getProduct(p.id)"><i class="fa fa-eye" aria-hidden="true"></i></button> <button class="btn btn-warning rounded mr-2" data-toggle="modal" data-target="#editProduct" @click="getProduct(p.id)"><i class="fa fa-edit" aria-hidden="true"></i></button><button class="btn btn-danger rounded" @click="deleteProduct(p.id)"><i class="fa fa-trash" aria-hidden="true"></i></button> </td>
+                                        <td> <button type="button" class="btn btn-outline-success btn-sm rounded" data-toggle="modal" title="consulter" data-target="#infoProduct" @click="getProduct(p.id)"><i class="fa fa-eye" aria-hidden="true"></i></button> <button class="btn btn-outline-primary btn-sm rounded mr-2" title="Editer" data-toggle="modal" data-target="#editProduct" @click="getProduct(p.id)"><i class="fa fa-edit" aria-hidden="true"></i></button><button class="btn btn-outline-danger btn-sm rounded" title="Supprimer" @click="deleteProduct(p.id)"><i class="fa fa-trash" aria-hidden="true"></i></button> </td>
                                         </tr>
                                 </tbody>
                             </table>
@@ -53,12 +53,28 @@ export default {
         },
         deleteProduct(id){
             axios.delete('/api/product/'+id)
-            .then(response => this.products = response.data)
+            .then(response => {this.products = response.data, this.showAlert('Le produit a été supprimé')})
             .catch(error => alert(error));
         },
         refresh(products){
             this.products = products;
-        }
+            this.showAlert('Les informations du produit ont été supprimées');
+        },
+        showAlert(message) {
+        // Use sweetalert2
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true
+                })
+
+                Toast.fire({
+                icon: 'success',
+                title: message
+                })
+            }
 
 
     }

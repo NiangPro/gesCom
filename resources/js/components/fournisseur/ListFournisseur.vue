@@ -52,16 +52,30 @@ export default {
             .then(response => this.frEditing = response.data)
             .catch(error => alert(error));
         },
-        refresh(){
-            axios.get('/api/fournisseur')
-            .then(response => this.frs = response.data)
-            .catch(error => alert(error));
+        refresh(frs){
+            this.frs = frs;
+            this.showAlert('Les informations du fournisseur ont été modifiée');
         },
         deleteFr(id){
             axios.delete('/api/fournisseur/'+id)
-            .then(response => this.frs = response.data)
+            .then(response => {this.frs = response.data, this.showAlert('Le fournisseur a été supprimé')})
             .catch(error => alert(error));
-        }
+        },
+        showAlert(message) {
+        // Use sweetalert2
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true
+                })
+
+                Toast.fire({
+                icon: 'success',
+                title: message
+                })
+            }
     }
 }
 </script>

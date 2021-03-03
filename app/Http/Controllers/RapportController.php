@@ -2,17 +2,30 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Vente;
 use Illuminate\Http\Request;
+
+use Illuminate\Support\Facades\DB;
 
 class RapportController extends Controller
 {
-    public function getSumBetweenTwoDate($date_from, $date_to)
+    public function getSumBetweenTwoDate(Request $request)
     {
-        $montant = DB::table("ventes")
-            ->whereBetween("date", [$date_from, $date_to])
-            ->selectRaw("sum(total_amount)")
-            ->get();
+        $resultat = [];
+        $vente = DB::table("ventes")
+            ->whereBetween(DB::raw("DATE(date)"), [$request->dateFrom, $request->dateTo])
+            ->groupBy(DB::raw("DATE(date)"))
+            ->sum("total_amount");
+        $depense = DB::table("expenses")
+            ->whereBetween(DB::raw("DATE(date)"), [$request->dateFrom, $request->dateTo])
+            ->groupBy(DB::raw("DATE(date)"))
+            ->sum("montant");
 
-        return response()->json($montant);
+        $resultat['vente'] = $vente;
+        $resultat['depense'] = $depense;
+        $resultat['from'] = $request->dateFrom;
+        $resultat['to'] = $request->dateTo;
+
+        return response()->json($resultat);
     }
 }

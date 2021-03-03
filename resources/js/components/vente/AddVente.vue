@@ -8,7 +8,7 @@
                             <h2>Ajout Nouvelle Vente</h2>
                         </div>
                         <div class="col text-right mb-3">
-                            <button @click="backToList()" class="btn btn-info">Retour</button>
+                            <button @click="backToList()" class="btn btn-outline-dark">Retour</button>
                         </div>
                     </div>
                     <hr>
@@ -109,7 +109,7 @@
                         <hr>
                         <div class="row">
                             <div class="col-md-6">
-                                <button class="btn btn-info btn-rounded" @click="addRow"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                                <button class="btn btn-outline-success btn-rounded" @click="addRow"><i class="fa fa-plus" aria-hidden="true"></i></button>
                             </div>
                             <div class="col-md-6 text-right">
                                 <div class="row text-bold">
@@ -221,6 +221,8 @@ export default {
                     amount:null
                 });
                 this.getMontantTotal();
+            }else{
+                this.showAlert('Veuillez remplir d\'abord la ligne courante', 'error');
             }
         },
         deleteRow(index, product){
@@ -314,9 +316,24 @@ export default {
                 .then(response => this.$emit('saleAdded', response.data))
                 .catch(error => console.log(error));
             }else{
-                Swal.fire('Veuillez remplir tous les champs obligatoires(*)');
+                this.showAlert('Veuillez remplir tous les champs obligatoires(*)', 'error');
             }
 
+        },
+        showAlert(message, type) {
+        // Use sweetalert2
+           const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-center',
+            showConfirmButton: false,
+            timer: 3500,
+            timerProgressBar: true
+            })
+
+            Toast.fire({
+            icon: type,
+            title: message
+            })
         }
 
     },

@@ -1,7 +1,7 @@
 <template>
     <div>
         <add-client v-on:clientAdded="refresh"></add-client>
-        <button type="button" class="btn btn-info toastrDefaultInfo my-3" data-toggle="modal" data-target="#addClient">
+        <button type="button" class="btn btn-outline-success toastrDefaultInfo my-3" data-toggle="modal" data-target="#addClient">
                   Ajouter
         </button>
 
@@ -17,14 +17,33 @@ export default {
         }
     },
     methods:{
-        refresh(){
-            axios.get('/api/client')
-            .then(response => this.clients = response.data)
-            .catch(error => alert(error));
-        }
+        refresh(clients){
+            this.clients = clients;
+            this.showAlert('Le client a été ajouté');
+        },
+        showAlert(message) {
+        // Use sweetalert2
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true
+                })
+
+                Toast.fire({
+                icon: 'success',
+                title: message
+                })
+            },
+            getClients(){
+                 axios.get('/api/client')
+                .then(response => this.clients = response.data)
+                .catch(error => alert(error));
+            }
     },
     created(){
-        this.refresh();
+        this.getClients();
     }
 }
 </script>

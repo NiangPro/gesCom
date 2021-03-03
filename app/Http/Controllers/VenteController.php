@@ -78,17 +78,6 @@ class VenteController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
@@ -101,6 +90,15 @@ class VenteController extends Controller
         $vente->delete();
         $this->histo->addHistorique("Une vente a été supprimée", "Suppression");
 
+
+        return $this->refresh();
+    }
+
+    public function cancel($id)
+    {
+        $vente = Vente::where('id', $id)->first();
+
+        $vente->delete();
 
         return $this->refresh();
     }

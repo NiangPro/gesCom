@@ -15,7 +15,7 @@ class CreateReunionsTable extends Migration
     {
         Schema::create('reunions', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('titre');
+            $table->string('title');
             $table->text('description');
             $table->datetime('date');
             $table->timestamps();

@@ -1,7 +1,7 @@
 <template>
     <div>
         <add-employed @employeAdded="refresh"></add-employed>
-        <button type="button" class="btn btn-success toastrDefaultInfo my-3" data-toggle="modal" data-target="#addEmployed">
+        <button type="button" class="btn btn-outline-success toastrDefaultInfo my-3" data-toggle="modal" data-target="#addEmployed">
                   Ajouter
         </button>
 

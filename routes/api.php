@@ -119,6 +119,7 @@ Route::post('/vente', [VenteController::class, 'store']);
 Route::get('/vente/show-{id}', [VenteController::class, 'show']);
 Route::patch('/vente/edit-{id}', [VenteController::class, 'update']);
 Route::delete('/vente/{id}', [VenteController::class, 'destroy']);
+Route::delete('/venteCancel/{id}', [VenteController::class, 'cancel']);
 Route::get('/productSalling/{id}', [VenteController::class, 'getProducts']);
 Route::get('/produitVendus', [VenteController::class, 'produitVendus']);
 
@@ -138,4 +139,4 @@ Route::get('/devisItems', [DevisController::class, 'devisItems']);
 Route::get('/devisItems/{id}', [DevisController::class, 'itemsDevis']);
 Route::get('/devis/show-{id}', [DevisController::class, 'show']);
 
-Route::get('/rapportBetween/{date_from}-{date_to}', [RapportController::class, 'getSumBetweenTwoDate']);
+Route::post('/rapportBetween', [RapportController::class, 'getSumBetweenTwoDate']);

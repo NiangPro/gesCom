@@ -27,7 +27,7 @@
                     </thead>
                     <tbody>
                         <tr v-for="h in histories" :key="h.id">
-                            <td>{{h.date}}</td>
+                            <td>{{formattedDate(h.date)}}</td>
                             <td>{{h.user.name}}</td>
                             <td>{{h.type}}</td>
                             <td>{{h.description}}</td>
@@ -50,6 +50,9 @@
 </template>
 
 <script>
+import { formatRelative } from "date-fns";
+import { fr } from 'date-fns/locale';
+
 export default {
     data(){
         return {
@@ -57,6 +60,9 @@ export default {
         }
     },
     methods:{
+         formattedDate(date) {
+            return formatRelative(new Date(date), new Date(), { locale: fr });
+        },
        getHistories(){
             axios.get('/api/history')
             .then(response => this.histories = response.data)

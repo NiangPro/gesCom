@@ -57,12 +57,28 @@ export default {
         },
         refresh(prospects){
             this.prospects = prospects;
+            this.showAlert('Les informations du prospect ont été supprimées');
         },
         deleteProspect(id){
             axios.delete('/api/prospect/'+id)
-            .then(response => this.prospects = response.data)
+            .then(response => {this.prospects = response.data, this.showAlert('Le prospect a été supprimé')})
             .catch(error => alert(error));
-        }
+        },
+        showAlert(message) {
+        // Use sweetalert2
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true
+                })
+
+                Toast.fire({
+                icon: 'success',
+                title: message
+                })
+            }
     }
 }
 </script>

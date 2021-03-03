@@ -1,7 +1,7 @@
 <template>
     <div>
         <add-prospect v-on:prospectAdded="refresh"></add-prospect>
-        <button type="button" class="btn btn-info toastrDefaultInfo my-3" data-toggle="modal" data-target="#addProspect">
+        <button type="button" class="btn btn-outline-success toastrDefaultInfo my-3" data-toggle="modal" data-target="#addProspect">
                   Ajouter
         </button>
 
@@ -17,14 +17,33 @@ export default {
         }
     },
     methods:{
-        refresh(){
+        getProspect(){
             axios.get('/api/prospect')
             .then(response => this.prospects = response.data)
             .catch(error => alert(error));
-        }
+        },
+        refresh(prospects){
+            this.prospects = prospects;
+            this.showAlert('Le prospect a été ajouté');
+        },
+        showAlert(message) {
+        // Use sweetalert2
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true
+                })
+
+                Toast.fire({
+                icon: 'success',
+                title: message
+                })
+            }
     },
     created(){
-        this.refresh();
+        this.getProspect();
     }
 }
 </script>

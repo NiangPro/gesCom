@@ -13,14 +13,14 @@
                 </div>
                 <div class="widget-user-image">
                     <img class="img-circle elevation-2" :src="`/storage/images/`+em.profil" alt="User Avatar">
-                    <i class="fas fa-edit tools" data-toggle="modal" data-target="#editProfil" @click="getEmp(em.id, 'profil')"></i>
+                    <i class="fas fa-edit tools" title="Changer le photo de profil" data-toggle="modal" data-target="#editProfil" @click="getEmp(em.id, 'profil')" style="color:orange"></i>
                 </div>
                 <div class="card-footer">
                     <div class="row">
                     <div class="col-sm-4 border-right">
                         <div class="description-block">
                             <span class="description-text">
-                                <button class="btn btn-success btn-rounded btn-sm"  data-toggle="modal" data-target="#infoEmployed" @click="getEmp(em.id, 'info')"><i class="fa fa-eye" aria-hidden="true" ></i></button>
+                                <button class="btn btn-outline-success btn-rounded btn-sm" title="Consulter" data-toggle="modal" data-target="#infoEmployed" @click="getEmp(em.id, 'info')"><i class="fa fa-eye" aria-hidden="true" ></i></button>
                             </span>
                         </div>
                         <!-- /.description-block -->
@@ -29,7 +29,7 @@
                     <div class="col-sm-4 border-right">
                         <div class="description-block">
                             <span class="description-text">
-                                <button class="btn btn-warning btn-rounded btn-sm"  data-toggle="modal" data-target="#editEmployed" @click="getEmp(em.id, 'edit')"><i class="fa fa-edit" aria-hidden="true" ></i></button>
+                                <button class="btn btn-outline-primary btn-rounded btn-sm" title="Editer" data-toggle="modal" data-target="#editEmployed" @click="getEmp(em.id, 'edit')"><i class="fa fa-edit" aria-hidden="true" ></i></button>
                             </span>
                         </div>
                         <!-- /.description-block -->
@@ -38,7 +38,7 @@
                     <div class="col-sm-4">
                         <div class="description-block">
                         <span class="description-text">
-                            <button class="btn btn-danger btn-rounded btn-sm" @click="deleteEmp(em.id)"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                            <button class="btn btn-outline-danger btn-rounded btn-sm" title="Supprimer" @click="deleteEmp(em.id)"><i class="fa fa-trash" aria-hidden="true"></i></button>
                         </span>
                         </div>
                         <!-- /.description-block -->

@@ -33,9 +33,9 @@
                                             </span>
                                         </td>
                                         <td>
-                                            <button class="btn btn-info rounded btn-sm" @click="getVente(vente.id)"><i class="fa fa-eye" aria-hidden="true" ></i></button>
-                                            <button class="btn btn-warning rounded btn-sm"  @click="getVente(vente.id)"><i class="fa fa-sync-alt" aria-hidden="true"></i></button>
-                                            <button class="btn btn-danger rounded btn-sm"  @click="deleteVente(vente.id)"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                            <button class="btn btn-outline-success rounded btn-sm" @click="getVente(vente.id)"><i class="fa fa-eye" aria-hidden="true" title="Consulter"></i></button>
+                                            <button class="btn btn-outline-primary rounded btn-sm"  @click="getVente(vente.id)" title="Annuler"><i class="fa fa-sync-alt" aria-hidden="true"></i></button>
+                                            <button class="btn btn-outline-danger rounded btn-sm"  @click="deleteVente(vente.id)" title="Supprimer"><i class="fa fa-trash" aria-hidden="true"></i></button>
                                             </td>
                                     </tr>
                                 </tbody>
@@ -62,11 +62,16 @@ export default {
     },
     methods:{
         formattedDate(date) {
-            return format(new Date(date), 'MM/dd/yyyy')
+            return format(new Date(date), 'dd/MM/yyyy')
         },
         refresh(ventes){
             this.ventes = ventes;
             this.showAlert('La vente a été modifiée');
+        },
+        cancelVente(id){
+            axios.delete('/api/venteCancel/'+id)
+            .then(response => {this.ventes = response.data, this.showAlert('La vente a été annulée')})
+            .catch(error => alert(error));
         },
         deleteVente(id){
             axios.delete('/api/vente/'+id)

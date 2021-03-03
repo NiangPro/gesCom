@@ -1,12 +1,12 @@
 <template>
   <div>
-      <h4 class="mt-3">Résultat de la recherche : Date du jj/mm/aaaa au jj/mm/aaaa</h4>
+      <h4 class="mt-3">Résultat de la recherche : Date du {{formattedDate(result.from)}} au {{formattedDate(result.to)}}</h4>
        <div class="row">
             <div class="col-lg-4 col-6">
                 <!-- small box -->
                 <div class="small-box bg-info">
                     <div class="inner">
-                        <h5>5 000 FCFA</h5>
+                        <h5>{{result.vente}} FCFA</h5>
 
                         <p>Ventes</p>
                     </div>
@@ -20,7 +20,7 @@
                 <!-- small box -->
                 <div class="small-box bg-success">
                     <div class="inner">
-                        <h5>8 000 FCFA</h5>
+                        <h5>{{result.depense}} FCFA</h5>
 
                         <p>Depense</p>
                     </div>
@@ -34,7 +34,7 @@
                 <!-- small box -->
                 <div class="small-box bg-black">
                     <div class="inner">
-                        <h5>3 000FCFA</h5>
+                        <h5>{{recette}} FCFA</h5>
 
                         <p>Recette</p>
                     </div>
@@ -48,8 +48,20 @@
 </template>
 
 <script>
-export default {
+import { format} from "date-fns";
 
+export default {
+    props:['result'],
+    data(){
+        return{
+            recette: this.result.vente - this.result.depense
+        }
+    },
+    methods:{
+        formattedDate(date) {
+            return format(new Date(date), 'dd/MM/yyyy')
+        },
+    }
 }
 </script>
 

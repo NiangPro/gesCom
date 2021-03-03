@@ -26,10 +26,10 @@
                                             <td>{{task.statut}}</td>
                                             <td>{{task.type}}</td>
                                             <td>{{task.description}}</td>
-                                            <td>{{task.execution}}</td>
+                                            <td>{{formattedDate(task.execution)}}</td>
                                             <td>{{task.assignation}}</td>
                                         <td>
-                                             <button class="btn btn-warning rounded mr-2" data-toggle="modal" data-target="#editTask" @click="getTask(task.id)"><i class="fa fa-edit" aria-hidden="true"></i></button><button class="btn btn-danger rounded" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ?')" @click="deleteTask(task.id)"><i class="fa fa-trash" aria-hidden="true"></i></button> </td>
+                                             <button class="btn btn-outline-primary btn-sm rounded mr-2" data-toggle="modal" data-target="#editTask" title="Editer" @click="getTask(task.id)"><i class="fa fa-edit" aria-hidden="true"></i></button><button class="btn btn-outline-danger btn-sm rounded" title="Supprimer" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ?')" @click="deleteTask(task.id)"><i class="fa fa-trash" aria-hidden="true"></i></button> </td>
                                         </tr>
                                 </tbody>
                             </table>
@@ -41,6 +41,9 @@
 </template>
 
 <script>
+import { formatRelative } from "date-fns";
+import { fr } from 'date-fns/locale';
+
 export default {
     props:['tasks'],
     data(){
@@ -49,6 +52,9 @@ export default {
         }
     },
     methods:{
+        formattedDate(date) {
+            return formatRelative(new Date(date), new Date(), { locale: fr });
+        },
         getTask(id){
             axios.get('/api/task/show-'+id)
             .then(response => this.taskEditing = response.data)
@@ -56,12 +62,28 @@ export default {
         },
         refresh(tasks){
            this.tasks = tasks;
+           this.showAlert('Les informations de la tâche ont été modifiées');
         },
         deleteTask(id){
             axios.delete('/api/task/'+id)
-            .then(response => this.tasks = response.data)
+            .then(response => {this.tasks = response.data, this.showAlert('La tâche a été supprimée')})
             .catch(error => alert(error));
-        }
+        },
+        showAlert(message) {
+        // Use sweetalert2
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true
+                })
+
+                Toast.fire({
+                icon: 'success',
+                title: message
+                })
+            }
     }
 }
 </script>

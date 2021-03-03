@@ -1,7 +1,7 @@
 <template>
     <div>
         <add-expense v-on:expenseAdded="refresh"></add-expense>
-        <button type="button" class="btn btn-info toastrDefaultInfo my-3" data-toggle="modal" data-target="#addExpense">
+        <button type="button" class="btn btn-outline-success toastrDefaultInfo my-3" data-toggle="modal" data-target="#addExpense">
                   Ajouter
         </button>
 

@@ -56,7 +56,7 @@ export default {
         }
     },
     methods:{
-        refresh(){
+        getReunions(){
             axios.get('/api/reunion')
             .then(response => this.reunions = response.data)
             .catch(error => alert(error));
@@ -66,10 +66,29 @@ export default {
         },
         getTab(){
             this.getType = false;
-        }
+        },
+        showAlert(message) {
+        // Use sweetalert2
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true
+                })
+
+                Toast.fire({
+                icon: 'success',
+                title: message
+                })
+            },
+            refresh(reunions){
+                this.reunions = reunions;
+                this.showAlert('La réunion a été ajouté');
+            }
     },
     created(){
-        this.refresh();
+        this.getReunions();
     }
 }
 </script>
