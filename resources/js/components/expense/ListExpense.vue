@@ -28,7 +28,7 @@
                                             <td>{{exp.montant}} F CFA</td>
                                             <td>{{exp.description}}</td>
                                             <td> {{exp.recu}} </td>
-                                        <td><button class="btn btn-warning rounded mr-2" data-toggle="modal" data-target="#editExpense" @click="getExpense(exp.id)"><i class="fa fa-edit" aria-hidden="true"></i></button><button class="btn btn-danger rounded" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ?')" @click="deleteExpense(exp.id)"><i class="fa fa-trash" aria-hidden="true"></i></button> </td>
+                                        <td><button class="btn btn-outline-primary btn-sm rounded mr-2" data-toggle="modal" data-target="#editExpense" @click="getExpense(exp.id)"><i class="fa fa-edit" aria-hidden="true"></i></button><button v-if="user.role === 'Admin'" class="btn btn-outline-danger btn-sm rounded" @click="deleteExpense(exp.id)"><i class="fa fa-trash" aria-hidden="true"></i></button> </td>
                                         </tr>
                                 </tbody>
                             </table>
@@ -46,12 +46,18 @@ export default {
     props:['expenses'],
     data(){
         return {
-            expenseEditing:null
+            expenseEditing:{},
+            user:{}
         }
     },
     methods:{
         formattedDate(date) {
             return format(new Date(date), 'dd/MM/yyyy')
+        },
+        getUser(){
+            axios.get('/api/userConnected')
+            .then(response => this.user = response.data)
+            .catch(error => alert(error));
         },
         getExpense(id){
             axios.get('/api/expense/show-'+id)
@@ -63,9 +69,13 @@ export default {
             this.showAlert('La dépense a été mise à jour');
         },
         deleteExpense(id){
-            axios.delete('/api/expense/'+id)
-            .then(response => {this.expenses = response.data, this.showAlert('La dépense a été supprimée')})
-            .catch(error => alert(error));
+            if(confirm('Êtes-vous sûr de vouloir supprimer ?')){
+                axios.delete('/api/expense/'+id)
+                .then(response => {this.expenses = response.data, this.showAlert('La dépense a été supprimée')})
+                .catch(error => alert(error));
+            }else{
+                this.showAlert('L\'opération a été annulée');
+            }
         },
         showAlert(message) {
         // Use sweetalert2
@@ -82,6 +92,9 @@ export default {
                 title: message
                 })
             }
+    },
+    mounted(){
+        this.getUser();
     }
 }
 </script>

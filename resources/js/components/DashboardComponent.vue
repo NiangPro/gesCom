@@ -1,6 +1,7 @@
 <template>
     <div>
         <add-todo v-on:todoAdded="nbreTodos"></add-todo>
+       <entete :subTitle="subTitle" :title="title"></entete>
         <div class="row">
             <div class="col-lg-3 col-6">
                 <!-- small box -->
@@ -13,9 +14,7 @@
                     <div class="icon">
                         <i class="ion ion-bag" style="color:black"></i>
                     </div>
-                    <router-link to="/vente" class="small-box-footer"
-                        >Plus d'info <i class="fas fa-arrow-circle-right"></i
-                    ></router-link>
+                    <!-- <router-link to="/vente" class="small-box-footer">Plus d'info <i class="fasfa-arrow-circle-right"></i></router-link> -->
                 </div>
             </div>
             <!-- ./col -->
@@ -30,9 +29,7 @@
                     <div class="icon">
                         <i class="fab fa-product-hunt" style="color:orange"></i>
                     </div>
-                    <router-link to="/product" class="small-box-footer"
-                        >Plus d'info <i class="fas fa-arrow-circle-right"></i
-                    ></router-link>
+                    <!-- <router-link to="/product" class="small-box-footer">Plus d'info <i class="fas fa-arrow-circle-right"></i></router-link> -->
                 </div>
             </div>
             <!-- ./col -->
@@ -47,9 +44,7 @@
                     <div class="icon">
                         <i class="fas fa-users" style="color:cyan"></i>
                     </div>
-                    <router-link to="/client" class="small-box-footer"
-                        >Plus d'info <i class="fas fa-arrow-circle-right"></i
-                    ></router-link>
+                    <!-- <router-link to="/client" class="small-box-footer">Plus d'info <i class="fas fa-arrow-circle-right"></i></router-link> -->
                 </div>
             </div>
             <!-- ./col -->
@@ -64,9 +59,7 @@
                     <div class="icon">
                         <i class="ion ion-pie-graph" style="color:green"></i>
                     </div>
-                    <a href="#" class="small-box-footer"
-                        >Plus d'info <i class="fas fa-arrow-circle-right"></i
-                    ></a>
+                    <!-- <router-link href="#" class="small-box-footer">Plus d'info <i class="fas fa-arrow-circle-right"></i></router-link> -->
                 </div>
             </div>
             <!-- ./col -->
@@ -139,16 +132,18 @@
 export default {
     data() {
         return {
+            title:'Accueil',
+            subTitle:'',
             sales: [],
             clients: [],
             products: [],
             devis: [],
             todos: [],
-            ventes: null,
-            saleData: null,
+            ventes: [],
+            saleData: [],
             etat: false,
-            expenses: null,
-            expenseData: null,
+            expenses: [],
+            expenseData: [],
             months:[
                     "Janvier",
                     "Fevrier",

@@ -4,7 +4,7 @@
             <div class="row">
                 <div class="form-group col">
                     <label for="">Mot de passe actuel</label>
-                    <input type="password" placeholder="sunucode" class="form-control" v-model="form.password">
+                    <input type="password"  class="form-control" v-model="form.password">
                 </div>
                 <div class="form-group col">
                     <label for="">Nouveau Mot de passe</label>
@@ -29,9 +29,9 @@ export default {
     data(){
         return {
             form:{
-                password:"sunucode",
-                password_edit:null,
-                password_confirmation:null
+                password: '',
+                password_edit:'',
+                password_confirmation:''
             }
         }
     }

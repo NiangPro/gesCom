@@ -52,9 +52,13 @@ export default {
             .catch(error => alert(error));
         },
         deleteProduct(id){
-            axios.delete('/api/product/'+id)
-            .then(response => {this.products = response.data, this.showAlert('Le produit a été supprimé')})
-            .catch(error => alert(error));
+            if(confirm('Êtes-vous sûr de vouloir supprimer ?')){
+                axios.delete('/api/product/'+id)
+                .then(response => {this.products = response.data, this.showAlert('Le produit a été supprimé')})
+                .catch(error => alert(error));
+            }else{
+                this.showAlert('L\'opération a été annulée');
+            }
         },
         refresh(products){
             this.products = products;

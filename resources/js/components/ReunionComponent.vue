@@ -1,6 +1,8 @@
 <template>
     <div>
-        <add-reunion v-on:reunionAdded="refresh"></add-reunion>
+        <add-reunion @reunionAdded="refresh" @errorAdded="erreur"></add-reunion>
+        <entete :subTitle="subTitle" :title="title"></entete>
+
         <button type="button" class="btn btn-outline-success toastrDefaultInfo my-3" data-toggle="modal" data-target="#addReunion">
                   Ajouter un Rendez-vous
         </button>
@@ -40,19 +42,11 @@
 export default {
     data(){
         return {
-            reunions:null,
+            title:'Réunions',
+            subTitle:'/Réunions',
+            reunions:[],
             getType:false,
-            // eventSources: [
-            //     {
-            //     events(start, end, timezone, callback) {
-            //         axios.get('/api/getCalendar').then(response => {
-            //         callback(response.data.events)
-            //         })
-            //     },
-            //     color: 'yellow',
-            //     textColor: 'black',
-            //     }
-            // ]
+
         }
     },
     methods:{
@@ -67,7 +61,7 @@ export default {
         getTab(){
             this.getType = false;
         },
-        showAlert(message) {
+        showAlert(message, type) {
         // Use sweetalert2
                 const Toast = Swal.mixin({
                     toast: true,
@@ -78,13 +72,16 @@ export default {
                 })
 
                 Toast.fire({
-                icon: 'success',
+                icon: type,
                 title: message
                 })
             },
             refresh(reunions){
                 this.reunions = reunions;
-                this.showAlert('La réunion a été ajouté');
+                this.showAlert('La réunion a été ajouté', 'success');
+            },
+            erreur(){
+                this.showAlert('Tous les champs (*) sont obligatoires', 'error');
             }
     },
     created(){

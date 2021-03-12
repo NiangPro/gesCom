@@ -10,17 +10,17 @@
             <form>
             <div class="modal-body">
                     <div class="form-group ">
-                        <label for="nom">Nom</label>
+                        <label for="nom">Nom<span class="text-danger">*</span></label>
                         <input type="text" class="form-control" placeholder="Entrer le nom" v-model="form.nom">
                     </div>
                     <div class="form-group">
-                        <label for="fonction">Type</label>
+                        <label for="fonction">Type<span class="text-danger">*</span></label>
                         <select  class="form-control" v-model="form.type">
                             <option v-for="pt in productType" :key="pt.id" v-bind:value="pt.valeur">{{pt.valeur}}</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="adresse">Description</label>
+                        <label for="adresse">Description<span class="text-danger">*</span></label>
                         <textarea name="description"  class="form-control" v-model="form.description"></textarea>
                     </div>
                     <div class="form-group ">
@@ -54,14 +54,14 @@ export default {
     data(){
         return {
             form:{
-                nom:null,
-                type:null,
-                description:null,
+                nom:'',
+                type:'',
+                description:'',
                 taxe:0,
                 tarif:0
             },
-            taxes:null,
-            productType:null
+            taxes:{},
+            productType:{}
         }
     },
     methods:{
@@ -71,14 +71,25 @@ export default {
                 .catch(error => alert(error));
         },
         addProduct(){
-            axios.post('/api/product',this.form)
-            .then(response => this.$emit('productAdded', response.data))
-            .catch(error => alert(error));
+            if(this.notEmpty()){
+                axios.post('/api/product',this.form)
+                .then(response => this.$emit('productAdded', response.data))
+                .catch(error => alert(error));
+            }else{
+                this.$emit('errorAdded');
+            }
         },
         getProductType(){
             axios.get('/api/productType')
             .then(response => this.productType = response.data)
             .catch(error => alert(error));
+        },
+        notEmpty(){
+            if(this.form.nom === '' || this.form.type === '' || this.form.description === ''){
+                return false;
+            }else{
+                return true;
+            }
         }
     },
     mounted(){

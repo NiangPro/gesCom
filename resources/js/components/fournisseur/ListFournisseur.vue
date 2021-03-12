@@ -27,7 +27,7 @@
                                             <td>{{fr.adresse}}</td>
                                             <td>{{fr.email}}</td>
                                             <td>{{fr.tel}}</td>
-                                        <td> <button type="button" class="btn btn-info rounded" data-toggle="modal" data-target="#infoFr" @click="getFr(fr.id)"><i class="fa fa-eye" aria-hidden="true"></i></button> <button class="btn btn-warning rounded mr-2" data-toggle="modal" data-target="#editFr" @click="getFr(fr.id)"><i class="fa fa-edit" aria-hidden="true"></i></button><button class="btn btn-danger rounded" @click="deleteFr(fr.id)"><i class="fa fa-trash" aria-hidden="true"></i></button> </td>
+                                        <td> <button type="button" class="btn btn-outline-success btn-sm rounded" data-toggle="modal" data-target="#infoFr" @click="getFr(fr.id)"><i class="fa fa-eye" aria-hidden="true"></i></button> <button class="btn btn-outline-primary btn-sm rounded mr-2" data-toggle="modal" data-target="#editFr" @click="getFr(fr.id)"><i class="fa fa-edit" aria-hidden="true"></i></button><button v-if="user.role === 'Admin'" class="btn btn-outline-danger btn-sm rounded" @click="deleteFr(fr.id)"><i class="fa fa-trash" aria-hidden="true"></i></button> </td>
                                         </tr>
                                 </tbody>
                             </table>
@@ -43,7 +43,8 @@ export default {
     props:['frs'],
     data(){
         return {
-            frEditing:{}
+            frEditing:{},
+            user:{}
         }
     },
     methods:{
@@ -52,14 +53,23 @@ export default {
             .then(response => this.frEditing = response.data)
             .catch(error => alert(error));
         },
+        getUser(){
+            axios.get('/api/userConnected')
+            .then(response => this.user = response.data)
+            .catch(error => alert(error));
+        },
         refresh(frs){
             this.frs = frs;
             this.showAlert('Les informations du fournisseur ont été modifiée');
         },
         deleteFr(id){
-            axios.delete('/api/fournisseur/'+id)
-            .then(response => {this.frs = response.data, this.showAlert('Le fournisseur a été supprimé')})
-            .catch(error => alert(error));
+            if(confirm('Êtes-vous sûr de vouloir supprimer ?')){
+                axios.delete('/api/fournisseur/'+id)
+                .then(response => {this.frs = response.data, this.showAlert('Le fournisseur a été supprimé')})
+                .catch(error => alert(error));
+            }else{
+                this.showAlert('L\'opération a été annulée');
+            }
         },
         showAlert(message) {
         // Use sweetalert2
@@ -76,6 +86,9 @@ export default {
                 title: message
                 })
             }
+    },
+    mounted(){
+        this.getUser();
     }
 }
 </script>

@@ -123,7 +123,7 @@ class EmployeController extends Controller
     public function editProfil(Request $request)
     {
         if ($request->hasFile('image')) {
-            $imageName = md5($request->empId) . '.jpg';
+            $imageName = 'employe' . md5($request->empId) . '.jpg';
 
             $request->image->storeAs('public/images', $imageName);
 

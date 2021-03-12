@@ -1,5 +1,7 @@
 <template>
   <div>
+    <entete :subTitle="subTitle" :title="title"></entete>
+
     <div class="row mt-5 connectedSortable">
         <section class="col-lg-8">
             <div class="row">
@@ -57,7 +59,7 @@
                 </div><!-- /.card-body -->
                 </div>
                 <!-- /.card -->
-                </section>              
+                </section>
             </div>
         </section>
     </div>
@@ -71,6 +73,8 @@ import { fr } from 'date-fns/locale';
 export default {
     data(){
         return {
+            title:'Comptabilité Générale',
+            subTitle:'/Rapports',
             sumSale:0,
             sumExpense:0,
             balance:0,

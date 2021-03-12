@@ -18,6 +18,7 @@ use App\Http\Controllers\TodoController;
 use App\Http\Controllers\VenteController;
 use App\Http\Controllers\DevisController;
 use App\Http\Controllers\RapportController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,6 +48,7 @@ Route::get('/staticdata/show-{id}', [StaticDataController::class, 'show']);
 Route::get('/staticdata/fonction', [StaticDataController::class, 'getFonction']);
 Route::patch('/staticdata/edit-{id}', [StaticDataController::class, 'update']);
 Route::delete('/staticdata/{id}', [StaticDataController::class, 'destroy']);
+Route::get('/changeStatusStaticData/{id}', [StaticDataController::class, 'edit']);
 
 Route::get('/employe', [EmployeController::class, 'index']);
 Route::post('/employe', [EmployeController::class, 'store']);
@@ -66,7 +68,7 @@ Route::get('/getEmployeds', [HomeController::class, 'getEmployeds']);
 Route::get('/prospectSource', [HomeController::class, 'getProspectSource']);
 Route::get('/expenseType', [HomeController::class, 'getExpenseType']);
 Route::get('/paymentsMode', [HomeController::class, 'getPaymentsMode']);
-Route::post('/register', [HomeController::class, 'register']);
+Route::post('/register', [UserController::class, 'store']);
 Route::get('/sumSale', [HomeController::class, 'sumSale']);
 Route::get('/sumExpense', [HomeController::class, 'sumExpense']);
 Route::get('/saleByMonth', [HomeController::class, 'saleByMonth']);
@@ -141,3 +143,8 @@ Route::get('/devisItems/{id}', [DevisController::class, 'itemsDevis']);
 Route::get('/devis/show-{id}', [DevisController::class, 'show']);
 
 Route::post('/rapportBetween', [RapportController::class, 'getSumBetweenTwoDate']);
+
+Route::get('/userConnected', [UserController::class, 'userConnecte']);
+Route::get('/users', [UserController::class, 'index']);
+Route::patch('/user/{id}', [UserController::class, 'update']);
+Route::post('/userAvatar', [UserController::class, 'editAvatar']);

@@ -29,7 +29,7 @@
                                             <td>{{formattedDate(task.execution)}}</td>
                                             <td>{{task.assignation}}</td>
                                         <td>
-                                             <button class="btn btn-outline-primary btn-sm rounded mr-2" data-toggle="modal" data-target="#editTask" title="Editer" @click="getTask(task.id)"><i class="fa fa-edit" aria-hidden="true"></i></button><button class="btn btn-outline-danger btn-sm rounded" title="Supprimer" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ?')" @click="deleteTask(task.id)"><i class="fa fa-trash" aria-hidden="true"></i></button> </td>
+                                             <button class="btn btn-outline-primary btn-sm rounded mr-2" data-toggle="modal" data-target="#editTask" title="Editer" @click="getTask(task.id)"><i class="fa fa-edit" aria-hidden="true"></i></button><button class="btn btn-outline-danger btn-sm rounded" title="Supprimer" @click="deleteTask(task.id)"><i class="fa fa-trash" aria-hidden="true"></i></button> </td>
                                         </tr>
                                 </tbody>
                             </table>
@@ -65,9 +65,13 @@ export default {
            this.showAlert('Les informations de la tâche ont été modifiées');
         },
         deleteTask(id){
-            axios.delete('/api/task/'+id)
-            .then(response => {this.tasks = response.data, this.showAlert('La tâche a été supprimée')})
-            .catch(error => alert(error));
+            if(confirm('Êtes-vous sûr de vouloir supprimer ?')){
+                axios.delete('/api/task/'+id)
+                .then(response => {this.tasks = response.data, this.showAlert('La tâche a été supprimée')})
+                .catch(error => alert(error));
+            }else{
+                this.showAlert('L\'opération a été annulée');
+            }
         },
         showAlert(message) {
         // Use sweetalert2

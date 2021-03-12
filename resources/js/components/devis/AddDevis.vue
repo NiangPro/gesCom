@@ -17,7 +17,7 @@
                             <div class="col-md-4">
                                 <div class="input-group">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text" id="basic-addon1">Date <span class="text-danger">*</span></span>
+                                        <span class="input-group-text" id="basic-addon1">Date<span class="text-danger">*</span></span>
                                     </div>
                                     <input type="date" class="form-control"
                                         placeholder="Entrez l'identifiant de l'agence" v-model="form.date">
@@ -182,25 +182,25 @@
 export default {
     data(){
         return {
-            emps:null,
-            clients:null,
-            products:null,
+            emps:{},
+            clients:{},
+            products:{},
 
             subTotal:0,
             form:{
                 allProducts:[],
                 total_amount:0,
                 discount:0,
-                client_id:null,
-                employed_id:null,
-                date:null,
-                description:null,
-                statut:null
+                client_id:'',
+                employed_id:'',
+                date:'',
+                description:'',
+                statut:''
             },
-            idProd:null,
-            prodSibling:null,
-            idGet:null,
-            devisStatus:null
+            idProd:'',
+            prodSibling:{},
+            idGet:'',
+            devisStatus:''
         }
     },
     methods:{
@@ -230,12 +230,12 @@ export default {
         addRow(){
             if(this.fieldsNotEmpty() || this.form.allProducts.length == 0){
                 this.form.allProducts.push({
-                    nom:null,
-                    description:null,
-                    prix:null,
-                    qte:null,
-                    taxe:null,
-                    amount:null
+                    nom:'',
+                    description:'',
+                    prix:'',
+                    qte:'',
+                    taxe:'',
+                    amount:''
                 });
                 this.getMontantTotal();
             }else{
@@ -310,7 +310,7 @@ export default {
 
             if(this.form.allProducts.length > 0){
                 this.form.allProducts.forEach((item) => {
-                    if(item.nom == null || item.description == null || item.qte == null || item.prix == null)
+                    if(item.nom == '' || item.description == '' || item.qte == '' || item.prix == '')
                         response = false;
                 });
             }
@@ -320,7 +320,7 @@ export default {
         saleNotEmpty(){
             let response = true;
 
-            if(this.form.client_id == null || this.form.employed_id == null || this.form.statut == null || this.form.total_amount == 0 || this.form.date == null){
+            if(this.form.client_id == '' || this.form.employed_id == '' || this.form.statut == '' || this.form.total_amount == 0 || this.form.date == ''){
                 response = false;
             }
 

@@ -9,7 +9,7 @@
                 <!-- Add the bg color to the header using any of the bg-* classes -->
                 <div class="widget-user-header bg-primary">
                     <h3 class="widget-user-username">{{em.prenom}} {{em.nom}}</h3>
-                    <h5 class="widget-user-desc">{{em.fonction}}</h5>
+                    <h6 class="widget-user-desc">{{em.fonction}}</h6>
                 </div>
                 <div class="widget-user-image">
                     <img class="img-circle elevation-2" :src="`/storage/images/`+em.profil" alt="User Avatar">
@@ -73,9 +73,13 @@ export default{
                 .catch(error => alert(error));
             },
             deleteEmp(id){
+                if(confirm('Êtes-vous sûr de vouloir supprimer ?')){
                 axios.delete('/api/employe/'+id)
                 .then(response => {this.emps = response.data, this.showAlert('L\'employé a été supprimé')})
                 .catch(error => alert(error));
+                }else{
+                    this.showAlert('L\'opération a été annulée');
+                }
             },
             photo(emps){
                 this.emps = emps;

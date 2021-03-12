@@ -1,10 +1,10 @@
 <template>
     <div>
-        <info-vente
+        <info-devis
             v-if="info"
             @listDevis="getInfo"
             :devis="devisEditing"
-        ></info-vente>
+        ></info-devis>
         <div class="row" v-if="!info">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                 <div class="card">
@@ -57,7 +57,7 @@
                                         <td>{{ vente.statut }}</td>
                                         <td>
                                             <button
-                                                class="btn btn-info rounded btn-sm"
+                                                class="btn btn-outline-primary rounded btn-sm"
                                             >
                                                 <i
                                                     class="fa fa-eye"
@@ -66,8 +66,8 @@
                                                 ></i>
                                             </button>
                                             <button
-                                                class="btn btn-danger rounded btn-sm"
-                                                @click="deleteDevis(vente.id)"
+                                                class="btn btn-outline-danger rounded btn-sm"
+                                                @click="deleteDevis(vente.id)" v-if="user.role === 'Admin'"
                                             >
                                                 <i
                                                     class="fa fa-trash"
@@ -94,13 +94,19 @@ export default {
     data() {
         return {
             info: false,
-            devisEditing: null,
-            devisItems: null
+            devisEditing: {},
+            devisItems: {},
+            user:{}
         };
     },
     methods: {
         formattedDate(date) {
             return format(new Date(date), 'MM/dd/yyyy')
+        },
+        getUser(){
+            axios.get('/api/userConnected')
+            .then(response => this.user = response.data)
+            .catch(error => alert(error));
         },
         refresh(devis) {
             this.devis = devis;
@@ -110,7 +116,7 @@ export default {
             axios
                 .get("/api/devis/show-" + id)
                 .then(response => {
-                    (this.devisEditing = response.data), this.getInfo();
+                    this.devisEditing = response.data, this.getInfo()
                 })
                 .catch(error => alert(error));
         },
@@ -139,17 +145,21 @@ export default {
             });
         },
         deleteDevis(id) {
-            axios
-                .delete("/api/devis/" + id)
+            if(confirm('Êtes-vous sûr de vouloir supprimer ?')){
+            axios.delete("/api/devis/" + id)
                 .then(response => {
                     (this.devis = response.data),
                         this.showAlert("Le devis a été supprimé");
                 })
                 .catch(error => alert(error));
+                }else{
+                    this.showAlert('L\'opération a été annulée');
+                }
         }
     },
-    created() {
+    mounted(){
         this.getDevisItems();
+        this.getUser();
     }
 };
 </script>

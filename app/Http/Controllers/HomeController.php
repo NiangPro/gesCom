@@ -109,23 +109,6 @@ class HomeController extends Controller
         return response()->json($ps);
     }
 
-    public function register(Request $request)
-    {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:6|confirmed'
-        ]);
-
-        User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password)
-        ]);
-
-        return response()->json(['message' => "Ajout utilisateur avec succès"]);
-    }
-
     public function logout()
     {
         Auth::logout();

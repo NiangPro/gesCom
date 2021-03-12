@@ -24,6 +24,8 @@ import routes from './routes';
 
 Vue.use(VueRouter);
 
+Vue.component('entete', require('./components/EnteteComponent').default);
+
 Vue.component('add-staticdata', require('./components/staticData/AddStaticData').default);
 Vue.component('list-staticdata', require('./components/staticData/ListStaticData').default);
 Vue.component('edit-staticdata', require('./components/staticData/EditStaticData').default);
@@ -69,6 +71,8 @@ Vue.component('add-user', require('./components/setting/RegisterComponent').defa
 Vue.component('edit-setting', require('./components/setting/EditSetting').default);
 Vue.component('edit-password', require('./components/setting/EditPassword').default);
 Vue.component('profil-user', require('./components/setting/ProfilComponent').default);
+Vue.component('list-users', require('./components/setting/ListUsers').default);
+Vue.component('edit-avatar', require('./components/setting/UserAvatar').default);
 
 Vue.component('add-todo', require('./components/todolist/AddTodo').default);
 Vue.component('list-todo', require('./components/todolist/ListTodo').default);

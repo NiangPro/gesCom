@@ -17,7 +17,7 @@ class CreateExpensesTable extends Migration
             $table->bigIncrements('id');
             $table->string('category');
             $table->string('payment_mode');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->date('date');
             $table->string('recu')->nullable();
             $table->integer('montant')->unsigned();

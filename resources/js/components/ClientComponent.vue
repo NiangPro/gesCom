@@ -1,6 +1,8 @@
 <template>
     <div>
-        <add-client v-on:clientAdded="refresh"></add-client>
+        <add-client @clientAdded="refresh" @errorAdded="erreur"></add-client>
+        <entete :subTitle="subTitle" :title="title"></entete>
+
         <button type="button" class="btn btn-outline-success toastrDefaultInfo my-3" data-toggle="modal" data-target="#addClient">
                   Ajouter
         </button>
@@ -13,15 +15,20 @@
 export default {
     data(){
         return {
+            title:'Clients',
+            subTitle:'/Clients',
             clients:{}
         }
     },
     methods:{
+        erreur(){
+            this.showAlert('Tous les champs (*) sont obligatoires', 'error');
+        },
         refresh(clients){
             this.clients = clients;
-            this.showAlert('Le client a été ajouté');
+            this.showAlert('Le client a été ajouté', 'success');
         },
-        showAlert(message) {
+        showAlert(message, type) {
         // Use sweetalert2
                 const Toast = Swal.mixin({
                     toast: true,
@@ -32,7 +39,7 @@ export default {
                 })
 
                 Toast.fire({
-                icon: 'success',
+                icon: type,
                 title: message
                 })
             },

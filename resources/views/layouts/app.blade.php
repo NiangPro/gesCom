@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>GesCom</title>
+  <title>{{config('app.name')}}</title>
+  <link rel="shortcut icon" href="storage/images/{{config('app.icon')}}" />
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Font Awesome -->
@@ -29,7 +30,7 @@
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
   <link href="{{ asset('css/app.css')}}" rel="stylesheet">
-  
+
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper" id="app">
@@ -44,7 +45,8 @@
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
-        @includeFirst(['layouts._header'])
+        {{-- @includeFirst(['layouts._header']) --}}
+
         <!-- /.content-header -->
 
         <!-- Main content -->

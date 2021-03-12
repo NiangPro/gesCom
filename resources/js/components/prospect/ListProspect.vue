@@ -30,7 +30,7 @@
                                             <td>{{p.adresse}}</td>
                                             <td>{{p.email}}</td>
                                             <td>{{p.tel}}</td>
-                                        <td> <button class="btn btn-warning rounded mr-2" data-toggle="modal" data-target="#editProspect" @click="getProspect(p.id)"><i class="fa fa-edit" aria-hidden="true"></i></button><button class="btn btn-danger rounded" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ?')" @click="deleteProspect(p.id)"><i class="fa fa-trash" aria-hidden="true"></i></button> </td>
+                                        <td> <button class="btn btn-outline-primary btn-sm rounded mr-2" data-toggle="modal" data-target="#editProspect" @click="getProspect(p.id)"><i class="fa fa-edit" aria-hidden="true"></i></button><button class="btn btn-outline-danger btn-sm rounded" v-if="user.role === 'Admin'" @click="deleteProspect(p.id)"><i class="fa fa-trash" aria-hidden="true"></i></button> </td>
                                         </tr>
                                 </tbody>
                             </table>
@@ -46,7 +46,8 @@ export default {
     props:['prospects'],
     data(){
         return {
-            prospectEditing:null
+            prospectEditing:{},
+            user:{}
         }
     },
     methods:{
@@ -59,10 +60,19 @@ export default {
             this.prospects = prospects;
             this.showAlert('Les informations du prospect ont été supprimées');
         },
-        deleteProspect(id){
-            axios.delete('/api/prospect/'+id)
-            .then(response => {this.prospects = response.data, this.showAlert('Le prospect a été supprimé')})
+        getUser(){
+            axios.get('/api/userConnected')
+            .then(response => this.user = response.data)
             .catch(error => alert(error));
+        },
+        deleteProspect(id){
+            if(confirm('Êtes-vous sûr de vouloir supprimer ?')){
+                axios.delete('/api/prospect/'+id)
+                .then(response => {this.prospects = response.data, this.showAlert('Le prospect a été supprimé')})
+                .catch(error => alert(error));
+            }else{
+                this.showAlert('L\'opération a été annulée');
+            }
         },
         showAlert(message) {
         // Use sweetalert2
@@ -79,6 +89,9 @@ export default {
                 title: message
                 })
             }
+    },
+    mounted(){
+        this.getUser();
     }
 }
 </script>

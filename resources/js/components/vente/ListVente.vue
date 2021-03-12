@@ -34,8 +34,8 @@
                                         </td>
                                         <td>
                                             <button class="btn btn-outline-success rounded btn-sm" @click="getVente(vente.id)"><i class="fa fa-eye" aria-hidden="true" title="Consulter"></i></button>
-                                            <button class="btn btn-outline-primary rounded btn-sm"  @click="getVente(vente.id)" title="Annuler"><i class="fa fa-sync-alt" aria-hidden="true"></i></button>
-                                            <button class="btn btn-outline-danger rounded btn-sm"  @click="deleteVente(vente.id)" title="Supprimer"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                            <button v-if="user.role === 'Admin'" class="btn btn-outline-primary rounded btn-sm"  @click="getVente(vente.id)" title="Annuler"><i class="fa fa-sync-alt" aria-hidden="true"></i></button>
+                                            <button v-if="user.role === 'Admin'" class="btn btn-outline-danger rounded btn-sm"  @click="deleteVente(vente.id)" title="Supprimer"><i class="fa fa-trash" aria-hidden="true"></i></button>
                                             </td>
                                     </tr>
                                 </tbody>
@@ -56,27 +56,41 @@ export default {
     data(){
         return {
             info:false,
-            saleEditing:null,
-            produitVendus:null
+            saleEditing:{},
+            produitVendus:[],
+            user:{}
         }
     },
     methods:{
         formattedDate(date) {
             return format(new Date(date), 'dd/MM/yyyy')
         },
+        getUser(){
+            axios.get('/api/userConnected')
+            .then(response => this.user = response.data)
+            .catch(error => alert(error));
+        },
         refresh(ventes){
             this.ventes = ventes;
             this.showAlert('La vente a été modifiée');
         },
         cancelVente(id){
-            axios.delete('/api/venteCancel/'+id)
-            .then(response => {this.ventes = response.data, this.showAlert('La vente a été annulée')})
-            .catch(error => alert(error));
+            if(confirm('Êtes-vous sûr de vouloir annuler cette vente ?')){
+                axios.delete('/api/venteCancel/'+id)
+                .then(response => {this.ventes = response.data, this.showAlert('La vente a été annulée')})
+                .catch(error => alert(error));
+            }else{
+                this.showAlert('L\'opération a été annulée');
+            }
         },
         deleteVente(id){
-            axios.delete('/api/vente/'+id)
-            .then(response => {this.ventes = response.data, this.showAlert('La vente a été supprimée')})
-            .catch(error => alert(error));
+            if(confirm('Êtes-vous sûr de vouloir supprimer ?')){
+                axios.delete('/api/vente/'+id)
+                .then(response => {this.ventes = response.data, this.showAlert('La vente a été supprimée')})
+                .catch(error => alert(error));
+            }else{
+                this.showAlert('L\'opération a été annulée');
+            }
         },
         getVente(id){
             axios.get('/api/vente/show-'+id)
@@ -109,6 +123,7 @@ export default {
     },
     mounted(){
         this.productSallings();
+        this.getUser();
     }
 }
 </script>

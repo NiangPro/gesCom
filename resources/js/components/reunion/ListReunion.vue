@@ -22,7 +22,7 @@
                                             <td>{{r.title}}</td>
                                             <td>{{formattedDate(r.date)}}</td>
                                             <td>{{r.description}}</td>
-                                        <td><button class="btn btn-outline-primary btn-sm rounded mr-2" data-toggle="modal" title="Editer" data-target="#editReunion" @click="getReunion(r.id)"><i class="fa fa-edit" aria-hidden="true"></i></button><button class="btn btn-outline-danger btn-sm rounded" title="Supprimer" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ?')" @click="deleteReunion(r.id)"><i class="fa fa-trash" aria-hidden="true"></i></button> </td>
+                                        <td><button class="btn btn-outline-primary btn-sm rounded mr-2" data-toggle="modal" title="Editer" data-target="#editReunion" @click="getReunion(r.id)"><i class="fa fa-edit" aria-hidden="true"></i></button><button class="btn btn-outline-danger btn-sm rounded" title="Supprimer"  @click="deleteReunion(r.id)"><i class="fa fa-trash" aria-hidden="true"></i></button> </td>
                                         </tr>
                                 </tbody>
                             </table>
@@ -57,9 +57,13 @@ export default {
             this.showAlert('Les informations de la réunion ont été modifiées');
         },
         deleteReunion(id){
+            if(confirm('Êtes-vous sûr de vouloir supprimer ?')){
             axios.delete('/api/reunion/'+id)
             .then(response => {this.reunions = response.data, this.showAlert('La réunion a été supprimée')})
             .catch(error => alert(error));
+            }else{
+                this.showAlert('L\'opération a été annulée');
+            }
         },
         showAlert(message) {
         // Use sweetalert2

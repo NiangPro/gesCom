@@ -20,7 +20,7 @@
                             <div class="col-md-5">
                                 <div class="input-group">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text" id="basic-addon1">Date du</span>
+                                        <span class="input-group-text" id="basic-addon1">Date du <span class="text-danger">*</span></span>
                                     </div>
                                     <input type="date" class="form-control" v-model="form.dateFrom">
                                 </div>
@@ -28,7 +28,7 @@
                             <div class="col-md-5">
                                 <div class="input-group">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text" id="basic-addon1">Au</span>
+                                        <span class="input-group-text" id="basic-addon1">Au<span class="text-danger">*</span></span>
                                     </div>
                                     <input type="Date" class="form-control" v-model="form.dateTo">
                                 </div>

@@ -1,6 +1,8 @@
 <template>
     <div>
-        <add-fournisseur v-on:frAdded="refresh"></add-fournisseur>
+        <add-fournisseur @frAdded="refresh" @errorAdded="erreur"></add-fournisseur>
+        <entete :subTitle="subTitle" :title="title"></entete>
+
         <button type="button" class="btn btn-outline-success toastrDefaultInfo my-3" data-toggle="modal" data-target="#addFr">
             Ajouter
         </button>
@@ -13,10 +15,15 @@
 export default {
     data(){
         return {
+            title:'Fournisseurs',
+            subTitle:'/Fournisseurs',
             frs:{}
         }
     },
     methods:{
+        erreur(){
+            this.showAlert('Tous les champs (*) sont obligatoires', 'error');
+        },
         getFr(){
             axios.get('/api/fournisseur')
             .then(response => this.frs = response.data)
@@ -24,10 +31,10 @@ export default {
         },
         refresh(frs){
             this.frs = frs;
-            this.showAlert('Le fournisseur a été ajouté');
+            this.showAlert('Le fournisseur a été ajouté', 'success');
         }
         ,
-        showAlert(message) {
+        showAlert(message, type) {
         // Use sweetalert2
                 const Toast = Swal.mixin({
                     toast: true,
@@ -38,7 +45,7 @@ export default {
                 })
 
                 Toast.fire({
-                icon: 'success',
+                icon: type,
                 title: message
                 })
             }

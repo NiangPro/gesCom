@@ -2,12 +2,7 @@
   <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card">
-                <div class="card-header text-center">Ajout d'utilisateur</div>
-
-                <div class="card-body">
-                    <form>
-                        <div class="form-group row">
+                <div class="form-group row">
                             <label for="name" class="col-md-4 col-form-label text-md-right">Nom</label>
 
                             <div class="col-md-6">
@@ -31,6 +26,36 @@
                             </div>
                         </div>
 
+
+                        <div class="form-group row">
+                            <label for="password" class="col-md-4 col-form-label text-md-right">Rôle</label>
+
+                            <div class="col-md-6">
+                                <select  class="form-control" v-model="form.role">
+                                    <option value="Commercial">Commercial</option>
+                                    <option value="Comptable">Comptable</option>
+                                    <option value="Admin">Admin</option>
+                                </select>
+                                <span class="invalid-feedback" role="alert" v-if="errors.role">
+                                        <strong>{{ errors.role[0] }}</strong>
+                                    </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="password" class="col-md-4 col-form-label text-md-right">Sexe</label>
+
+                            <div class="col-md-6">
+                                <select  class="form-control" v-model="form.sexe">
+                                    <option value="Homme">Homme</option>
+                                    <option value="Femme">Femme</option>
+                                </select>
+                                <span class="invalid-feedback" role="alert" v-if="errors.sexe">
+                                        <strong>{{ errors.sexe[0] }}</strong>
+                                    </span>
+                            </div>
+                        </div>
+
                         <div class="form-group row">
                             <label for="password" class="col-md-4 col-form-label text-md-right">Mot de passe</label>
 
@@ -43,6 +68,7 @@
                             </div>
                         </div>
 
+
                         <div class="form-group row">
                             <label for="password-confirm" class="col-md-4 col-form-label text-md-right">Mot de passe de confirmation</label>
 
@@ -53,14 +79,11 @@
 
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
-                                <button @click="register" class="btn btn-primary">
+                                <button @click="register" class="btn btn-outline-success">
                                     Ajouter
                                 </button>
                             </div>
                         </div>
-                    </form>
-                </div>
-            </div>
         </div>
     </div>
 </div>
@@ -74,7 +97,9 @@ export default {
                 name:null,
                 email:null,
                 password:null,
-                password_confirmation:null
+                password_confirmation:null,
+                role:null,
+                sexe:null
             },
             errors:[]
         }
@@ -82,7 +107,8 @@ export default {
     methods:{
         register(){
             axios.post('/api/register', this.form)
-            .then(response => this.$router.push({path:"/login"}))
+            // .then(response => this.$router.push({path:"/login"}))
+            .then(response => this.$emit('userAdded', response.data))
             .catch(error => this.errors = error.response.data.errors);
         }
     }

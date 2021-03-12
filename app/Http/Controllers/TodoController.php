@@ -98,7 +98,7 @@ class TodoController extends Controller
 
     private function refresh()
     {
-        $todos = Todolist::orderBy('date', 'DESC')->take(6)->get();
+        $todos = Todolist::where('user_id', Auth::user()->id)->orderBy('date', 'DESC')->take(6)->get();
 
         return response()->json($todos);
     }

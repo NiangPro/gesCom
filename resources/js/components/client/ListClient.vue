@@ -27,7 +27,7 @@
                                             <td>{{cli.adresse}}</td>
                                             <td>{{cli.email}}</td>
                                             <td>{{cli.tel}}</td>
-                                        <td> <button type="button" class="btn btn-outline-success btn-sm rounded" data-toggle="modal" title="Consulter" data-target="#infoClient" @click="getClient(cli.id)"><i class="fa fa-eye" aria-hidden="true"></i></button> <button class="btn btn-outline-primary btn-sm rounded mr-2" data-toggle="modal" title="Editer" data-target="#editClient" @click="getClient(cli.id)"><i class="fa fa-edit" aria-hidden="true"></i></button><button class="btn btn-outline-danger btn-sm rounded" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ?')" @click="deleteClient(cli.id)" title="Supprimer"><i class="fa fa-trash" aria-hidden="true"></i></button> </td>
+                                        <td> <button type="button" class="btn btn-outline-success btn-sm rounded" data-toggle="modal" title="Consulter" data-target="#infoClient" @click="getClient(cli.id)"><i class="fa fa-eye" aria-hidden="true"></i></button> <button class="btn btn-outline-primary btn-sm rounded mr-2" data-toggle="modal" title="Editer" data-target="#editClient" @click="getClient(cli.id)"><i class="fa fa-edit" aria-hidden="true"></i></button><button class="btn btn-outline-danger btn-sm rounded" v-if="user.role === 'Admin'" @click="deleteClient(cli.id)" title="Supprimer"><i class="fa fa-trash" aria-hidden="true"></i></button> </td>
                                         </tr>
                                 </tbody>
                             </table>
@@ -43,7 +43,8 @@ export default {
     props:['clients'],
     data(){
         return {
-            cliEditing:{}
+            cliEditing:{},
+            user:{}
         }
     },
     methods:{
@@ -52,15 +53,23 @@ export default {
             .then(response => this.cliEditing = response.data)
             .catch(error => alert(error));
         },
+        getUser(){
+            axios.get('/api/userConnected')
+            .then(response => this.user = response.data)
+            .catch(error => alert(error));
+        },
         refresh(clients){
             this.clients = clients;
             this.showAlert('Les informations du client ont été mises à jour');
         },
         deleteClient(id){
-            // this.removeClient();
-           axios.delete('/api/client/'+id)
-            .then(response => {this.clients = response.data, this.showAlert('Le client a été supprimé')})
-            .catch(error => alert(error));
+            if(confirm('Êtes-vous sûr de vouloir supprimer ?')){
+                axios.delete('/api/client/'+id)
+                    .then(response => {this.clients = response.data, this.showAlert('Le client a été supprimé')})
+                    .catch(error => alert(error));
+            }else{
+                this.showAlert('L\'opération a été annulée');
+            }
         },
         showAlert(message) {
         // Use sweetalert2
@@ -89,6 +98,9 @@ export default {
             confirmButtonText: 'Oui, supprimer!'
             })
         }
+    },
+    mounted(){
+        this.getUser();
     }
 }
 </script>

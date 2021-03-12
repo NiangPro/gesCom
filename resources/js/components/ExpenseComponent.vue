@@ -1,6 +1,8 @@
 <template>
     <div>
-        <add-expense v-on:expenseAdded="refresh"></add-expense>
+        <add-expense @expenseAdded="refresh" @errorAdded="erreur"></add-expense>
+        <entete :subTitle="subTitle" :title="title"></entete>
+
         <button type="button" class="btn btn-outline-success toastrDefaultInfo my-3" data-toggle="modal" data-target="#addExpense">
                   Ajouter
         </button>
@@ -13,16 +15,21 @@
 export default {
     data(){
         return {
+            title:'Dépenses',
+            subTitle:'/Dépenses',
             expenses:null
         }
     },
     methods:{
+        erreur(){
+            this.showAlert('Tous les champs (*) sont obligatoires', 'error');
+        },
         getExpenses(){
             axios.get('/api/expense')
             .then(response => this.expenses = response.data)
             .catch(error => alert(error));
         },
-            showAlert(message) {
+            showAlert(message, type) {
         // Use sweetalert2
                 const Toast = Swal.mixin({
                     toast: true,
@@ -33,13 +40,13 @@ export default {
                 })
 
                 Toast.fire({
-                icon: 'success',
+                icon: type,
                 title: message
                 })
         },
         refresh(expenses){
             this.expenses = expenses;
-            this.showAlert('La dépense a été ajouté');
+            this.showAlert('La dépense a été ajouté', 'success');
         }
     },
     created(){
