@@ -64,8 +64,8 @@ export default {
                 is_check:false,
                 id:null
                 },
-            todoEditing:null,
-            todos:null
+            todoEditing:{},
+            todos:{}
         }
     },
     methods:{

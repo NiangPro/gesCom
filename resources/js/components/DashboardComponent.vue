@@ -131,7 +131,7 @@
             <!-- Left col -->
             <section class="col-lg-6 connectedSortable">
                 <!-- Custom tabs (Charts with tabs)-->
-
+                <last-history></last-history>
                 <!-- /.card -->
             </section>
             <!-- /.Left col -->

@@ -44,10 +44,6 @@ export default {
             .then(response => this.$emit('todoUpdated', response.data))
             .catch(error => alert(error));
         }
-    },
-    mounted(){
-        alert(this.form.date);
-
     }
 }
 </script>

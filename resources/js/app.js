@@ -94,6 +94,8 @@ Vue.component('rapport-vente', require('./components/rapport/RapportVente.vue').
 Vue.component('rapport-between', require('./components/rapport/RapportBetween.vue').default);
 Vue.component('rapport-result', require('./components/rapport/RapportResult.vue').default);
 
+Vue.component('last-history', require('./components/LastHistory').default);
+
 
 
 

@@ -141,6 +141,7 @@ Route::patch('/editTodo/{id}', [TodoController::class, 'update']);
 Route::delete('/todo/{id}', [TodoController::class, 'destroy']);
 
 Route::get('/history', [HistoryController::class, 'index']);
+Route::get('/lastHistories', [HistoryController::class, 'lastHistories']);
 
 Route::get('/devis', [DevisController::class, 'index']);
 Route::post('/devis', [DevisController::class, 'store']);

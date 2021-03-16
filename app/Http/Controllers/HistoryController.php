@@ -31,4 +31,11 @@ class HistoryController extends Controller
 
         return response()->json($histories);
     }
+
+    public function lastHistories()
+    {
+        $histories = History::with('user')->orderBy('id', 'DESC')->take(8)->get();
+
+        return response()->json($histories);
+    }
 }

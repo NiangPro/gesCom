@@ -21,7 +21,7 @@
                 </div>
               </div><!-- /.card-header -->
               <div class="card-body">
-                <apexchart type="bar" height="350" :options="chartOptions" :series="ventes"></apexchart>
+                <apexchart type="area" height="350" :options="chartOptions" :series="ventes"></apexchart>
 
               </div><!-- /.card-body -->
             </div>
@@ -47,19 +47,17 @@ export default {
         }
     },
     methods:{
-        fillData(){
-            this.getSaleByMonth();
-            this.getExpenseByMonth();
+        fillData(saleData, expenseData){
             this.ventes= [{
             name: 'Ventes',
-            data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
+            data: saleData
           }, {
             name: 'Dépenses',
-            data: [76, 85, 101, 98, 87, 105, 91, 114, 94]
+            data: expenseData
           }],
           this.chartOptions= {
             chart: {
-              type: 'bar',
+              type: 'area',
               height: 350
             },
             plotOptions: {
@@ -99,17 +97,18 @@ export default {
         },
         getSaleByMonth(){
             axios.get('/api/saleByMonth')
-            .then(response => {this.saleData = response.data})
+            .then(response => {this.saleData = response.data, this.fillData(this.saleData, this.expenseData)})
             .catch(error => alert(error));
         },
         getExpenseByMonth(){
             axios.get('/api/expenseByMonth')
-            .then(response => {this.expenseData = response.data})
+            .then(response => {this.expenseData = response.data, this.fillData(this.saleData, this.expenseData)})
             .catch(error => alert(error));
         }
     },
     mounted(){
-        this.fillData();
+        this.getSaleByMonth();
+        this.getExpenseByMonth();
     },
 }
 </script>
