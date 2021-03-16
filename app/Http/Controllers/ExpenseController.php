@@ -91,7 +91,7 @@ class ExpenseController extends Controller
 
     private function refresh()
     {
-        $expenses = Expense::orderBy('date', 'DESC')->get();
+        $expenses = Expense::orderBy('date', 'DESC')->paginate(6);
 
         return response()->json($expenses);
     }

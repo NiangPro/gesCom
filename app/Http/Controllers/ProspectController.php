@@ -114,7 +114,7 @@ class ProspectController extends Controller
 
     private function refresh()
     {
-        $ps = Prospect::orderBy('id', 'DESC')->get();
+        $ps = Prospect::orderBy('id', 'DESC')->paginate(5);
 
         return response()->json($ps);
     }

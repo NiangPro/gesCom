@@ -111,7 +111,7 @@ class DevisController extends Controller
         return response()->json($devisItems);
     }
 
-    public function totalDevis()
+    public function getNbreDevis()
     {
         $total = DB::table('devis')->count();
         return response()->json($total);

@@ -28,22 +28,15 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="h in histories" :key="h.id">
+                        <tr v-for="h in histories.data" :key="h.id">
                             <td>{{formattedDate(h.date)}}</td>
                             <td>{{h.user.name}}</td>
                             <td>{{h.type}}</td>
                             <td>{{h.description}}</td>
                         </tr>
                     </tbody>
-                    <tfoot>
-                        <tr>
-                            <th>Date</th>
-                            <th>Utilisateur</th>
-                            <th>Type</th>
-                            <th>Description</th>
-                        </tr>
-                    </tfoot>
                 </table>
+                <pagination :data="histories" @pagination-change-page="getResults" class="mt-3"></pagination>
               </div>
               <!-- /.card-body -->
             </div>
@@ -60,28 +53,24 @@ export default {
     data(){
         return {
             title:'Historiques',
-            subTitle:'/Historiques',
+            subTitle:'Historiques',
             histories:null,
         }
     },
     methods:{
-         formattedDate(date) {
-            return formatRelative(new Date(date), new Date(), { locale: fr });
-        },
-       getHistories(){
-            axios.get('/api/history')
+        getResults(page=1){
+            axios.get('/api/history?page='+page)
             .then(response => this.histories = response.data)
             .catch(error => alert(error));
+        },
+        formattedDate(date) {
+            return formatRelative(new Date(date), new Date(), { locale: fr });
         }
     },
     mounted(){
-        this.getHistories();
+        this.getResults();
 
     }
 }
 
 </script>
-
-<style>
-
-</style>

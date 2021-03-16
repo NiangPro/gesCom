@@ -196,17 +196,17 @@ export default {
             this.$emit('backSale');
         },
         getEmployes(){
-            axios.get('/api/employe')
+            axios.get('/api/employes')
             .then(response => this.emps = response.data)
             .catch(error => alert(error));
         },
         getClients(){
-            axios.get('/api/client')
+            axios.get('/api/clients')
             .then(response => this.clients = response.data)
             .catch(error => alert(error));
         },
         getProducts(){
-            axios.get('/api/product')
+            axios.get('/api/products')
             .then(response => this.products = response.data)
             .catch(error => alert(error));
         },

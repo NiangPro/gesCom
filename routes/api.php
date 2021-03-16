@@ -18,6 +18,7 @@ use App\Http\Controllers\TodoController;
 use App\Http\Controllers\VenteController;
 use App\Http\Controllers\DevisController;
 use App\Http\Controllers\RapportController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserController;
 
 /*
@@ -51,6 +52,7 @@ Route::delete('/staticdata/{id}', [StaticDataController::class, 'destroy']);
 Route::get('/changeStatusStaticData/{id}', [StaticDataController::class, 'edit']);
 
 Route::get('/employe', [EmployeController::class, 'index']);
+Route::get('/employes', [EmployeController::class, 'allEmployes']);
 Route::post('/employe', [EmployeController::class, 'store']);
 Route::get('/employe/show-{id}', [EmployeController::class, 'show']);
 Route::patch('/employe/edit-{id}', [EmployeController::class, 'update']);
@@ -75,6 +77,8 @@ Route::get('/saleByMonth', [HomeController::class, 'saleByMonth']);
 Route::get('/expenseByMonth', [HomeController::class, 'expenseByMonth']);
 
 Route::get('/client', [ClientController::class, 'index']);
+Route::get('/nbreClients', [ClientController::class, 'getNbreClients']);
+Route::get('/clients', [ClientController::class, 'allClients']);
 Route::post('/client', [ClientController::class, 'store']);
 Route::get('/client/show-{id}', [ClientController::class, 'show']);
 Route::patch('/client/edit-{id}', [ClientController::class, 'update']);
@@ -87,6 +91,8 @@ Route::patch('/fournisseur/edit-{id}', [FournisseurController::class, 'update'])
 Route::delete('/fournisseur/{id}', [FournisseurController::class, 'destroy']);
 
 Route::get('/product', [ProductController::class, 'index']);
+Route::get('/nbreProducts', [ProductController::class, 'getNbreProducts']);
+Route::get('/products', [ProductController::class, 'allProducts']);
 Route::post('/product', [ProductController::class, 'store']);
 Route::get('/product/show-{id}', [ProductController::class, 'show']);
 Route::patch('/product/edit-{id}', [ProductController::class, 'update']);
@@ -118,6 +124,7 @@ Route::delete('/reunion/{id}', [ReunionController::class, 'destroy']);
 Route::get('/reunionCalendar', [ReunionController::class, 'calendar']);
 
 Route::get('/vente', [VenteController::class, 'index']);
+Route::get('/nbreVentes', [VenteController::class, 'getNbreVentes']);
 Route::post('/vente', [VenteController::class, 'store']);
 Route::get('/vente/show-{id}', [VenteController::class, 'show']);
 Route::patch('/vente/edit-{id}', [VenteController::class, 'update']);
@@ -141,10 +148,17 @@ Route::delete('/devis/{id}', [DevisController::class, 'destroy']);
 Route::get('/devisItems', [DevisController::class, 'devisItems']);
 Route::get('/devisItems/{id}', [DevisController::class, 'itemsDevis']);
 Route::get('/devis/show-{id}', [DevisController::class, 'show']);
+Route::get('/nbreDevis', [DevisController::class, 'getNbreDevis']);
 
 Route::post('/rapportBetween', [RapportController::class, 'getSumBetweenTwoDate']);
 
 Route::get('/userConnected', [UserController::class, 'userConnecte']);
 Route::get('/users', [UserController::class, 'index']);
 Route::patch('/user/{id}', [UserController::class, 'update']);
+Route::post('/user/{id}', [UserController::class, 'show']);
+Route::post('/user/edit', [UserController::class, 'passwordEdit']);
+Route::delete('/user/{id}', [UserController::class, 'destroy']);
 Route::post('/userAvatar', [UserController::class, 'editAvatar']);
+
+Route::get('/appvars', [SettingController::class, 'getAppVars']);
+Route::post('/changevars', [SettingController::class, 'changeVars']);

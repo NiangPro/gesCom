@@ -115,7 +115,6 @@
                 <i class="nav-icon fa fa-file-invoice"></i>
                 <p>
                     Devis
-                    <span class="right badge badge-danger">New</span>
                 </p>
                 </router-link>
             </li>
@@ -147,7 +146,6 @@
                     <i class="nav-icon fas fa-chart-bar"></i>
                     <p>
                         Rapport
-                        <span class="right badge badge-danger">New</span>
                     </p>
                 </router-link>
             </li>
@@ -158,7 +156,6 @@
                     <i class="ion ion-ios-gear-outline" style="font-size: 28px !important;"></i>
                     <p>
                         Paramètres
-                        <span class="right badge badge-danger">New</span>
                     </p>
                 </router-link>
             </li>

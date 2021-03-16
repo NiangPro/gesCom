@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -70,7 +71,9 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = User::where('id', $id)->first();
+
+        return response()->json($user);
     }
 
     /**
@@ -113,7 +116,22 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::where('id', $id)->first();
+
+        $user->delete();
+
+        return $this->getUsers();
+    }
+
+    public function passwordEdit(Request $request)
+    {
+        $user = User::where('id', $request->iduser)->first();
+
+        $user->password = Hash::make($request->password_edit);
+
+        $user->save();
+
+        return response()->json($user);
     }
 
     public function getUsers()

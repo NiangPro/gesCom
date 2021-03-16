@@ -24,7 +24,13 @@ import routes from './routes';
 
 Vue.use(VueRouter);
 
+import VueApexCharts from 'vue-apexcharts'
+Vue.use(VueApexCharts)
+
+Vue.component('apexchart', VueApexCharts)
+
 Vue.component('entete', require('./components/EnteteComponent').default);
+Vue.component('pagination', require('laravel-vue-pagination'));
 
 Vue.component('add-staticdata', require('./components/staticData/AddStaticData').default);
 Vue.component('list-staticdata', require('./components/staticData/ListStaticData').default);
@@ -73,6 +79,7 @@ Vue.component('edit-password', require('./components/setting/EditPassword').defa
 Vue.component('profil-user', require('./components/setting/ProfilComponent').default);
 Vue.component('list-users', require('./components/setting/ListUsers').default);
 Vue.component('edit-avatar', require('./components/setting/UserAvatar').default);
+Vue.component('info-user', require('./components/setting/InfoUser').default);
 
 Vue.component('add-todo', require('./components/todolist/AddTodo').default);
 Vue.component('list-todo', require('./components/todolist/ListTodo').default);
@@ -83,7 +90,6 @@ Vue.component('list-devis', require('./components/devis/ListDevis').default);
 Vue.component('info-devis', require('./components/devis/InfoDevis').default);
 
 
-Vue.component('line-chart', require('./components/lineChart.js').default);
 Vue.component('rapport-vente', require('./components/rapport/RapportVente.vue').default);
 Vue.component('rapport-between', require('./components/rapport/RapportBetween.vue').default);
 Vue.component('rapport-result', require('./components/rapport/RapportResult.vue').default);

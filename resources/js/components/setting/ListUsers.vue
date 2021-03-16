@@ -1,5 +1,6 @@
 <template>
   <div class="row">
+      <info-user :user="user"></info-user>
       <div class="col-md-3" v-for="user in users" :key="user.id">
             <!-- Widget: user widget style 1 -->
             <div class="card card-widget widget-user">
@@ -16,7 +17,7 @@
                     <div class="col-sm-6 border-right">
                         <div class="description-block">
                             <span class="description-text">
-                                <button class="btn btn-outline-success btn-rounded btn-sm" title="Consulter" data-toggle="modal" data-target="#infoEmployed"><i class="fa fa-eye" aria-hidden="true" ></i></button>
+                                <button class="btn btn-outline-success btn-rounded btn-sm" title="Consulter" data-toggle="modal" data-target="#infoUser" @click="getUser(user.id)"><i class="fa fa-eye" aria-hidden="true" ></i></button>
                             </span>
                         </div>
                         <!-- /.description-block -->
@@ -24,7 +25,7 @@
                     <div class="col-sm-6">
                         <div class="description-block">
                         <span class="description-text">
-                            <button class="btn btn-outline-danger btn-rounded btn-sm" title="Supprimer"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                            <button class="btn btn-outline-danger btn-rounded btn-sm" @click="deleteUser(user.id)" title="Supprimer"><i class="fa fa-trash" aria-hidden="true"></i></button>
                         </span>
                         </div>
                         <!-- /.description-block -->
@@ -41,7 +42,42 @@
 
 <script>
 export default {
-    props:['users']
+    props:['users'],
+    data(){
+        return {
+            user:null
+        }
+    },
+    methods:{
+        getUser(id){
+            axios.get('/api/user/'+id)
+            .then(response => this.user = response.data)
+            .catch(error => alert(error));
+        },
+        deleteUser(id){
+            if(confirm('Êtes-vous sûr de vouloir supprimer ?')){
+                axios.delete('/api/user/'+id)
+                .then(response => {this.$emit('userDeleted', response.data), this.showAlert('L\'utilisateur a été supprimé', 'success')})
+                .catch(error => alert(error));
+            }
+        },
+        showAlert(message, type) {
+        // Use sweetalert2
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true
+                })
+
+                Toast.fire({
+                icon: type,
+                title: message
+                })
+        }
+
+    }
 }
 </script>
 

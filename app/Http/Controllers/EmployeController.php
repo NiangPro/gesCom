@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Employed;
 use App\Models\History;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class EmployeController extends Controller
 {
@@ -113,11 +114,24 @@ class EmployeController extends Controller
         }
     }
 
+    public function allEmployes()
+    {
+        $emps = Employed::orderBy('prenom', 'ASC')->get();
+
+        return response()->json($emps);
+    }
+
     private function refresh()
     {
-        $employes = Employed::orderBy('id', 'DESC')->get();
+        $employes = Employed::orderBy('id', 'DESC')->paginate(8);
 
         return response()->json($employes);
+    }
+
+    public function getNbreEmployes()
+    {
+        $total = DB::table('employeds')->count();
+        return response()->json($total);
     }
 
     public function editProfil(Request $request)

@@ -1,4 +1,10 @@
 <template>
+ <div>
+     <add-expense @expenseAdded="addExpense" @errorAdded="erreur"></add-expense>
+
+        <button type="button" class="btn btn-outline-success toastrDefaultInfo my-3" data-toggle="modal" data-target="#addExpense">
+                  Ajouter
+        </button>
     <div class="row">
             <edit-expense v-on:expenseUpdated="refresh" :form="expenseEditing"></edit-expense>
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -21,7 +27,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="exp in expenses" :key="exp.id">
+                                    <tr v-for="exp in expenses.data" :key="exp.id">
                                             <td>{{exp.category}}</td>
                                             <td>{{exp.payment_mode}}</td>
                                             <td>{{formattedDate(exp.date)}}</td>
@@ -32,22 +38,25 @@
                                         </tr>
                                 </tbody>
                             </table>
+                            <pagination :data="expenses" @pagination-change-page="getResults" class="mt-3"></pagination>
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+ </div>
 </template>
 
 <script>
 import { format} from "date-fns";
 
 export default {
-    props:['expenses'],
     data(){
         return {
             expenseEditing:{},
-            user:{}
+            user:{},
+            expenses:null
         }
     },
     methods:{
@@ -77,7 +86,7 @@ export default {
                 this.showAlert('L\'opération a été annulée');
             }
         },
-        showAlert(message) {
+        showAlert(message, type='success') {
         // Use sweetalert2
                 const Toast = Swal.mixin({
                     toast: true,
@@ -88,13 +97,26 @@ export default {
                 })
 
                 Toast.fire({
-                icon: 'success',
+                icon: type,
                 title: message
                 })
-            }
+        },
+        getResults(page=1){
+            axios.get('/api/expense?page='+page)
+            .then(response => this.expenses = response.data)
+            .catch(error => alert(error));
+        },
+        erreur(){
+            this.showAlert('Tous les champs (*) sont obligatoires', 'error');
+        },
+        addExpense(expenses){
+            this.expenses = expenses;
+            this.showAlert('La dépense a été ajouté', 'success');
+        }
     },
     mounted(){
         this.getUser();
+        this.getResults();
     }
 }
 </script>

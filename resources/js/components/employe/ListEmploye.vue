@@ -1,9 +1,10 @@
 <template>
-    <div class="row">
+    <div>
+        <div class="row">
         <edit-employed v-if="etat == 'edit'" @employeUpdated="refresh" :emp="empEditing"></edit-employed>
         <info-employed v-if="etat == 'info'" :empInfo="empEditing"></info-employed>
         <edit-profil v-if="etat == 'profil'" :empProfil="empEditing" @profilUpload="photo"></edit-profil>
-        <div class="col-md-3" v-for="em in emps" :key="em.id">
+        <div class="col-md-3" v-for="em in emps.data" :key="em.id">
             <!-- Widget: user widget style 1 -->
             <div class="card card-widget widget-user">
                 <!-- Add the bg color to the header using any of the bg-* classes -->
@@ -50,6 +51,11 @@
             </div>
             <!-- /.widget-user -->
         </div>
+    </div>
+    <div class="row">
+    <pagination :data="emps" @pagination-change-page="getResults" class="mt-3"></pagination>
+
+    </div>
     </div>
 </template>
 
@@ -100,29 +106,14 @@ export default{
                 title: message
                 })
             },
-            editProfil(){}
-            // editProfil(){
-            //     const { value: file } = await Swal.fire({
-            //     title: 'Selectionner une image',
-            //     input: 'file',
-            //     inputAttributes: {
-            //         'accept': 'image/*',
-            //         'aria-label': 'Upload your profile picture'
-            //     }
-            //     })
-
-            //     if (file) {
-            //     const reader = new FileReader()
-            //     reader.onload = (e) => {
-            //         Swal.fire({
-            //         title: 'Your uploaded picture',
-            //         imageUrl: e.target.result,
-            //         imageAlt: 'The uploaded picture'
-            //         })
-            //     }
-            //     reader.readAsDataURL(file)
-            //     }
-            // }
+            getResults(page=1){
+                    axios.get('/api/employe?page='+page)
+                    .then(response => this.emps = response.data)
+                    .catch(error => alert(error));
+            }
+        },
+        mounted(){
+            this.getResults();
         }
     }
 </script>

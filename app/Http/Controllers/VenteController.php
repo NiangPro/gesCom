@@ -6,6 +6,7 @@ use App\Models\ProduitVendu;
 use App\Models\Vente;
 use App\Models\History;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class VenteController extends Controller
 {
@@ -122,5 +123,11 @@ class VenteController extends Controller
         $produitVendus = ProduitVendu::with('vente')->orderBy('vente_id', 'DESC')->get();
 
         return response()->json($produitVendus);
+    }
+
+    public function getNbreVentes()
+    {
+        $total = DB::table('ventes')->count();
+        return response()->json($total);
     }
 }

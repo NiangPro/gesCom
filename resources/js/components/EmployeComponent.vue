@@ -17,7 +17,7 @@
         data(){
             return {
                 title:'Employés',
-                subTitle:'/Employés',
+                subTitle:'Employés',
                 employeds:{}
             }
         },

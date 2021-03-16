@@ -23,7 +23,7 @@
         data(){
             return {
                 title:'Données Statiques',
-                subTitle:'/Données statiques',
+                subTitle:'Données statiques',
                 staticDatas: {},
                 typeData:null,
                 form:{

@@ -74,7 +74,7 @@ export default {
     data(){
         return {
             title:'Comptabilité Générale',
-            subTitle:'/Rapports',
+            subTitle:'Rapports',
             sumSale:0,
             sumExpense:0,
             balance:0,

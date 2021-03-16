@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\History;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -55,6 +56,19 @@ class ProductController extends Controller
 
 
         return $this->refresh();
+    }
+
+    public function allProducts()
+    {
+        $prods = Product::orderBy('nom', 'ASC')->get();
+
+        return response()->json($prods);
+    }
+
+    public function getNbreProducts()
+    {
+        $total = DB::table('products')->count();
+        return response()->json($total);
     }
 
     /**
@@ -121,7 +135,7 @@ class ProductController extends Controller
 
     private function refresh()
     {
-        $products = Product::orderBy('id', 'DESC')->get();
+        $products = Product::orderBy('id', 'DESC')->paginate(6);
 
         return response()->json($products);
     }

@@ -1,4 +1,11 @@
 <template>
+    <div>
+        <add-client @clientAdded="addClient" @errorAdded="erreur"></add-client>
+
+        <button type="button" class="btn btn-outline-success toastrDefaultInfo my-3" data-toggle="modal" data-target="#addClient">
+                  Ajouter
+        </button>
+
     <div class="row">
             <info-client :cli="cliEditing"></info-client>
             <edit-client v-on:clientUpdated="refresh" :cli="cliEditing" ></edit-client>
@@ -21,7 +28,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="cli in clients" :key="cli.id">
+                                    <tr v-for="cli in clients.data" :key="cli.id">
                                             <td>{{cli.nom}}</td>
                                             <td>{{cli.pays}}</td>
                                             <td>{{cli.adresse}}</td>
@@ -31,20 +38,23 @@
                                         </tr>
                                 </tbody>
                             </table>
+                            <pagination :data="clients" @pagination-change-page="getResults" class="mt-3"></pagination>
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 </template>
 
 <script>
 export default {
-    props:['clients'],
     data(){
         return {
             cliEditing:{},
-            user:{}
+            user:{},
+            clients:null
         }
     },
     methods:{
@@ -86,21 +96,22 @@ export default {
             title: message
             })
         },
-        removeClient(){
-            Swal.fire({
-            title: 'Êtes-vous sûr?',
-            text: "Vous ne pourrez pas revenir en arrière!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            cancelButtonText: 'Annuler',
-            confirmButtonText: 'Oui, supprimer!'
-            })
+            getResults(page=1){
+                 axios.get('/api/client?page='+page)
+                .then(response => this.clients = response.data)
+                .catch(error => alert(error));
+            },
+            erreur(){
+            this.showAlert('Tous les champs (*) sont obligatoires', 'error');
+        },
+        addClient(clients){
+            this.clients = clients;
+            this.showAlert('Le client a été ajouté', 'success');
         }
     },
     mounted(){
         this.getUser();
+        this.getResults();
     }
 }
 </script>

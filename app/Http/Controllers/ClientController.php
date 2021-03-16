@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Client;
 use App\Models\History;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 
 class ClientController extends Controller
@@ -41,6 +42,13 @@ class ClientController extends Controller
             $this->histo->addHistorique("Un client a été ajouté", "Ajout");
             return $this->refresh();
         }
+    }
+
+    public function allClients()
+    {
+        $clients = Client::orderBy('nom', 'ASC')->get();
+
+        return response()->json($clients);
     }
 
     /**
@@ -98,10 +106,16 @@ class ClientController extends Controller
         }
     }
 
+    public function getNbreClients()
+    {
+        $total = DB::table('clients')->count();
+        return response()->json($total);
+    }
+
 
     private function refresh()
     {
-        $clients = Client::orderBy('id', 'DESC')->get();
+        $clients = Client::orderBy('id', 'DESC')->paginate(6);
 
         return response()->json($clients);
     }

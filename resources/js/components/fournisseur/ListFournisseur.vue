@@ -1,4 +1,10 @@
 <template>
+    <div>
+        <add-fournisseur @frAdded="addFr" @errorAdded="erreur"></add-fournisseur>
+
+        <button type="button" class="btn btn-outline-success toastrDefaultInfo my-3" data-toggle="modal" data-target="#addFr">
+            Ajouter
+        </button>
     <div class="row">
             <info-fournisseur :fr="frEditing"></info-fournisseur>
             <edit-fournisseur v-on:frUpdated="refresh" :fr="frEditing" ></edit-fournisseur>
@@ -21,7 +27,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="fr in frs" :key="fr.id">
+                                    <tr v-for="fr in frs.data" :key="fr.id">
                                             <td>{{fr.nom}}</td>
                                             <td>{{fr.pays}}</td>
                                             <td>{{fr.adresse}}</td>
@@ -31,20 +37,22 @@
                                         </tr>
                                 </tbody>
                             </table>
+                            <pagination :data="frs" @pagination-change-page="getResults" class="mt-3"></pagination>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 </template>
 
 <script>
 export default {
-    props:['frs'],
     data(){
         return {
             frEditing:{},
-            user:{}
+            user:{},
+            frs:null
         }
     },
     methods:{
@@ -85,10 +93,23 @@ export default {
                 icon: 'success',
                 title: message
                 })
-            }
+        },
+        getResults(page=1){
+            axios.get('/api/fournisseur?page='+page)
+            .then(response => this.frs = response.data)
+            .catch(error => alert(error));
+        },
+         erreur(){
+            this.showAlert('Tous les champs (*) sont obligatoires', 'error');
+        },
+        addFr(frs){
+            this.frs = frs;
+            this.showAlert('Le fournisseur a été ajouté', 'success');
+        }
     },
     mounted(){
         this.getUser();
+        this.getResults();
     }
 }
 </script>

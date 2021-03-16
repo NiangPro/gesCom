@@ -1,7 +1,13 @@
 <template>
+    <div>
+        <button type="button" class="btn btn-outline-success toastrDefaultInfo my-3" data-toggle="modal" data-target="#addProduct">
+                  Ajouter
+        </button>
+
+        <add-product @productAdded="addProduct" @errorAdded="erreur"></add-product>
     <div class="row">
         <info-product :prod="productEditing"></info-product>
-        <edit-product v-on:productUpdated="refresh" :form="productEditing"></edit-product>
+        <edit-product @productUpdated="refresh" :form="productEditing"></edit-product>
 
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                 <div class="card" >
@@ -21,7 +27,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="p in products" :key="p.id">
+                                    <tr v-for="p in products.data" :key="p.id">
                                             <td>{{p.nom}}</td>
                                             <td>{{p.type}}</td>
                                             <td>{{p.tarif}} F CFA</td>
@@ -30,22 +36,30 @@
                                         </tr>
                                 </tbody>
                             </table>
+                            <pagination :data="products" @pagination-change-page="getResults" class="mt-3"></pagination>
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 </template>
 
 <script>
 export default {
-    props:['products'],
     data(){
         return {
-            productEditing:null
+            productEditing:null,
+            products:null
         }
     },
     methods:{
+        getResults(page=1){
+                axios.get('/api/product?page='+page)
+                .then(response => this.products = response.data)
+                .catch(error => alert(error));
+            },
         getProduct(id){
             axios.get('/api/product/show-'+id)
             .then(response => this.productEditing = response.data)
@@ -64,7 +78,14 @@ export default {
             this.products = products;
             this.showAlert('Les informations du produit ont été supprimées');
         },
-        showAlert(message) {
+        addProduct(products){
+                this.products = products;
+                this.showAlert('Le produit a été ajouté', 'success');
+        },
+        erreur(){
+            this.showAlert('Tous les champs (*)  sont obligatoires', 'error');
+        },
+        showAlert(message, type='success') {
         // Use sweetalert2
                 const Toast = Swal.mixin({
                     toast: true,
@@ -75,12 +96,13 @@ export default {
                 })
 
                 Toast.fire({
-                icon: 'success',
+                icon: type,
                 title: message
                 })
             }
-
-
+    },
+    mounted(){
+        this.getResults();
     }
 }
 </script>

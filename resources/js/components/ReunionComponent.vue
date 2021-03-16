@@ -43,7 +43,7 @@ export default {
     data(){
         return {
             title:'Réunions',
-            subTitle:'/Réunions',
+            subTitle:'Réunions',
             reunions:[],
             getType:false,
 

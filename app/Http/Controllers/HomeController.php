@@ -172,6 +172,10 @@ class HomeController extends Controller
             $data[] = $som;
         }
 
+        // for ($i = 12 - $moisActuel; $i <= 12; $i++) {
+        //     $data[] = 0;
+        // }
+
         return response()->json($data);
     }
 
@@ -179,7 +183,6 @@ class HomeController extends Controller
     {
         $expenses = Expense::select(DB::raw('distinct Sum(montant) as somme, Month(date) as mois'))
             ->groupBy(DB::raw("Month(date)"))->orderBy(DB::raw("MONTH(date)"), "ASC")->get();
-
 
         $data = [];
 

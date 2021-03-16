@@ -28,13 +28,22 @@
                                         <td>{{vente.employed.prenom}} {{vente.employed.nom}}</td>
                                         <td>{{vente.total_amount}} F CFA</td>
                                         <td>
-                                            <span v-for="product in produitVendus" :key="product.id">
-                                                <span v-if="vente.id == product.vente_id">{{product.nom}}</span><br>
+                                            <span
+                                                v-for="product in produitVendus"
+                                                :key="product.id"
+                                            >
+                                                <span
+                                                    v-if="
+                                                        vente.id ==
+                                                            product.vente_id
+                                                    "
+                                                    >{{ product.nom }}</span
+                                                ><br />
                                             </span>
                                         </td>
                                         <td>
                                             <button class="btn btn-outline-success rounded btn-sm" @click="getVente(vente.id)"><i class="fa fa-eye" aria-hidden="true" title="Consulter"></i></button>
-                                            <button v-if="user.role === 'Admin'" class="btn btn-outline-primary rounded btn-sm"  @click="getVente(vente.id)" title="Annuler"><i class="fa fa-sync-alt" aria-hidden="true"></i></button>
+                                            <button v-if="user.role === 'Admin'" class="btn btn-outline-primary rounded btn-sm"  @click="cancelVente(vente.id)" title="Annuler"><i class="fa fa-sync-alt" aria-hidden="true"></i></button>
                                             <button v-if="user.role === 'Admin'" class="btn btn-outline-danger rounded btn-sm"  @click="deleteVente(vente.id)" title="Supprimer"><i class="fa fa-trash" aria-hidden="true"></i></button>
                                             </td>
                                     </tr>

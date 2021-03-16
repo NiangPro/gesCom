@@ -85,7 +85,8 @@ export default {
         },
         {
             path: "/setting",
-            component: Setting
+            component: Setting,
+            name: "setting"
         },
         {
             path: "*",

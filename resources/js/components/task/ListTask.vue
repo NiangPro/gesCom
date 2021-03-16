@@ -1,4 +1,10 @@
 <template>
+    <div>
+        <add-task @taskAdded="addTask" @errorAdded="erreur"></add-task>
+        <button type="button" class="btn btn-outline-success toastrDefaultInfo my-3" data-toggle="modal" data-target="#addTask">
+                  Ajouter
+        </button>
+
     <div class="row">
             <edit-task v-on:taskUpdated="refresh" :form="taskEditing"></edit-task>
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -21,7 +27,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="task in tasks" :key="task.id">
+                                    <tr v-for="task in tasks.data" :key="task.id">
                                             <td>{{task.titre}}</td>
                                             <td>{{task.statut}}</td>
                                             <td>{{task.type}}</td>
@@ -33,11 +39,14 @@
                                         </tr>
                                 </tbody>
                             </table>
+                            <pagination :data="tasks" @pagination-change-page="getResults" class="mt-3"></pagination>
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 </template>
 
 <script>
@@ -45,13 +54,18 @@ import { formatRelative } from "date-fns";
 import { fr } from 'date-fns/locale';
 
 export default {
-    props:['tasks'],
-    data(){
+   data(){
         return {
-            taskEditing:null
+            taskEditing:null,
+            tasks:null
         }
     },
     methods:{
+        getResults(page=1){
+                axios.get('/api/task?page='+page)
+                .then(response => this.tasks = response.data)
+                .catch(error => alert(error));
+        },
         formattedDate(date) {
             return formatRelative(new Date(date), new Date(), { locale: fr });
         },
@@ -87,7 +101,17 @@ export default {
                 icon: 'success',
                 title: message
                 })
+        },
+        addTask(tasks){
+                this.tasks = tasks;
+                this.showAlert('La tâche a été ajoutée', 'success');
+            },
+            erreur(){
+                this.showAlert('Tous les champs (*) sont obligatoires', 'error');
             }
+    },
+    mounted(){
+        this.getResults();
     }
 }
 </script>

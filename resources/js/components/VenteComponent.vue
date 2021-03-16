@@ -1,7 +1,7 @@
 <template>
     <div>
-        <add-vente v-if="sale"  @backSale="changeSale" @saleAdded="refresh"></add-vente>
         <entete :subTitle="subTitle" :title="title"></entete>
+        <add-vente v-if="sale"  @backSale="changeSale" @saleAdded="refresh"></add-vente>
 
         <button  type="button" v-if="!sale"  @click="changeSale"  class="btn btn-outline-success toastrDefaultInfo my-3">
                   Ajouter
@@ -16,7 +16,7 @@ export default {
     data(){
         return {
             title:'Ventes',
-            subTitle:'/Ventes',
+            subTitle:'Ventes',
             sale : false,
             ventes:null
         }

@@ -1,5 +1,6 @@
 <template>
      <div class="card">
+         <add-todo @todoAdded="getResults"></add-todo>
          <edit-todo :form="todoEditing" @todoUpdated="refresh"></edit-todo>
               <div class="card-header">
                 <h3 class="card-title">
@@ -21,7 +22,7 @@
               <!-- /.card-header -->
               <div class="card-body">
                 <ul class="todo-list" data-widget="todo-list">
-                  <li v-for="todo in todos" :key="todo.id">
+                  <li v-for="todo in todos.data" :key="todo.id">
                     <!-- drag handle -->
                     <span class="handle">
                       <i class="fas fa-ellipsis-v"></i>
@@ -44,6 +45,7 @@
                     </div>
                   </li>
                 </ul>
+                <pagination :data="todos" @pagination-change-page="getResults" class="mt-3"></pagination>
               </div>
               <!-- /.card-body -->
 
@@ -56,19 +58,25 @@ import { fr } from 'date-fns/locale';
 
 
 export default {
-    props:['todos'],
     data(){
         return {
             form:{
                 is_check:false,
                 id:null
                 },
-            todoEditing:null
+            todoEditing:null,
+            todos:null
         }
     },
     methods:{
       formattedDate(date) {
             return formatRelative(new Date(date), new Date(), { locale: fr });
+        },
+        getResults(page=1) {
+            axios
+                .get("/api/todo?page="+page)
+                .then(response => this.todos = response.data)
+                .catch(error => alert(error))
         },
         isChecked(id, is_check){
             this.check(id, is_check);
@@ -118,6 +126,9 @@ export default {
             title: message
             })
         }
+    },
+    mounted(){
+        this.getResults();
     }
 }
 </script>

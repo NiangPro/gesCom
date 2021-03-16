@@ -1,7 +1,6 @@
 <template>
    <div>
         <entete :subTitle="subTitle" :title="title"></entete>
-
         <div class="container-fluid">
         <div class="card">
             <div class="card-header">
@@ -34,10 +33,10 @@
                     </div>
 
                     <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
-                        <edit-password></edit-password>
+                        <edit-password :user="user"></edit-password>
                     </div>
                     <div class="tab-pane fade" id="pills-users" role="tabpanel" aria-labelledby="pills-users-tab">
-                        <list-users :users="users"></list-users>
+                        <list-users :users="users" @userDeleted="refresh"></list-users>
                     </div>
                     <div class="tab-pane fade" id="pills-user" role="tabpanel" aria-labelledby="pills-user-tab">
                         <add-user @userAdded="refresh"></add-user>
@@ -54,30 +53,14 @@ export default {
     data(){
         return {
             title:'Paramètres',
-            subTitle:'/Paramètres',
+            subTitle:'Paramètres',
             users:null,
             user:null
         }
     },
     methods:{
-        showAlert(message) {
-        // Use sweetalert2
-                const Toast = Swal.mixin({
-                    toast: true,
-                    position: 'top',
-                    showConfirmButton: false,
-                    timer: 3000,
-                    timerProgressBar: true
-                })
-
-                Toast.fire({
-                icon: 'success',
-                title: message
-                })
-        },
         refresh(users){
             this.users = users;
-            this.showAlert('L\'utilisateur a été ajouté');
         },
         getUsers(){
             axios.get('/api/users')

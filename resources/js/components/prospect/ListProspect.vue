@@ -1,4 +1,10 @@
 <template>
+ <div>
+     <add-prospect @prospectAdded="addProspect" @errorAdded="erreur"></add-prospect>
+
+        <button type="button" class="btn btn-outline-success toastrDefaultInfo my-3" data-toggle="modal" data-target="#addProspect">
+                  Ajouter
+        </button>
     <div class="row">
             <edit-prospect v-on:prospectUpdated="refresh" :form="prospectEditing" ></edit-prospect>
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -22,7 +28,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="p in prospects" :key="p.id">
+                                    <tr v-for="p in prospects.data" :key="p.id">
                                             <td>{{p.sujet}}</td>
                                             <td>{{p.source}}</td>
                                             <td>{{p.assignation}}</td>
@@ -34,20 +40,23 @@
                                         </tr>
                                 </tbody>
                             </table>
+                            <pagination :data="prospects" @pagination-change-page="getResults" class="mt-3"></pagination>
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+ </div>
 </template>
 
 <script>
 export default {
-    props:['prospects'],
     data(){
         return {
             prospectEditing:{},
-            user:{}
+            user:{},
+            prospects:null
         }
     },
     methods:{
@@ -88,10 +97,23 @@ export default {
                 icon: 'success',
                 title: message
                 })
-            }
+            },
+        getResults(page=1){
+            axios.get('/api/prospect?page='+page)
+            .then(response => this.prospects = response.data)
+            .catch(error => alert(error));
+        },
+        erreur(){
+            this.showAlert('Tous les champs (*) sont obligatoires', 'error');
+        },
+        addProspect(prospects){
+            this.prospects = prospects;
+            this.showAlert('Le prospect a été ajouté', 'success');
+        }
     },
     mounted(){
         this.getUser();
+        this.getResults();
     }
 }
 </script>
