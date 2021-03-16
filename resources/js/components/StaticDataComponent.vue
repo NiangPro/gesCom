@@ -5,7 +5,7 @@
                   Ajouter un nouveau type
         </button> -->
 
-
+        <entete :subTitle="subTitle" :title="title"></entete>
         <div class="row">
           <div class="col-md-12">
                <div class="accordion" id="accordionExample">
@@ -22,11 +22,13 @@
 
         data(){
             return {
+                title:'Données Statiques',
+                subTitle:'Données statiques',
                 staticDatas: {},
                 typeData:null,
                 form:{
-                    type:null,
-                    valeur:null,
+                    type:'',
+                    valeur:'',
                     etat:false
                 }
             }
@@ -47,7 +49,7 @@
                 this.form.etat = true;
             },
             newType(){
-                this.form.type = null;
+                this.form.type = '';
                 this.form.etat = false;
             }
 

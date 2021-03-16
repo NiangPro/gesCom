@@ -11,26 +11,26 @@
             <div class="modal-body">
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                        <label >Catégorie</label>
+                        <label>Catégorie<span class="text-danger">*</span></label>
                         <select  class="form-control" v-model="form.category">
                             <option v-for="cat in categories" :key="cat.id" v-bind:value="cat.valeur">{{cat.valeur}}</option>
                         </select>
                         </div>
                         <div class="form-group col-md-6">
-                        <label >Montant</label>
+                        <label >Montant<span class="text-danger">*</span></label>
                         <input type="number" class="form-control" placeholder="Entrer le montant" v-model="form.montant">
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label >Mode de paiement</label>
+                        <label >Mode de paiement<span class="text-danger">*</span></label>
                         <select  class="form-control" v-model="form.payment_mode">
                             <option v-for="pm in payments_mode" :key="pm.id" v-bind:value="pm.valeur">{{pm.valeur}}</option>
                         </select>
                         </div>
 
                     <div class="form-group">
-                        <label for="adresse">Date</label>
+                        <label for="adresse">Date<span class="text-danger">*</span></label>
                         <input type="date" class="form-control" placeholder="Entrer la date" v-model="form.date">
                     </div>
 
@@ -46,7 +46,7 @@
                 </div>
             <div class="modal-footer justify-content-between">
               <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Fermer</button>
-              <button type="button" class="btn btn-outline-info" data-dismiss="modal" @click="addExpense()">Ajouter</button>
+              <button type="button" class="btn btn-outline-success" data-dismiss="modal" @click="addExpense()">Ajouter</button>
             </div>
             </form>
           </div>
@@ -61,15 +61,15 @@ export default {
     data(){
         return {
             form:{
-                category:null,
-                payment_mode:null,
-                description:null,
-                date:null,
-                montant:null,
-                recu:null
+                category:'',
+                payment_mode:'',
+                description:'',
+                date:'',
+                montant:'',
+                recu:''
             },
-            categories:null,
-            payments_mode: null
+            categories:{},
+            payments_mode: {}
         }
     },
     methods:{
@@ -84,18 +84,29 @@ export default {
             .catch(error => alert(error));
         },
         addExpense(){
-            axios.post('/api/expense', this.form)
+            if(this.notEmpty()){
+                axios.post('/api/expense', this.form)
                 .then(response => {this.$emit('expenseAdded', response.data), this.initForm()})
                 .catch(error => alert(error));
+            }else{
+                this.$emit('errorAdded');
+            }
         },
         initForm(){
-            this.form.category = null;
-                this.form.payment_mode = null;
-                this.form.description = null;
-                this.form.date = null;
-                this.form.montant = null;
-                this.form.recu = null;
-                }
+            this.form.category = '';
+                this.form.payment_mode = '';
+                this.form.description = '';
+                this.form.date = '';
+                this.form.montant = '';
+                this.form.recu = '';
+        },
+        notEmpty(){
+            if(this.form.category === '' || this.form.payment_mode === '' || this.form.date === '' || this.form.montant === ''){
+                return false;
+            }else{
+                return true;
+            }
+        }
     },
     mounted(){
         this.getCategories();

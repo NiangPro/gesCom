@@ -17,6 +17,15 @@
     color:#fff;
     cursor:pointer;
 }
+
+.pagination .page-item{
+    margin:5px;
+}
+
+.pagination .page-item .page-link{
+    border-radius:50%;
+}
+
 /* 
 img:hover + .tools{
     display:block !important;

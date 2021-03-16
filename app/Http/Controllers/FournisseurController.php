@@ -100,7 +100,7 @@ class FournisseurController extends Controller
 
     private function refresh()
     {
-        $frs = Fournisseur::orderBy('id', 'DESC')->get();
+        $frs = Fournisseur::orderBy('id', 'DESC')->paginate(6);
 
         return response()->json($frs);
     }

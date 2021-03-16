@@ -1,11 +1,8 @@
 <template>
     <div>
-        <add-fournisseur v-on:frAdded="refresh"></add-fournisseur>
-        <button type="button" class="btn btn-info toastrDefaultInfo my-3" data-toggle="modal" data-target="#addFr">
-            Ajouter
-        </button>
+        <entete :subTitle="subTitle" :title="title"></entete>
 
-        <list-fournisseur :frs="frs"></list-fournisseur>
+        <list-fournisseur></list-fournisseur>
     </div>
 </template>
 
@@ -13,18 +10,9 @@
 export default {
     data(){
         return {
-            frs:{}
+            title:'Fournisseurs',
+            subTitle:'Fournisseurs',
         }
-    },
-    methods:{
-        refresh(){
-            axios.get('/api/fournisseur')
-            .then(response => this.frs = response.data)
-            .catch(error => alert(error));
-        }
-    },
-    created(){
-        this.refresh();
     }
 }
 </script>

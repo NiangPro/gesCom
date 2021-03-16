@@ -13,7 +13,7 @@
                   <div class="form-group row">
                     <label  class="col-sm-2 col-form-label">Type</label>
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" v-model="staticData.type" placeholder="Entrer le type">
+                      <input type="text" class="form-control" readonly v-model="staticData.type" placeholder="Entrer le type">
                     </div>
                   </div>
                   <div class="form-group row">

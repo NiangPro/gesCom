@@ -1,11 +1,8 @@
 <template>
     <div>
-        <add-client v-on:clientAdded="refresh"></add-client>
-        <button type="button" class="btn btn-info toastrDefaultInfo my-3" data-toggle="modal" data-target="#addClient">
-                  Ajouter
-        </button>
+        <entete :subTitle="subTitle" :title="title"></entete>
 
-        <list-client :clients="clients"></list-client>
+        <list-client></list-client>
     </div>
 </template>
 
@@ -13,18 +10,12 @@
 export default {
     data(){
         return {
-            clients:{}
+            title:'Clients',
+            subTitle:'Clients',
         }
     },
     methods:{
-        refresh(){
-            axios.get('/api/client')
-            .then(response => this.clients = response.data)
-            .catch(error => alert(error));
-        }
-    },
-    created(){
-        this.refresh();
+
     }
 }
 </script>

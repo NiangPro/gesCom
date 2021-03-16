@@ -12,7 +12,7 @@ class Reunion extends Model
     protected $table = "reunions";
 
     protected $fillable = [
-        'titre',
+        'title',
         'description',
         'date'
     ];

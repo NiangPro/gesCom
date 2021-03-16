@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\StaticData;
 use App\Models\History;
 use Illuminate\Http\Request;
+use PhpParser\Node\Stmt\Static_;
 
 class StaticDataController extends Controller
 {
@@ -23,9 +24,7 @@ class StaticDataController extends Controller
      */
     public function index()
     {
-        $staticDatas = StaticData::all()->groupBy('type');
-
-        return response()->json($staticDatas);
+        return $this->refresh();
     }
 
     /**
@@ -97,6 +96,17 @@ class StaticDataController extends Controller
         return $this->refresh();
     }
 
+    public function edit($id)
+    {
+        $sd = StaticData::where('id', $id)->first();
+
+        $sd->statut = $sd->statut === 0 ? 1 : 0;
+
+        $sd->save();
+
+        return $this->refresh();
+    }
+
     public function getFonction()
     {
         $sds = StaticData::where('type', "Type de fonction")->get();
@@ -106,7 +116,7 @@ class StaticDataController extends Controller
 
     private function refresh()
     {
-        $staticDatas = StaticData::all();
+        $staticDatas = StaticData::all()->groupBy('type');
 
         return response()->json($staticDatas);
     }

@@ -15,6 +15,12 @@
                   Bon de commande id : #{{devis.id}}
               </div>
           </div>
+          <div class="row">
+              <div class="col-md-6">
+                   Etat:
+                  <span class="text-bold">{{devis.statut}}</span>
+              </div>
+          </div>
           <div class="row mt-2">
               <table class="table table-striped">
                   <thead>
@@ -64,8 +70,8 @@
                 </div>
             </div>
             <div class="row mt-3">
-                <button class="btn btn-dark btn-rounded" @click="initDevis">Retour</button>
-                <button class="btn btn-success btn-rounded ml-3" >Imprimer</button>
+                <button class="btn btn-outline-dark btn-rounded" @click="initDevis">Retour</button>
+                <button class="btn btn-outline-success btn-rounded ml-3" >Imprimer</button>
             </div>
 
         </div>

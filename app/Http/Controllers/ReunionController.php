@@ -28,7 +28,7 @@ class ReunionController extends Controller
 
     public function getCalendar()
     {
-        $events = Reunion::get(['titre', 'date']);
+        $events = Reunion::get(['title', 'date']);
         return response()->json(["events" => $events]);
     }
 
@@ -95,6 +95,12 @@ class ReunionController extends Controller
         return $this->refresh();
     }
 
+    public function calendar()
+    {
+        $reunions = Reunion::get(['title', 'date']);
+        return response()->json(["calendardata" => $reunions]);
+    }
+
     private function refresh()
     {
         $reunions = Reunion::orderBy('id', 'DESC')->get();
@@ -105,12 +111,12 @@ class ReunionController extends Controller
     private function assign(Request $request, Reunion $reunion)
     {
         $request->validate([
-            'titre' => 'required',
+            'title' => 'required',
             'description' => 'required',
             'date' => 'required'
         ]);
 
-        $reunion->titre = $request->titre;
+        $reunion->title = $request->title;
         $reunion->description = $request->description;
         $reunion->date = $request->date;
 

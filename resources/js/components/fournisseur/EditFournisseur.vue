@@ -10,26 +10,26 @@
             <form>
             <div class="modal-body">
                     <div class="form-group">
-                        <label for="nom">Nom</label>
+                        <label for="nom">Nom<span class="text-danger">*</span></label>
                         <input type="text" class="form-control"  placeholder="Entrer le nom" v-model="fr.nom">
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                        <label for="email">Email</label>
+                        <label for="email">Email<span class="text-danger">*</span></label>
                         <input type="email" class="form-control" placeholder="Entrer l'adresse email" v-model="fr.email">
                         </div>
                         <div class="form-group col-md-6">
-                        <label for="tel">Telephone</label>
+                        <label for="tel">Telephone<span class="text-danger">*</span></label>
                         <input type="text" class="form-control"  placeholder="Entrer le numéro de telephone" v-model="fr.tel">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="adresse">Adresse</label>
+                        <label for="adresse">Adresse<span class="text-danger">*</span></label>
                         <input type="text" class="form-control" placeholder="Entrer l'adresse" v-model="fr.adresse">
                     </div>
 
                     <div class="form-group">
-                        <label for="fonction">Pays</label>
+                        <label for="fonction">Pays<span class="text-danger">*</span></label>
                         <select  class="form-control" v-model="fr.pays">
                             <option v-for="p in pays" :key="p.id" v-bind:value="p.nom_fr">{{p.nom_fr}}</option>
                         </select>

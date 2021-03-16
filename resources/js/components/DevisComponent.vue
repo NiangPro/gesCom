@@ -1,7 +1,9 @@
 <template>
     <div>
+        <entete :subTitle="subTitle" :title="title"></entete>
         <add-devis v-if="etat"  @backEtat="changeEtat" @devisAdded="refresh"></add-devis>
-        <button  type="button" v-if="!etat"  @click="changeEtat"  class="btn btn-success toastrDefaultInfo my-3">
+
+        <button  type="button" v-if="!etat"  @click="changeEtat"  class="btn btn-outline-success toastrDefaultInfo my-3">
                   Ajouter
         </button>
 
@@ -13,6 +15,8 @@
 export default {
     data(){
         return {
+            title:'Devis',
+            subTitle:'Devis',
             etat : false,
             devis:null
         }

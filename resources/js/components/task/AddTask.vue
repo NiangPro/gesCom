@@ -10,33 +10,33 @@
             <form>
             <div class="modal-body">
                     <div class="form-group ">
-                        <label for="nom">Titre</label>
+                        <label for="nom">Titre<span class="text-danger">*</span></label>
                         <input type="text" class="form-control" placeholder="Entrer le nom" v-model="form.titre">
                     </div>
                     <div class="form-group">
-                        <label for="fonction">Statut</label>
+                        <label for="fonction">Statut<span class="text-danger">*</span></label>
                         <select  class="form-control" v-model="form.statut">
                             <option v-for="ts in taskStatus" :key="ts.id" v-bind:value="ts.valeur">{{ts.valeur}}</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="adresse">Description</label>
+                        <label for="adresse">Description<span class="text-danger">*</span></label>
                         <textarea name="description"  class="form-control" v-model="form.description"></textarea>
                     </div>
                     <div class="form-group ">
-                        <label for="execution">Date d'execution</label>
+                        <label for="execution">Date d'execution<span class="text-danger">*</span></label>
                         <input type="date" class="form-control" placeholder="Entrer la date d'execution" v-model="form.execution">
                         </div>
 
                     <div class="form-group">
-                        <label for="fonction">Type</label>
+                        <label for="fonction">Type<span class="text-danger">*</span></label>
                         <select  class="form-control" v-model="form.type">
                             <option value="Dépense">Dépense</option>
                             <option value="Prospect">Prospect</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="fonction">Assignation</label>
+                        <label for="fonction">Assignation<span class="text-danger">*</span></label>
                         <select  class="form-control" v-model="form.assignation">
                             <option v-for="emp in emps" :key="emp.id" v-bind:value="emp.prenom + ` `+emp.nom">{{emp.prenom}} {{emp.nom}}</option>
                         </select>
@@ -61,15 +61,15 @@ export default {
     data(){
         return {
             form:{
-                titre:null,
-                type:null,
-                description:null,
-                statut:null,
-                assignation:null,
-                execution:null
+                titre:'',
+                type:'',
+                description:'',
+                statut:'',
+                assignation:'',
+                execution:''
             },
-            taskStatus:null,
-            emps:null
+            taskStatus:{},
+            emps:{}
         }
     },
     methods:{
@@ -84,9 +84,20 @@ export default {
             .catch(error => alert(error));
         },
         addTask(){
-            axios.post('/api/task', this.form)
-            .then(response => this.$emit('taskAdded', response.data))
-            .catch(error => alert(error));
+            if(this.notEmpty()){
+                axios.post('/api/task', this.form)
+                .then(response => this.$emit('taskAdded', response.data))
+                .catch(error => alert(error));
+            }else{
+                this.$emit('errorAdded');
+            }
+        },
+        notEmpty(){
+            if(this.form.titre === '' || this.form.type === '' || this.form.description === '' || this.form.statut === '' || this.form.assignation === '' || this.form.execution === ''){
+                return false;
+            }else{
+                return true;
+            }
         }
 
     },

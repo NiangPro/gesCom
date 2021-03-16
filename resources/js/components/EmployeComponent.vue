@@ -1,7 +1,9 @@
 <template>
     <div>
-        <add-employed @employeAdded="refresh"></add-employed>
-        <button type="button" class="btn btn-success toastrDefaultInfo my-3" data-toggle="modal" data-target="#addEmployed">
+        <add-employed @employeAdded="refresh" @errorAdded="erreur"></add-employed>
+        <entete :subTitle="subTitle" :title="title"></entete>
+
+        <button type="button" class="btn btn-outline-success toastrDefaultInfo my-3" data-toggle="modal" data-target="#addEmployed">
                   Ajouter
         </button>
 
@@ -14,6 +16,8 @@
     export default {
         data(){
             return {
+                title:'Employés',
+                subTitle:'Employés',
                 employeds:{}
             }
         },
@@ -37,13 +41,16 @@
                 })
 
                 Toast.fire({
-                icon: 'success',
+                icon: type,
                 title: message
             })
             },
             refresh(employeds){
                 this.employeds = employeds;
-                this.showAlert('L\'employé a été ajouté');
+                this.showAlert('L\'employé a été ajouté', 'success');
+            },
+            erreur(){
+                this.showAlert('Tous les champs (*) sont obligatoires', 'error');
             }
         },
         created(){

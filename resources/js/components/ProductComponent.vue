@@ -1,11 +1,8 @@
 <template>
     <div>
-        <button type="button" class="btn btn-info toastrDefaultInfo my-3" data-toggle="modal" data-target="#addProduct">
-                  Ajouter
-        </button>
+        <entete :subTitle="subTitle" :title="title"></entete>
 
-        <add-product v-on:productAdded="getProducts"></add-product>
-        <list-product :products="products"></list-product>
+        <list-product></list-product>
     </div>
 </template>
 
@@ -13,15 +10,12 @@
     export default{
         data(){
             return {
-                products:null
+                title:'Produits & Services',
+                subTitle:'Produits-services',
             }
         },
         methods:{
-            getProducts(){
-                axios.get('/api/product')
-                .then(response => this.products = response.data)
-                .catch(error => alert(error));
-            }
+
         },
         created(){
             this.getProducts();

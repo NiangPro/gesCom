@@ -1,6 +1,8 @@
 <template>
     <div>
-        <add-reunion v-on:reunionAdded="refresh"></add-reunion>
+        <add-reunion @reunionAdded="refresh" @errorAdded="erreur"></add-reunion>
+        <entete :subTitle="subTitle" :title="title"></entete>
+
         <button type="button" class="btn btn-outline-success toastrDefaultInfo my-3" data-toggle="modal" data-target="#addReunion">
                   Ajouter un Rendez-vous
         </button>
@@ -24,7 +26,7 @@
               <!-- /.card-header -->
               <div class="card-body">
                 <list-reunion v-if="!getType" :reunions="reunions"></list-reunion>
-                <!-- <fullcalendar-component v-if="getType" ></fullcalendar-component> -->
+                <fullcalendar-component v-if="getType" ></fullcalendar-component>
                 <!-- <full-calendar v-if="getType" :event-sources="eventSources"></full-calendar> -->
               </div>
               <!-- /.card-body -->
@@ -40,23 +42,15 @@
 export default {
     data(){
         return {
-            reunions:null,
+            title:'Réunions',
+            subTitle:'Réunions',
+            reunions:[],
             getType:false,
-            // eventSources: [
-            //     {
-            //     events(start, end, timezone, callback) {
-            //         axios.get('/api/getCalendar').then(response => {
-            //         callback(response.data.events)
-            //         })
-            //     },
-            //     color: 'yellow',
-            //     textColor: 'black',
-            //     }
-            // ]
+
         }
     },
     methods:{
-        refresh(){
+        getReunions(){
             axios.get('/api/reunion')
             .then(response => this.reunions = response.data)
             .catch(error => alert(error));
@@ -66,10 +60,32 @@ export default {
         },
         getTab(){
             this.getType = false;
-        }
+        },
+        showAlert(message, type) {
+        // Use sweetalert2
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true
+                })
+
+                Toast.fire({
+                icon: type,
+                title: message
+                })
+            },
+            refresh(reunions){
+                this.reunions = reunions;
+                this.showAlert('La réunion a été ajouté', 'success');
+            },
+            erreur(){
+                this.showAlert('Tous les champs (*) sont obligatoires', 'error');
+            }
     },
     created(){
-        this.refresh();
+        this.getReunions();
     }
 }
 </script>

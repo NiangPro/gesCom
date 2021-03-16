@@ -18,7 +18,6 @@ Route::get('/', function () {
     return view('auth.login');
 })->name('login');
 
-
 Route::get('/{any}', function () {
     return view('admin.dashboard');
 })->where('any', '.*')->name('home');

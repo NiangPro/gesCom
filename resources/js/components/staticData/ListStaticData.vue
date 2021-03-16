@@ -9,7 +9,7 @@
                   </button>
                 <div class="card-tools">
 
-                  <button type="button" class="btn btn-success toastrDefaultInfo" data-toggle="modal" data-target="#addStaticData" @click="addNew(index)">
+                  <button type="button" class="btn btn-outline-success toastrDefaultInfo" data-toggle="modal" data-target="#addStaticData" @click="addNew(index)">
                                 Ajouter
                 </button>
                 </div>
@@ -33,10 +33,18 @@
                     <td>{{sd.label}}</td>
                     <td>{{sd.valeur}}</td>
                     <td>
-                       <input type="checkbox">
+                       <!-- <input type="checkbox" @click="changeStatus(sd.id)" v-if="sd.statut == 1" checked>
+                       <input type="checkbox" @click="changeStatus(sd.id)" v-if="sd.statut == 0"> -->
+                       <div class="form-group">
+                            <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                            <input type="checkbox" class="custom-control-input" :id="`customSwitch`+sd.id" @click="changeStatus(sd.id)" v-if="sd.statut == 1" checked>
+                            <input type="checkbox" class="custom-control-input" :id="`customSwitch`+sd.id" @click="changeStatus(sd.id)" v-if="sd.statut == 0">
+                            <label class="custom-control-label" :for="`customSwitch`+sd.id"></label>
+                            </div>
+                        </div>
                 </td>
-                    <td><button class="btn btn-warning rounded mr-3" data-toggle="modal" data-target="#editStaticData" @click="getSd(sd.id)"><i class="fa fa-edit" aria-hidden="true"></i></button>
-                    <button class="btn btn-danger rounded" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ?')" @click="deleteSd(sd.id)"><i class="fa fa-trash"  aria-hidden="true"></i></button></td>
+                    <td><button class="btn btn-outline-primary btn-sm rounded mr-3" data-toggle="modal" data-target="#editStaticData" @click="getSd(sd.id)"><i class="fa fa-edit" aria-hidden="true"></i></button>
+                    <button class="btn btn-outline-danger btn-sm rounded"  @click="deleteSd(sd.id)"><i class="fa fa-trash"  aria-hidden="true"></i></button></td>
                   </tr>
                   </tbody>
                 </table>
@@ -58,10 +66,19 @@ export default{
     },
 
         methods:{
+            changeStatus(id){
+                axios.get('/api/changeStatusStaticData/'+id)
+                .then(response => {this.staticDatas = response.data, this.showAlert('Le statut de la donnée statique a été changé')})
+                .catch(error => alert(error));
+            },
             deleteSd(id){
+                if(confirm('Êtes-vous sûr de vouloir supprimer ?')){
                 axios.delete('/api/staticdata/'+id)
                 .then(response => {this.staticDatas = response.data, this.showAlert('La donnée statique a été supprimée')})
                 .catch(error => alert(error));
+                }else{
+                    this.showAlert('L\'opération a été annulée');
+                }
             },
             rmSpace(chaine){
                 let tab = chaine.split(" ");

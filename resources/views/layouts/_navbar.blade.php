@@ -7,11 +7,11 @@
 
        <li class="dropdown-submenu dropdown-hover">
                 <a id="dropdownSubMenu2" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle user-panel">
-                     <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+                     <img src="storage/images/{{Auth::user()->avatar}}" class="img-circle elevation-2" alt="User Image">
                     {{ Auth::user()->name }}
                 </a>
                 <ul aria-labelledby="dropdownSubMenu2" class="dropdown-menu border-0 shadow">
-                    <li><router-link to="/setting" class="dropdown-item">Setting</router-link></li>
+                    <li><router-link to="/setting" class="dropdown-item">Paramètres</router-link></li>
                   <li>
                     <a class="dropdown-item" href="{{ route('logout') }}"
                     onclick="event.preventDefault();

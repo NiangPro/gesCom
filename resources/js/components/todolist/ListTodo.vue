@@ -1,17 +1,18 @@
 <template>
      <div class="card">
+         <add-todo @todoAdded="getResults"></add-todo>
          <edit-todo :form="todoEditing" @todoUpdated="refresh"></edit-todo>
               <div class="card-header">
                 <h3 class="card-title">
                   <i class="ion ion-clipboard mr-1"></i>
                   Liste à faire
                 </h3>
-                <button type="button" class="btn btn-success float-right" data-toggle="modal" data-target="#addTodo"><i class="fas fa-plus"></i> Ajouter</button>
+                <button type="button" class="btn btn-outline-success ml-3 btn-sm" data-toggle="modal" data-target="#addTodo"><i class="fas fa-plus"></i> Ajouter</button>
 
                 <div class="card-tools">
 
 
-                    <button type="button" class="btn btn-tool" data-card-widget="card-refresh" data-source="widgets.html" data-source-selector="#card-refresh-content" data-load-on-init="false"><i class="fas fa-sync-alt"></i></button>
+                <button type="button" class="btn btn-tool" data-card-widget="card-refresh" data-source="widgets.html" data-source-selector="#card-refresh-content" data-load-on-init="false"><i class="fas fa-sync-alt"></i></button>
                   <button type="button" class="btn btn-tool" data-card-widget="maximize"><i class="fas fa-expand"></i></button>
                   <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
                   <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
@@ -21,7 +22,7 @@
               <!-- /.card-header -->
               <div class="card-body">
                 <ul class="todo-list" data-widget="todo-list">
-                  <li v-for="todo in todos" :key="todo.id">
+                  <li v-for="todo in todos.data" :key="todo.id">
                     <!-- drag handle -->
                     <span class="handle">
                       <i class="fas fa-ellipsis-v"></i>
@@ -36,7 +37,7 @@
                     <!-- todo text -->
                     <span class="text">{{todo.titre}}</span>
                     <!-- Emphasis label -->
-                    <small class="badge badge-info"><i class="far fa-clock"></i> {{todo.date}}</small>
+                    <small class="badge badge-dark"><i class="far fa-clock"></i> {{formattedDate(todo.date)}}</small>
                     <!-- General tools such as edit or delete-->
                     <div class="tools">
                       <i class="fas fa-edit" style="color:orange" @click="getTodo(todo.id)" data-toggle="modal" data-target="#editTodo"></i>
@@ -44,6 +45,7 @@
                     </div>
                   </li>
                 </ul>
+                <pagination :data="todos" @pagination-change-page="getResults" class="mt-3"></pagination>
               </div>
               <!-- /.card-body -->
 
@@ -51,18 +53,31 @@
 </template>
 
 <script>
+import { formatRelative } from "date-fns";
+import { fr } from 'date-fns/locale';
+
+
 export default {
-    props:['todos'],
     data(){
         return {
             form:{
                 is_check:false,
                 id:null
                 },
-            todoEditing:null
+            todoEditing:null,
+            todos:null
         }
     },
     methods:{
+      formattedDate(date) {
+            return formatRelative(new Date(date), new Date(), { locale: fr });
+        },
+        getResults(page=1) {
+            axios
+                .get("/api/todo?page="+page)
+                .then(response => this.todos = response.data)
+                .catch(error => alert(error))
+        },
         isChecked(id, is_check){
             this.check(id, is_check);
 
@@ -88,10 +103,13 @@ export default {
             this.showAlert('La tâche a été mis à jour');
         },
         deleteTodo(id){
-            confirm('Êtes-vous de vouloir supprimer');
+            if(confirm('Êtes-vous sûr de vouloir supprimer ?')){
             axios.delete('/api/todo/'+id)
             .then(response => {this.todos = response.data, this.showAlert('Tâche supprimé')})
             .catch(error => alert(error));
+            }else{
+                this.showAlert('L\'opération a été annulée');
+            }
         },
         showAlert(message) {
         // Use sweetalert2
@@ -108,6 +126,9 @@ export default {
             title: message
             })
         }
+    },
+    mounted(){
+        this.getResults();
     }
 }
 </script>

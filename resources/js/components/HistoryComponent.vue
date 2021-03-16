@@ -1,5 +1,7 @@
 <template>
-    <div class="row">
+    <div>
+        <entete :subTitle="subTitle" :title="title"></entete>
+        <div class="row">
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                 <div class="card">
               <div class="card-header">
@@ -26,51 +28,49 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="h in histories" :key="h.id">
-                            <td>{{h.date}}</td>
+                        <tr v-for="h in histories.data" :key="h.id">
+                            <td>{{formattedDate(h.date)}}</td>
                             <td>{{h.user.name}}</td>
                             <td>{{h.type}}</td>
                             <td>{{h.description}}</td>
                         </tr>
                     </tbody>
-                    <tfoot>
-                        <tr>
-                            <th>Date</th>
-                            <th>Utilisateur</th>
-                            <th>Type</th>
-                            <th>Description</th>
-                        </tr>
-                    </tfoot>
                 </table>
+                <pagination :data="histories" @pagination-change-page="getResults" class="mt-3"></pagination>
               </div>
               <!-- /.card-body -->
             </div>
             </div>
     </div>
+    </div>
 </template>
 
 <script>
+import { formatRelative } from "date-fns";
+import { fr } from 'date-fns/locale';
+
 export default {
     data(){
         return {
+            title:'Historiques',
+            subTitle:'Historiques',
             histories:null,
         }
     },
     methods:{
-       getHistories(){
-            axios.get('/api/history')
+        getResults(page=1){
+            axios.get('/api/history?page='+page)
             .then(response => this.histories = response.data)
             .catch(error => alert(error));
+        },
+        formattedDate(date) {
+            return formatRelative(new Date(date), new Date(), { locale: fr });
         }
     },
     mounted(){
-        this.getHistories();
+        this.getResults();
 
     }
 }
 
 </script>
-
-<style>
-
-</style>

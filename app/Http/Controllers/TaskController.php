@@ -93,7 +93,7 @@ class TaskController extends Controller
 
     private function refresh()
     {
-        $tasks = Task::orderBy('id', 'DESC')->get();
+        $tasks = Task::orderBy('id', 'DESC')->paginate(6);
 
         return response()->json($tasks);
     }

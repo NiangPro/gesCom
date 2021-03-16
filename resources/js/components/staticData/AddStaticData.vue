@@ -11,14 +11,14 @@
                 <form method="POST" class="form-horizontal">
                 <div class="card-body">
                   <div class="form-group row">
-                    <label for="type" class="col-sm-2 col-form-label">Type</label>
+                    <label for="type" class="col-sm-2 col-form-label">Type<span class="text-danger">*</span></label>
                     <div class="col-sm-10">
                       <input type="text" class="form-control" id="type" v-if="form.etat" readonly v-model="form.type">
                       <input type="text" class="form-control" id="type" v-if="!form.etat" v-model="form.type">
                     </div>
                   </div>
                   <div class="form-group row">
-                    <label for="valeur" class="col-sm-2 col-form-label">Valeur</label>
+                    <label for="valeur" class="col-sm-2 col-form-label">Valeur<span class="text-danger">*</span></label>
                     <div class="col-sm-10">
                       <input type="text" class="form-control" v-model="form.valeur" id="valeur" placeholder="Entrer la valeur">
                     </div>
@@ -42,21 +42,24 @@
         props:['form'],
         data(){
             return {
-                erreurs:{}
             }
         },
         methods:{
             storeStaticData(){
-                axios.post('/api/staticdata', {
-                    type: this.form.type,
-                    valeur: this.form.valeur,
-                    label: this.form.type,
-                    statut: 0
-                })
-                .then(response => {this.$emit('staticDataAdded', response.data), this.showAlert('Une donnée statique a été ajoutée')})
-                .catch(error => this.erreurs = error.data.errors);
+                if(this.notEmpty()){
+                    axios.post('/api/staticdata', {
+                        type: this.form.type,
+                        valeur: this.form.valeur,
+                        label: this.form.type,
+                        statut: 0
+                    })
+                    .then(response => {this.$emit('staticDataAdded', response.data), this.showAlert('Une donnée statique a été ajoutée', 'success')})
+                    .catch(error => alert(error));
+                }else{
+                    this.showAlert('Les champs (*) sont obligatoires', 'error');
+                }
             },
-            showAlert(message) {
+            showAlert(message, type) {
             // Use sweetalert2
             const Toast = Swal.mixin({
                     toast: true,
@@ -67,9 +70,16 @@
                 })
 
                 Toast.fire({
-                icon: 'success',
+                icon: type,
                 title: message
                 })
+            },
+            notEmpty(){
+                if(this.form.type === '' || this.form.valeur === ''){
+                    return false;
+                }else{
+                    return true;
+                }
             }
         }
     }

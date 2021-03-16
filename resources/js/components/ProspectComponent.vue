@@ -1,11 +1,8 @@
 <template>
     <div>
-        <add-prospect v-on:prospectAdded="refresh"></add-prospect>
-        <button type="button" class="btn btn-info toastrDefaultInfo my-3" data-toggle="modal" data-target="#addProspect">
-                  Ajouter
-        </button>
+        <entete :subTitle="subTitle" :title="title"></entete>
 
-        <list-prospect :prospects="prospects"></list-prospect>
+        <list-prospect></list-prospect>
     </div>
 </template>
 
@@ -13,18 +10,9 @@
 export default {
     data(){
         return {
-            prospects:null
+            title:'Prospects',
+            subTitle:'Prospects'
         }
-    },
-    methods:{
-        refresh(){
-            axios.get('/api/prospect')
-            .then(response => this.prospects = response.data)
-            .catch(error => alert(error));
-        }
-    },
-    created(){
-        this.refresh();
     }
 }
 </script>

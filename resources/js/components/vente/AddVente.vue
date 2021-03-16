@@ -8,7 +8,7 @@
                             <h2>Ajout Nouvelle Vente</h2>
                         </div>
                         <div class="col text-right mb-3">
-                            <button @click="backToList()" class="btn btn-info">Retour</button>
+                            <button @click="backToList()" class="btn btn-outline-dark">Retour</button>
                         </div>
                     </div>
                     <hr>
@@ -99,7 +99,7 @@
                                         <td><input type="number" class="form-control" v-model="prod.qte"  @change="getMontant(prod)"></td>
                                         <td><input type="number" class="form-control" v-model="prod.taxe"  @change="getMontant(prod)"></td>
                                         <td><input type="number" class="form-control" readonly v-model="prod.amount"></td>
-                                        <td><button class="btn btn-danger btn-rounded"><i class="fa fa-trash" aria-hidden="true" @click="deleteRow(k, prod)"></i></button></td>
+                                        <td><button class="btn btn-outline-danger btn-rounded"><i class="fa fa-trash" aria-hidden="true" @click="deleteRow(k, prod)"></i></button></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -109,7 +109,7 @@
                         <hr>
                         <div class="row">
                             <div class="col-md-6">
-                                <button class="btn btn-info btn-rounded" @click="addRow"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                                <button class="btn btn-outline-success btn-rounded" @click="addRow"><i class="fa fa-plus" aria-hidden="true"></i></button>
                             </div>
                             <div class="col-md-6 text-right">
                                 <div class="row text-bold">
@@ -172,23 +172,23 @@
 export default {
     data(){
         return {
-            emps:null,
-            clients:null,
-            products:null,
+            emps:{},
+            clients:{},
+            products:{},
 
             subTotal:0,
             form:{
                 allProducts:[],
                 total_amount:0,
                 discount:0,
-                client_id:null,
-                employed_id:null,
-                date:null,
-                description:null
+                client_id:'',
+                employed_id:'',
+                date:'',
+                description:''
             },
-            idProd:null,
-            prodSibling:null,
-            idGet:null
+            idProd:'',
+            prodSibling:{},
+            idGet:''
         }
     },
     methods:{
@@ -196,31 +196,33 @@ export default {
             this.$emit('backSale');
         },
         getEmployes(){
-            axios.get('/api/employe')
+            axios.get('/api/employes')
             .then(response => this.emps = response.data)
             .catch(error => alert(error));
         },
         getClients(){
-            axios.get('/api/client')
+            axios.get('/api/clients')
             .then(response => this.clients = response.data)
             .catch(error => alert(error));
         },
         getProducts(){
-            axios.get('/api/product')
+            axios.get('/api/products')
             .then(response => this.products = response.data)
             .catch(error => alert(error));
         },
         addRow(){
             if(this.fieldsNotEmpty() || this.form.allProducts.length == 0){
                 this.form.allProducts.push({
-                    nom:null,
-                    description:null,
-                    prix:null,
-                    qte:null,
-                    taxe:null,
-                    amount:null
+                    nom:'',
+                    description:'',
+                    prix:'',
+                    qte:'',
+                    taxe:'',
+                    amount:''
                 });
                 this.getMontantTotal();
+            }else{
+                this.showAlert('Veuillez remplir d\'abord la ligne courante', 'error');
             }
         },
         deleteRow(index, product){
@@ -291,7 +293,7 @@ export default {
 
             if(this.form.allProducts.length > 0){
                 this.form.allProducts.forEach((item) => {
-                    if(item.nom == null || item.description == null || item.qte == null || item.prix == null)
+                    if(item.nom == '' || item.description == '' || item.qte == '' || item.prix == '')
                         response = false;
                 });
             }
@@ -301,7 +303,7 @@ export default {
         saleNotEmpty(){
             let response = true;
 
-            if(this.form.client_id == null || this.form.employed_id == null || this.form.total_amount == 0 || this.form.date == null){
+            if(this.form.client_id == '' || this.form.employed_id == '' || this.form.total_amount == 0 || this.form.date == ''){
                 response = false;
             }
 
@@ -314,9 +316,24 @@ export default {
                 .then(response => this.$emit('saleAdded', response.data))
                 .catch(error => console.log(error));
             }else{
-                Swal.fire('Veuillez remplir tous les champs obligatoires(*)');
+                this.showAlert('Veuillez remplir tous les champs obligatoires(*)', 'error');
             }
 
+        },
+        showAlert(message, type) {
+        // Use sweetalert2
+           const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-center',
+            showConfirmButton: false,
+            timer: 3500,
+            timerProgressBar: true
+            })
+
+            Toast.fire({
+            icon: type,
+            title: message
+            })
         }
 
     },

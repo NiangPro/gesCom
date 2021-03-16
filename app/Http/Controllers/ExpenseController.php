@@ -91,7 +91,7 @@ class ExpenseController extends Controller
 
     private function refresh()
     {
-        $expenses = Expense::orderBy('id', 'DESC')->get();
+        $expenses = Expense::orderBy('date', 'DESC')->paginate(6);
 
         return response()->json($expenses);
     }
@@ -102,7 +102,6 @@ class ExpenseController extends Controller
             'category' => 'required',
             'payment_mode' => 'required',
             'montant' => 'required',
-            'description' => 'required',
             'date' => 'required'
         ]);
 

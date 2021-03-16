@@ -11,7 +11,7 @@
                   <span>{{sale.client.adresse}}</span>
               </div>
               <div class="col-md-6 text-right">
-                  Date: 12/08/2002 <br>
+                  Date: {{formattedDate(sale.date)}} <br>
                   Bon de commande id : #{{sale.id}}
               </div>
           </div>
@@ -64,8 +64,8 @@
                 </div>
             </div>
             <div class="row mt-3">
-                <button class="btn btn-dark btn-rounded" @click="initSale">Retour</button>
-                <button class="btn btn-success btn-rounded ml-3">Imprimer</button>
+                <button class="btn btn-outline-dark btn-rounded" @click="initSale">Retour</button>
+                <button class="btn btn-outline-success btn-rounded ml-3">Imprimer</button>
             </div>
 
         </div>
@@ -73,6 +73,7 @@
 </template>
 
 <script>
+import { format} from "date-fns";
 export default {
     props:['sale'],
     data(){
@@ -81,6 +82,9 @@ export default {
         }
     },
     methods:{
+        formattedDate(date) {
+            return format(new Date(date), 'MM/dd/yyyy')
+        },
         initSale(){
             this.$emit('listSale');
         },
