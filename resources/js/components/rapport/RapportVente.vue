@@ -10,7 +10,7 @@
               <div class="card-header">
                 <h3 class="card-title">
                   <i class="fas fa-chart-pie mr-1"></i>
-                  Rapport des ventes et dépenses
+                  Rapport Annuel des Ventes et Dépenses
                 </h3>
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="card-refresh" data-source="widgets.html" data-source-selector="#card-refresh-content" data-load-on-init="false"><i class="fas fa-sync-alt"></i></button>
@@ -76,7 +76,7 @@ export default {
               colors: ['transparent']
             },
             xaxis: {
-              categories: ['Jan', 'Feb', 'Mars', 'Avril', 'Mai', 'Jun', 'Juil', 'Août', 'Sept', 'Oct', 'Nov', 'Dec'],
+              categories: ['Janvier', 'Fevrier', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Decembre'],
             },
             yaxis: {
               title: {

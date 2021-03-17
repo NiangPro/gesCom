@@ -73,7 +73,7 @@
                     <div class="card-header">
                         <h3 class="card-title">
                             <i class="fas fa-chart-pie mr-1"></i>
-                            Statistique des Ventes
+                            Statistique Annuelle des Ventes
                         </h3>
                         <div class="card-tools">
                             <ul class="nav nav-pills ml-auto">
@@ -102,7 +102,7 @@
                     <div class="card-header">
                         <h3 class="card-title">
                             <i class="fas fa-chart-pie mr-1"></i>
-                            Statistique des Dépenses
+                            Statistique Annuelle des Dépenses
                         </h3>
                         <div class="card-tools">
                             <ul class="nav nav-pills ml-auto">

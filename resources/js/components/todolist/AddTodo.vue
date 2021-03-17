@@ -21,7 +21,7 @@
                 </div>
             <div class="modal-footer justify-content-between">
               <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Fermer</button>
-              <button type="button" class="btn btn-outline-info" data-dismiss="modal" @click="addTodo">Ajouter</button>
+              <button type="button" class="btn btn-outline-success" data-dismiss="modal" @click="addTodo">Ajouter</button>
             </div>
             </form>
           </div>

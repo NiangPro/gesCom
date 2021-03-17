@@ -76,6 +76,7 @@ Vue.component('info-vente', require('./components/vente/InfoVente').default);
 Vue.component('add-user', require('./components/setting/RegisterComponent').default);
 Vue.component('edit-setting', require('./components/setting/EditSetting').default);
 Vue.component('edit-password', require('./components/setting/EditPassword').default);
+Vue.component('edit-anotherUser', require('./components/setting/EditAnotherUserPassword').default);
 Vue.component('profil-user', require('./components/setting/ProfilComponent').default);
 Vue.component('list-users', require('./components/setting/ListUsers').default);
 Vue.component('edit-avatar', require('./components/setting/UserAvatar').default);

@@ -116,7 +116,8 @@ export default {
                     data.append('icon', this.form.favicon);
                     this.nameTesting(data);
                     axios.post('/api/changevars', data)
-                    .then(response => {this.donnees = response.data, this.showAlert('Les informations ont été mises à jour, Actualisez pour voir les modifications', 'success')})
+                    .then(response => {this.donnees = response.data, this.showAlert('Les informations ont été mises à jours', 'success')});
+                    document.location.reload();
                 }else{
                     this.showAlert('Aucun changement a été effectué', 'error');
                 }

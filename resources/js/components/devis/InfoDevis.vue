@@ -1,26 +1,26 @@
 <template>
-  <div class="card" id="infoVente">
-          <div class="card-header">
-              Logo
+    <div>
+        <div class="card" id="infoVente">
+        <div class="card-header">
+            <div class="row">
+                    <div class="col-md-6">
+                        <img :src="`storage/images/`+donnees.logo" class="figure-img img-fluid rounded" alt="" style="max-height:90px;"> {{donnees.name}}
+                    </div>
+                    <div class="col-md-6 text-right">
+                        Date: <span class="text-bold h4">{{formattedDate(devis.date)}}</span> <br>
+                        Numéro Devis : #{{devis.id}}
+                    </div>
+                </div>
+
           </div>
           <div class="card-body">
-              <div class="row">
-              <div class="col-md-6">
-                  Devis pour: <br>
-                  <span class="text-bold">{{devis.client.nom}}</span>  <br>
-                  <span>{{devis.client.adresse}}</span>
-              </div>
-              <div class="col-md-6 text-right">
-                  Date: 12/08/2002 <br>
-                  Bon de commande id : #{{devis.id}}
-              </div>
-          </div>
-          <div class="row">
-              <div class="col-md-6">
-                   Etat:
-                  <span class="text-bold">{{devis.statut}}</span>
-              </div>
-          </div>
+             <div class="row">
+                <div class="col">
+                    <span class="text-bold h4"><u>DEVIS POUR</u></span>:
+                    <span class="text-bold h3">{{devis.client.nom}}</span>  <br>
+                    <u>ADRESSE</u>:  <span class="h5">{{devis.client.adresse}}</span>
+                </div>
+            </div>
           <div class="row mt-2">
               <table class="table table-striped">
                   <thead>
@@ -45,7 +45,7 @@
           </div>
         </div>
         <div class="card-footer card-white">
-            <div class="row">
+            <div class="row" v-if="devis.discount > 0">
                 <div class="col-md-6">
                 </div>
                 <div class="col-md-6 text-right">
@@ -62,31 +62,40 @@
                 </div>
                 <div class="col-md-6 text-right">
                     <div class="row ">
-                        <div class="col-md-6 h6">
-                            Montant Final:
+                        <div class="col-md-6 h3">
+                            <u>Montant Final</u>:
                         </div>
-                        <div class="col-md-6 text-left text-bold h6 text-success">{{devis.total_amount}} F CFA</div>
+                        <div class="col-md-6 text-left text-bold h2 text-success">{{devis.total_amount}} F CFA</div>
                     </div>
                 </div>
             </div>
-            <div class="row mt-3">
-                <button class="btn btn-outline-dark btn-rounded" @click="initDevis">Retour</button>
-                <button class="btn btn-outline-success btn-rounded ml-3" >Imprimer</button>
+            <div class="container">
+                <p class="text-center text-body">MERCI POUR VOTRE CONFIANCE, A BIENTÔT !!!</p>
             </div>
 
         </div>
   </div>
+  <div class="row m-3">
+        <button class="btn btn-outline-dark btn-rounded" @click="initDevis">Retour</button>
+        <button class="btn btn-outline-success btn-rounded ml-3" @click="printDiv('infoVente')">Imprimer</button>
+    </div>
+    </div>
 </template>
 
 <script>
+import { format} from "date-fns";
 export default {
     props:['devis'],
     data(){
         return {
-            products:null
+            products:null,
+            donnees:null
         }
     },
     methods:{
+        formattedDate(date) {
+            return format(new Date(date), 'MM/dd/yyyy')
+        },
         initDevis(){
             this.$emit('listDevis');
         },
@@ -94,10 +103,36 @@ export default {
             axios.get('/api/devisItems/'+this.devis.id)
             .then(response => this.products = response.data)
             .catch(error => alert(error));
+        },
+         printDiv(divID) {
+            //Get the HTML of div
+            var divElements = document.getElementById(divID).innerHTML;
+            //Get the HTML of whole page
+            var oldPage = document.body.innerHTML;
+
+            //Reset the page's HTML with div's HTML only
+            document.body.innerHTML =
+              "<html><head><title></title></head><body>" +
+              divElements + "</body>";
+
+            //Print Page
+            window.print();
+
+            //Restore orignal HTML
+            document.body.innerHTML = oldPage;
+
+            document.location.reload();
+
+        },
+        getVars(){
+            axios.get('/api/appvars')
+            .then(response => {this.donnees = response.data})
+            .catch(error => alert(error));
         }
     },
     mounted(){
         this.devisItems();
+        this.getVars();
     }
 
 }

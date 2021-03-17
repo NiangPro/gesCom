@@ -4,7 +4,7 @@
        <div class="row">
             <div class="col-lg-4 col-6">
                 <!-- small box -->
-                <div class="small-box bg-info">
+                <div class="small-box bg-success">
                     <div class="inner">
                         <h5>{{result.vente}} FCFA</h5>
 
@@ -18,14 +18,14 @@
             <!-- ./col -->
             <div class="col-lg-4 col-6">
                 <!-- small box -->
-                <div class="small-box bg-success">
+                <div class="small-box bg-warning">
                     <div class="inner">
                         <h5>{{result.depense}} FCFA</h5>
 
                         <p>Depense</p>
                     </div>
                     <div class="icon">
-                        <i class="fab fa-product-hunt" style="color:orange"></i>
+                        <i class="fas fa-shopping-cart" style="color:black"></i>
                     </div>
                 </div>
             </div>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -15,12 +16,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('auth.login');
+    $data = [];
+    $data['name'] = config('app.name');
+    $data['logo'] = config('app.logo');
+    $data['icon'] = config('app.icon');
+    return view('auth.login', ['data' => $data]);
 })->name('login');
 
-Route::get('/{any}', function () {
-    return view('admin.dashboard');
-})->where('any', '.*')->name('home');
+Route::get('/{any}', [HomeController::class, 'index'])->where('any', '.*')->name('home');
 
 /*Route::get('/', function () {
     return view('admin.dashboard');

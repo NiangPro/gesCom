@@ -1,5 +1,5 @@
 <template>
-     <div class="modal fade" id="editClient">
+    <div class="modal fade" id="editClient">
         <div class="modal-dialog">
           <div class="modal-content ">
             <div class="modal-header">
@@ -44,7 +44,7 @@
           <!-- /.modal-content -->
         </div>
         <!-- /.modal-dialog -->
-      </div>
+    </div>
 </template>
 
 <script>

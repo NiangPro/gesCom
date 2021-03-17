@@ -75,6 +75,7 @@ Route::get('/sumSale', [HomeController::class, 'sumSale']);
 Route::get('/sumExpense', [HomeController::class, 'sumExpense']);
 Route::get('/saleByMonth', [HomeController::class, 'saleByMonth']);
 Route::get('/expenseByMonth', [HomeController::class, 'expenseByMonth']);
+Route::get('/compta', [HomeController::class, 'compta']);
 
 Route::get('/client', [ClientController::class, 'index']);
 Route::get('/nbreClients', [ClientController::class, 'getNbreClients']);
@@ -155,8 +156,8 @@ Route::post('/rapportBetween', [RapportController::class, 'getSumBetweenTwoDate'
 
 Route::get('/userConnected', [UserController::class, 'userConnecte']);
 Route::get('/users', [UserController::class, 'index']);
-Route::patch('/user/{id}', [UserController::class, 'update']);
-Route::post('/user/{id}', [UserController::class, 'show']);
+Route::get('/user/{id}', [UserController::class, 'update']);
+Route::get('/user/{id}', [UserController::class, 'show']);
 Route::post('/user/edit', [UserController::class, 'passwordEdit']);
 Route::delete('/user/{id}', [UserController::class, 'destroy']);
 Route::post('/userAvatar', [UserController::class, 'editAvatar']);

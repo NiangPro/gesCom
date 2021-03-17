@@ -23,10 +23,9 @@ class HomeController extends Controller
      *
      * @return void
      */
-    // public function __construct()
-    // {
-    //     $this->middleware('auth');
-    // }
+    public function __construct()
+    {
+    }
 
     /**
      * Show the application dashboard.
@@ -35,6 +34,9 @@ class HomeController extends Controller
      */
     public function index()
     {
+        if (!Auth::check()) {
+            return redirect('/');
+        }
         return view('admin.dashboard');
     }
 
@@ -148,6 +150,43 @@ class HomeController extends Controller
             }
         }
         return response()->json($som);
+    }
+
+    public function compta()
+    {
+        $expenses = Expense::select(DB::raw('distinct Sum(montant) as somme, Month(date) as mois'))
+            ->groupBy(DB::raw("Month(date)"))->orderBy(DB::raw("MONTH(date)"), "ASC")->get();
+
+        $somex = 0;
+        $reponse = [];
+
+        $moisActuel = intval(date('m'));
+
+        foreach ($expenses as $exp) {
+            if ($moisActuel === $exp->mois) {
+                $somex = $exp->somme;
+                break;
+            }
+        }
+
+
+        $ventes = Vente::select(DB::raw('distinct Sum(total_amount) as somme, Month(date) as mois'))
+            ->groupBy(DB::raw("Month(date)"))->orderBy(DB::raw("MONTH(date)"), "ASC")->get();
+
+        $somsale = 0;
+        foreach ($ventes as $vente) {
+            if ($moisActuel === $vente->mois) {
+                $somsale = $vente->somme;
+                break;
+            }
+        }
+
+        $reponse[] = $somsale - $somex;
+        $reponse[] = $somsale;
+
+        $reponse[] = (int)$somex;
+
+        return response()->json($reponse);
     }
 
     public function saleByMonth()

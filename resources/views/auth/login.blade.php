@@ -22,6 +22,13 @@
     body {
         height: 100%;
         background: rgb(236, 238, 234);
+        background-attachment: fixed;
+        background: url('storage/images/bg.svg');
+        background-size: cover;
+        background-position: top;
+    }
+    .ff{
+        font-family: Algerian;
     }
     </style>
 </head>
@@ -30,9 +37,18 @@
     <!-- ============================================================== -->
     <!-- login page  -->
     <!-- ============================================================== -->
+    <div class="container col-md-6 pt-5">
+        <h1 class="text-center text-uppercase text-warning ff"> BIENVENU <br> GESTION COMMERCIAL {{$data['name']}}</h1>
+    </div>
     <div class="container col-md-3 pt-5">
-        <div class="card mt-3">
-            <div class="card-header text-center"><a href="../index.html"><img class="logo-img" src="../assets/images/logo.png" alt="logo"></a><span class="splash-description">{{ __('Login') }}</span></div>
+        <div class="card mt-3 bg-light-gray">
+            <div class="card-header text-center">
+                <div class="row">
+                    <div class="text-center col-12"><img class="logo-img" src="storage/images/{{$data['logo']}}" alt="logo" width="80" height="80"></div>                
+                </div>
+                <div class="row">
+                    <span class="splash-description text-bold h3">Connexion</span></div>
+                </div>
             <div class="card-body">
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
@@ -59,19 +75,13 @@
                              <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
 
                                     <span class="form-check-label" for="remember">
-                                        {{ __('Remember Me') }}
+                                        Se souvenir de moi
                                     </span>
                         </label>
                     </div>
-                    <button type="submit" class="btn btn-primary">
-                                    {{ __('Login') }}
+                    <button type="submit" class="btn btn-outline-primary">
+                                    Se connecter
                                 </button>
-
-                                @if (Route::has('password.request'))
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Forgot Your Password?') }}
-                                    </a>
-                                @endif
                 </form>
             </div>
         </div>
